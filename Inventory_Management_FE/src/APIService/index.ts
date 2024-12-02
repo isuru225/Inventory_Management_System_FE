@@ -1,0 +1,1 @@
+export { default as cinemaCafeHttpColection } from './http.ts'

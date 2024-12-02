@@ -1,0 +1,1 @@
+export { default as SeatPlanService } from "./SeatPlan.ts"

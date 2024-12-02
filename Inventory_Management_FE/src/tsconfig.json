@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./", // base directory for non-relative module names (current directory)
+    "target": "es5", // target ECMAScript version
+    "lib": ["dom", "dom.iterable", "esnext"], // library files to be included in the compilation
+    "allowJs": true, // allow JavaScript files to be compiled
+    "skipLibCheck": true, // skip type checking of declaration files
+    "esModuleInterop": true, // enable interoperability between CommonJS and ES modules
+    "allowSyntheticDefaultImports": true, // allow default imports from modules with no default export
+    "strict": true, // enable all strict type-checking options
+    "forceConsistentCasingInFileNames": true, // enforce consistent file naming casing
+    "noFallthroughCasesInSwitch": true, // disallow fallthrough cases in switch statements
+    "module": "esnext", // specify module code generation method
+    "moduleResolution": "node", // determine how modules are resolved
+    "resolveJsonModule": true, // allow importing JSON files as modules
+    "isolatedModules": true, // ensures each file can be safely transpiled without depending on other files
+    "noEmit": true, // prevent the compiler from writing output files
+    "jsx": "react", // specify how JSX code is compiled
+    "useUnknownInCatchVariables": false, // disallows the use of `unknown` in catch variables
+    "allowImportingTsExtensions":true,
+    "typeRoots": ["./node_modules/@types", "./src/types"]
+  },
+  "include": ["./**/*.ts", "./**/*.tsx", "reducers/MovieRecords","src"], // include all TypeScript files in src
+  "exclude": ["node_modules"] // exclude node_modules from compilation
+}
