@@ -11,6 +11,7 @@ import { description, errorMessages, projectButtonColorCode } from "./Constants/
 import { getSelectedProject, JWTDecoder, techStackHandler, userValidationHandler } from './Functions/Functions.tsx';
 import { IProject } from './Interfaces/Interface.ts';
 import { useNavigate } from 'react-router-dom';
+import { IsTokenExpiredOrMissingChecker } from '../../GlobalFunctions/Functions.tsx';
 
 type props = PropsFromRedux;
 
@@ -24,17 +25,14 @@ const Home: React.FC<props> = (props) => {
     const navigate = useNavigate();
 
     console.log("MAN", data);
-
     //get all available projects
-    useEffect(() => {
-        const encodedValue = localStorage.getItem('token');
-        if (encodedValue !== null) {
-            getAllProjects({});
-        } else {
+    useEffect(()=>{
+        if(IsTokenExpiredOrMissingChecker()){
             navigate('/login');
+        }else{
+            getAllProjects({});
         }
-
-    }, [])
+    },[])
 
     // Create a reference to the target scroll point
     const scrollTargetRef = useRef<HTMLDivElement>(null);
@@ -95,9 +93,9 @@ const Home: React.FC<props> = (props) => {
             <Row>
                 <Col span={12} >
                     <Row>
-                        <h1>
+                        <h2>
                             Kandakaduwa Ayurvedic Hospital
-                        </h1>
+                        </h2>
                     </Row>
                     <hr />
                     <br />
@@ -110,11 +108,12 @@ const Home: React.FC<props> = (props) => {
                     <br />
                     <Row>
                         <div className="arch-btn">
-                            <Button>
+                            <Button className="achievement-btn">
                                 Achievements
                             </Button>
                         </div>
                     </Row>
+                    <br />
                     <div className="project-btn-container">
                         {ButtonHandler(data)}
                     </div>

@@ -10,8 +10,7 @@ import {
     CContainer,
     CRow,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+import { Skeleton } from 'antd';
 import { Form, Formik } from 'formik';
 import { $Input } from '../../components/CustomComponents/index.ts';
 import { ILogin, loginInitValues } from './Constants/constants.ts';
@@ -19,17 +18,21 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { loginValidationSchema } from './Validations/loginValidationSchema.ts';
 import { connect, ConnectedProps } from 'react-redux';
 import { LoginActions } from '../../actions/Login/Login.ts';
+import { CSpinner } from '@coreui/react'
+import herbImg from "../../assets/images/Login/herb.jpg"
 
 type props = propsFromRedux;
 
 const Login: React.FC<props> = (props) => {
 
-    const { isLoginSuccessfull, token, errorCode, logUserCredentials } = props;
+    const { isLoginSuccessfull, token, errorCode, logUserCredentials, isLoading } = props;
     const { accessToken, refreshToken, expiresOn } = token ?? {};
     const navigate = useNavigate();
 
+    console.log("nebula", isLoading);
+
     const submit = (value: ILogin, actions: any) => {
-        console.log("log",value);
+        console.log("log", value);
         logUserCredentials(value);
         actions.resetForm();
     }
@@ -90,10 +93,10 @@ const Login: React.FC<props> = (props) => {
                                                     <CContainer>
                                                         <CRow>
                                                             <CCol>
-                                                                <Button type="primary" htmlType='submit'>Login</Button>
+                                                                <Button type="primary" loading={isLoading} htmlType='submit'>Login</Button>
                                                             </CCol>
                                                             <CCol>
-                                                                <Button type="link" onClick={forgetPassword}>Forget Password?</Button>
+                                                                <Button type="link" loading={isLoading} onClick={forgetPassword}>Forget Password?</Button>
                                                             </CCol>
                                                         </CRow>
                                                     </CContainer>
@@ -104,9 +107,9 @@ const Login: React.FC<props> = (props) => {
 
                                     </CCardBody>
                                 </CCard>
-                                <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
+                                <CCard className="text-white py-5" style={{ width: '44%' }}>
                                     <CCardBody className="text-center">
-                                        
+                                        <img src={herbImg} alt="Description" className="login-image" />
                                     </CCardBody>
                                 </CCard>
                             </CCardGroup>
@@ -114,6 +117,7 @@ const Login: React.FC<props> = (props) => {
                     </CRow>
                 </CContainer>
             </div>
+
         </>
 
     )
@@ -122,17 +126,18 @@ const Login: React.FC<props> = (props) => {
 
 const mapStatetoProps = (state: any) => {
     const { LoginReducer } = state;
-    const { isLoginSuccessfull, token, errorCode } = LoginReducer;
+    const { isLoginSuccessfull, token, errorCode, isLoading } = LoginReducer;
     return {
         LoginReducer,
         isLoginSuccessfull,
         token,
-        errorCode
+        errorCode,
+        isLoading
     }
 }
 
 const mapDispathToProps = {
-    logUserCredentials : LoginActions.userCredentials.log
+    logUserCredentials: LoginActions.userCredentials.log
 }
 
 const connector = connect(mapStatetoProps, mapDispathToProps);

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import type { InputRef, TableColumnsType, TableColumnType } from 'antd';
+import type { InputRef, TableColumnsType, TableColumnType, message, Popconfirm } from 'antd';
 import { Button, Input, Modal, Space, Table, Skeleton } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
@@ -8,12 +8,14 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RawDrugsActions } from '../../actions/RawDrugs/index.ts';
 import { Formik, Form } from "formik"
 import { $Input, $Select, $TextArea, $DatePicker } from "../CustomComponents/index.ts";
-import { measurementUnitsArray, rawDrugsItemInitInfo } from './Constants/Constants.ts';
-import { RawDrugsValidationSchema } from './Validation/RawDrugsValidationSchema.ts';
+import { General, measurementUnitsArray, rawDrugsItemInitInfo, rawDrugsItemInitInfoForEditModal } from './Constants/Constants.ts';
+import { RawDrugsValidationSchema, EditDrugValidationSchema } from './Validation/RawDrugsValidationSchema.ts';
 import moment from "moment";
 import { MeasurementOptionsHandler, TableDataHandler } from './Functions/Functions.tsx';
-import { IRawDrugsItemInitInfo } from './Interfaces/Interfaces.ts';
+import { IRawDrugInfoForEditModal, IRawDrugsItemInitInfo } from './Interfaces/Interfaces.ts';
 import { AnyObject } from 'antd/es/_util/type';
+import { IsTokenExpiredOrMissingChecker } from "../../GlobalFunctions/Functions.tsx"
+import { useNavigate } from 'react-router-dom';
 
 type props = propsFromRedux;
 
@@ -23,8 +25,8 @@ interface DataType {
     expirationDate: string;
     category: string;
     amount: number,
-    id : string,
-    measurementUnit : string
+    id: string,
+    measurementUnit: string
 }
 
 type DataIndex = keyof DataType;
@@ -34,15 +36,30 @@ const RawDrugs: React.FC<props> = (props) => {
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef<InputRef>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isEditModalOpen,setIsEditModalOpen] = useState(false);
-    const [editModalInitInfo, setEditModalInitInfo] = useState<IRawDrugsItemInitInfo>(rawDrugsItemInitInfo);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editModalInitInfo, setEditModalInitInfo] = useState<IRawDrugInfoForEditModal>(rawDrugsItemInitInfoForEditModal);
+    const [selectedRawDrugItemId, setSelectedRawDrugItemId] = useState<string>(General.EMPTY_VALUE);
+    const [ isConfirmationModalOpen,setIsConfirmationModalOpen ] = useState<boolean>(false);
 
-    const { getAllRawDrugItems, addNewRawDrug, data, isLoading, AddRawDrug } = props ?? {};
+    const { getAllRawDrugItems, addNewRawDrug, data, isLoading, AddRawDrug, editRawDrug, EditRawDrug, deleteRawDrug, DeleteRawDrug } = props ?? {};
+
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        if(EditRawDrug?.data.rawDrugId != General.EMPTY_VALUE){
+            
+        }
+
+    },[EditRawDrug])
 
     //get all available raw drug items
-    useEffect(() => {
-        getAllRawDrugItems({});
-    }, [AddRawDrug?.isLoading])
+    useEffect(()=>{
+        if(IsTokenExpiredOrMissingChecker()){
+            navigate('/login');
+        }else{
+            getAllRawDrugItems({});
+        }
+    },[AddRawDrug?.isLoading, EditRawDrug?.isLoading, DeleteRawDrug?.isLoading])
 
 
     const handleSearch = (
@@ -73,27 +90,55 @@ const RawDrugs: React.FC<props> = (props) => {
     }
 
     const submitEditInfo = (values: any, actions: AnyObject) => {
-        console.log("FAV",values);
+        console.log("FAV", values);
+        const { itemNameEdit, categoryEdit, amountEdit, expirationDateEdit, measurementUnitEdit } = values ?? {};
+        const editData = {
+            ItemName: itemNameEdit,
+            ExpirationDate: expirationDateEdit,
+            Category: categoryEdit,
+            MeasurementUnit: measurementUnitEdit,
+            Amount: amountEdit
+        }
+        editRawDrug({ ...editData, id: selectedRawDrugItemId })
+        actions.resetForm();
+        setIsEditModalOpen(false);
     }
 
-    const addRawDrug = () => 
-    {
+    const addRawDrug = () => {
         setIsModalOpen(true);
     }
 
-    const editDataRow = (rawData : DataType) => {
-        console.log("Lions",rawData);
-        const { itemName, expirationDate, category, measurementUnit, amount } = rawData ?? {};
+    const confirmDeleteProcess = () => {
+        if(selectedRawDrugItemId != "" || selectedRawDrugItemId != undefined){
+            deleteRawDrug(selectedRawDrugItemId)
+            setIsConfirmationModalOpen(false);
+        }
+    }
 
+    const abortDeleteProcess = () => {
+        setIsConfirmationModalOpen(false)
+    }
+
+    const editDataRow = (rawData: DataType) => {
+        console.log("Lions", rawData);
+        const { id, itemName, expirationDate, category, measurementUnit, amount } = rawData ?? {};
+        setSelectedRawDrugItemId(id);
         setEditModalInitInfo({
-            itemName,
-            expirationDate,
-            category,
-            measurementUnit,
-            amount
+            itemNameEdit: itemName,
+            expirationDateEdit: expirationDate,
+            categoryEdit: category,
+            measurementUnitEdit: measurementUnit,
+            amountEdit: amount
         })
         setIsEditModalOpen(true);
     }
+
+    const deleteDataRaw = (rawData: DataType) => {
+        const { id } = rawData ?? {};
+        setSelectedRawDrugItemId(id);
+        setIsConfirmationModalOpen(true);
+    }
+
 
     const getColumnSearchProps = (dataIndex: DataIndex): TableColumnType<DataType> => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
@@ -209,8 +254,8 @@ const RawDrugs: React.FC<props> = (props) => {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <EditOutlined onClick={() => {editDataRow(record)}}/>
-                    <DeleteOutlined />
+                    <EditOutlined className="edit-pen-btn" onClick={() => { editDataRow(record) }} />
+                    <DeleteOutlined className="delete-bin-btn" onClick={()=> { deleteDataRaw(record)}}/>
                 </Space>
             ),
         },
@@ -226,11 +271,11 @@ const RawDrugs: React.FC<props> = (props) => {
                     <hr />
                 </div>
                 <div>
-                    <Button color='3D99F5' onClick={()=>{setIsModalOpen(true)}}>
+                    <Button color='3D99F5' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
                         <PlusOutlined /> ADD
                     </Button>
                 </div>
-                <hr/>
+                <hr />
                 <Skeleton active loading={isLoading}>
                     <Table<DataType> columns={columns} dataSource={TableDataHandler(data)} />
                 </Skeleton>
@@ -321,7 +366,7 @@ const RawDrugs: React.FC<props> = (props) => {
                         <Formik
                             initialValues={editModalInitInfo}
                             onSubmit={submitEditInfo}
-                            validationSchema={RawDrugsValidationSchema}
+                            validationSchema={EditDrugValidationSchema}
                             enableReinitialize={true}
                         >
                             {({
@@ -337,17 +382,17 @@ const RawDrugs: React.FC<props> = (props) => {
                                     <$Input
                                         label="Item Name : "
                                         type="text"
-                                        name="itemName"
+                                        name="itemNameEdit"
                                         placeholder="Enter drug item name..."
                                     />
                                     <br />
                                     <$DatePicker
                                         label="Expiration Date : "
-                                        name="expirationDate"
-                                        value={values.expirationDate ? moment(values.expirationDate) : null}
+                                        name="expirationDateEdit"
+                                        value={values.expirationDateEdit ? moment(values.expirationDateEdit) : null}
                                         onChange={(value, dateString) => {
                                             const isoString = value ? value.toISOString() : null
-                                            setFieldValue('expirationDate', isoString);
+                                            setFieldValue('expirationDateEdit', isoString);
                                         }}
                                         onOk={(value) => console.log('Expiration Time confirmed: ', value)}
                                     />
@@ -355,12 +400,12 @@ const RawDrugs: React.FC<props> = (props) => {
                                     <$Input
                                         label="Category : "
                                         type="string"
-                                        name="category"
+                                        name="categoryEdit"
                                         placeholder="Enter Category of the item..."
                                     />
                                     <br />
                                     <$Select label="Measurement Unit : "
-                                        name="measurementUnit"
+                                        name="measurementUnitEdit"
                                         placeholder="Enter Measurement Units..."
                                     >
                                         {MeasurementOptionsHandler(measurementUnitsArray)}
@@ -370,7 +415,7 @@ const RawDrugs: React.FC<props> = (props) => {
                                     <$Input
                                         label="Amount : "
                                         type="number"
-                                        name="amount"
+                                        name="amountEdit"
                                         placeholder="Enter Amount of the item..."
                                     />
                                     <hr />
@@ -383,6 +428,14 @@ const RawDrugs: React.FC<props> = (props) => {
                     </Modal>
 
                 </>
+                <>
+                    <Modal title="DELETE CONFIRMATION!" open={isConfirmationModalOpen} onOk={confirmDeleteProcess} onCancel={abortDeleteProcess}>
+                        <hr/>
+                        <p>Are you sure to delete the selected record?</p>
+                        <hr/>
+                    </Modal>
+                </>
+
             </div >
         </>
     );
@@ -390,17 +443,21 @@ const RawDrugs: React.FC<props> = (props) => {
 
 const mapStateToProps = (state: any) => {
     const { RawDrugsReducer } = state;
-    const { data, isLoading, AddRawDrug } = RawDrugsReducer;
+    const { data, isLoading, AddRawDrug, EditRawDrug, DeleteRawDrug } = RawDrugsReducer;
     return {
         data,
         isLoading,
-        AddRawDrug
+        AddRawDrug,
+        EditRawDrug,
+        DeleteRawDrug
     }
 }
 
 const mapDispatchToProps = {
     getAllRawDrugItems: RawDrugsActions.allRawDrugItems.get,
-    addNewRawDrug: RawDrugsActions.addNewDrugItem.add
+    addNewRawDrug: RawDrugsActions.addNewDrugItem.add,
+    editRawDrug: RawDrugsActions.editRawDrugItem.edit,
+    deleteRawDrug : RawDrugsActions.deleteRawDrug.delete
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

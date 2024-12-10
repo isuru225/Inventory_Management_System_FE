@@ -739,7 +739,7 @@
 //-----Styles for Home Image-----//
 
 .Carousel-Image {
-    width: 700px;
+    width: 500px;
     height: auto;
     align-self: center;
 }
@@ -757,9 +757,14 @@
   }
 
   .hospital-description .hospital-name {
-    font-size: 1.3em; /* Increase the font size of the hospital name */
+    font-size: 1.2em; /* Increase the font size of the hospital name */
     font-weight: bold; /* Make it bold */
     color: #2d572c; /* Optional: Add a unique color */
+  }
+
+  .achievement-btn{
+    background-color:#3399FF ;
+    color: #FFF;
   }
 
 //-----Styles for project buttons-----//
@@ -1138,4 +1143,31 @@
 
 .appBreadcrumb-container{
     z-index: 999 !important;
+}
+
+.rawdrug-add-btn{
+    background-color: #3399FF;
+    color : white,
+}
+
+.edit-pen-btn{
+    color : #3a83cd;
+}
+.delete-bin-btn{
+    color : red;
+}
+
+//---Styles for Login image---//
+.login-image {
+    width: 100%; /* Make the image responsive */
+    height: 100%; /* Scale the height to fill the container */
+    object-fit: cover; /* Ensures the image fills without distortion */
+    position: absolute; /* Keeps the image aligned */
+    top: 0;
+    left: 0;
+}
+
+.login-image-container {
+    overflow: hidden; 
+    position: relative;
 }

@@ -29,6 +29,8 @@ import { modalInfo } from './Constants/constants.ts';
 
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { LoginActions } from '../../actions/Login/Login.ts';
+import { HomeActions } from '../../actions/Home/Home.ts';
 
 const AppHeaderDropdown = ({ logoutHandler }) => {
 
@@ -45,8 +47,8 @@ const AppHeaderDropdown = ({ logoutHandler }) => {
   const logOut = () => {
     localStorage.removeItem('token');
     setVisible(false);
-    dispatch(LoginActions.userlogout.logout());
-    dispatch(HomeActions.cleanTokenData.clear(null))
+    dispatch({type : 'LOG_OUT_USER' , payload : {}});
+    //dispatch(HomeActions.cleanTokenData.clear(null))
     logoutHandler();
     navigate('/login');
   }

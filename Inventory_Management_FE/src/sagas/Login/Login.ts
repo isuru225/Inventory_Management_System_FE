@@ -19,6 +19,7 @@ export const LoginSagas = {
         }
 
       } catch (error) {
+        console.log("apple",error);
         console.log("fish",error.response.data?.errorCode);
         console.log("fish222",typeof(error.response.data?.errorCode))
         yield put(

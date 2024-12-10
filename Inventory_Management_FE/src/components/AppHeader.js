@@ -21,6 +21,7 @@ import {
   cilMoon,
   cilSun,
 } from '@coreui/icons'
+import { connect, ConnectedProps } from 'react-redux';
 
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
@@ -36,7 +37,8 @@ const AppHeader = () => {
   const sidebarShow = useSelector((state) => state.sidebarShow);
   const navigate = useNavigate();
 
-  //const loginStatus = useSelector((state) => state.LoginReducer.isLoginSuccessfull);
+  //const loginStatus = useSelector((state) => state.LoginReducer.tokenInfo);
+  //console.log("hons",loginStatus);
   //const registerStatus = useSelector((state) => state.RegisterReducer.isRegistered);
 
 

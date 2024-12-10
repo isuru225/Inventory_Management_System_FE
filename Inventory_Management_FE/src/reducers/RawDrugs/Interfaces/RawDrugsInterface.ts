@@ -6,3 +6,9 @@ export interface RawDrugsInterface {
     amount : number,
     measurementUnit : string
 }
+
+export interface IEditDrugItemResponse {
+    message : string,
+    rawDrugId : string,
+    isSuccessful : boolean
+}

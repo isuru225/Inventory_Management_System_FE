@@ -28,7 +28,8 @@ export const LoginReducer = (state = loginInitState, action: any) => {
             return {
                 isLoginSuccessfull : false,
                 token : {},
-                isLoading : false
+                isLoading : false,
+                errorCode : 0
             }
         default:
             return state;

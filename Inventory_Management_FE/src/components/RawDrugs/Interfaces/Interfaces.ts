@@ -14,3 +14,16 @@ export interface IRawDrugsItemInitInfo  {
     measurementUnit : string,
     amount : number
 }
+
+export interface IRawDrugInfoForEditModal {
+    itemNameEdit : string,
+    expirationDateEdit : string,
+    categoryEdit : string,
+    measurementUnitEdit : string,
+    amountEdit : number
+}
+
+export interface IEditUserInfos {
+    userId : string,
+    fullName : string
+}
