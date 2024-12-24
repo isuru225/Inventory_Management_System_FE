@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 import type { InputRef, TableColumnsType, TableColumnType, message, Popconfirm } from 'antd';
 import { Button, Input, Modal, Space, Table, Skeleton } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
@@ -273,6 +273,9 @@ const RawDrugs: React.FC<props> = (props) => {
                 <div>
                     <Button color='3D99F5' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
                         <PlusOutlined /> ADD
+                    </Button>
+                    <Button color='3D99F5' onClick={() => {navigate('/rawdrugs/storekeeper')}} className="store-keeper-btn">
+                        <UserOutlined /> Store Keeper
                     </Button>
                 </div>
                 <hr />

@@ -1,23 +1,24 @@
 import React, { ReactNode } from "react";
-import { Select, Input } from "antd";
+import { Radio } from "antd";
 import { useField } from "formik";
 
-const { TextArea } = Input;
 type props = {
     label: string,
-    type : string,
     name: string,
-    placeholder: string
+    options: Array<any>,
+    defaultValue : string,
+    optionType : any,
+    buttonStyle : any,
 }
 
-
-const CustomTextArea = ({ label, ...rest }: props) => {
+const CustomRadio = ({ label, ...rest }: props) => {
     const [field, meta, helpers] = useField(rest);
     console.log("DK",field)
     return (
         <>
             <label>{label}</label>
-            <TextArea {...field} {...rest} autoSize={{ minRows: 3, maxRows: 5 }}/>
+            <br/>
+            <Radio.Group {...field} {...rest} />
             {meta.touched && meta.error ? (
                 <div className="error-msg">{meta.error}</div>
             ) : null }
@@ -25,6 +26,4 @@ const CustomTextArea = ({ label, ...rest }: props) => {
     )
 }
 
-
-
-export default CustomTextArea;
+export default CustomRadio;

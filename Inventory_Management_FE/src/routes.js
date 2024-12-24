@@ -56,6 +56,7 @@ const Home2 = React.lazy(()=> import('./components/Home/Home.tsx'))
 const Dashboard = React.lazy(()=> import('./components/Dashboard/Dashboard.tsx'));
 const Tasks = React.lazy(()=> import('./components/Tasks/Tasks.tsx'))
 const RawDrugs = React.lazy(()=> import('./components/RawDrugs/RawDrugs.tsx'))
+const StoreKeeper = React.lazy(()=> import('./components/StoreKeeper/StoreKeeper.tsx'))
 
 
 const routes = [
@@ -64,7 +65,9 @@ const routes = [
    { path: '/home', name: 'Home2', element: Home2},
    { path: '/dashboard', name: 'Dashboard', element: Dashboard },
    { path: '/project/tasks', name: 'Tasks', element: Tasks },
-   { path: '/rawdrugs', name: 'RawDrugs', element : RawDrugs}
+   { path: '/rawdrugs', name: 'RawDrugs', element : RawDrugs},
+   { path: ':variable/storekeeper', name: 'StoreKeeper', element : StoreKeeper}
+   
   //  { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
