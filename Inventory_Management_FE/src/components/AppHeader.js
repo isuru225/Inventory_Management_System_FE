@@ -9,7 +9,7 @@ import {
   CDropdownToggle,
   CHeader,
   CHeaderNav,
-  CHeaderToggler,
+  CBadge,
   CNavLink,
   CNavItem,
   useColorModes,
@@ -20,6 +20,7 @@ import {
   cilMenu,
   cilMoon,
   cilSun,
+  cilBell
 } from '@coreui/icons'
 import { connect, ConnectedProps } from 'react-redux';
 
@@ -27,6 +28,7 @@ import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 import { JWTDecoder } from './Home/Functions/Functions.tsx'
 import logo from "../assets/images/TN2.png"
+import { $BellNotification } from './CustomComponents/index.ts'
 
 const AppHeader = () => {
   const headerRef = useRef()
@@ -123,6 +125,14 @@ const AppHeader = () => {
           {!userName && <CNavItem>
             <CNavLink href="#/login">Login</CNavLink>
           </CNavItem>}
+        </CHeaderNav>
+        <$BellNotification/>
+        <CHeaderNav className="d-none d-md-flex">
+          <CNavItem>
+            {/* <CNavLink href="#/home" component={NavLink}> */}
+              
+            {/* </CNavLink> */}
+          </CNavItem>
         </CHeaderNav>
         <CHeaderNav>
           <li className="nav-item py-1">

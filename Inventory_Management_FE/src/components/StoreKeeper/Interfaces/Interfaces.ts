@@ -14,9 +14,13 @@ export interface IInventoryFormInitInfo  {
     amountWithUnit : string,
     adjustmentType : string,
     amountAdjusted : number,
-    comment : string
+    reason : string
 }
 
+export interface ISelectedRawDrugItemInfo {
+    id : string,
+    measurementUnit : string
+}
 
 export interface IEditUserInfos {
     userId : string,

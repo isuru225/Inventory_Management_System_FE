@@ -7,7 +7,7 @@ export const StoreKeeperValidationSchema = yup.object().shape({
     amountAdjusted : yup.number()
     .min(0, 'Adjusted amount must be at least 0')
     .required('Adjusted amount is required'),
-    comment : yup.string()
+    reason : yup.string()
     .matches(/^[a-zA-Z]/, 'comment must be alphanumeric')
     .min(1, 'comment must have at least 1 characters')
     .max(50, 'Comment must be at most 20 characters').notRequired(),

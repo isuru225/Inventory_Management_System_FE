@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 export const JWTDecoder = (token: any) => {
   const base64Url = token.split('.')[1];
@@ -26,4 +27,8 @@ export const IsTokenExpiredOrMissingChecker = () => {
     return true;// true if token is missing
   }
 
+}
+
+export const DateFormatter = (date : string) : string => {
+    return moment(date).format("YYYY/MM/DD, h:mm A");
 }

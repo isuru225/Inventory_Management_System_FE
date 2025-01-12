@@ -1,3 +1,4 @@
+import { ISelectedRawDrugItemInfo } from "../Interfaces/Interfaces.ts"
 
 export const InventoryFormInitInfo = {
     itemName : "",
@@ -5,7 +6,13 @@ export const InventoryFormInitInfo = {
     amountWithUnit : "",
     adjustmentType : "1",
     amountAdjusted : 0,
-    comment : ""
+    reason : ""
+}
+
+
+export const SelectedRawDrugItemInfo : ISelectedRawDrugItemInfo = {
+    id : "",
+    measurementUnit : ""
 }
 
 export enum General {

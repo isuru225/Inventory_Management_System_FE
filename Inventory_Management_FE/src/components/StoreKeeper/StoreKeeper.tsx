@@ -8,12 +8,10 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RawDrugsActions } from '../../actions/RawDrugs/index.ts';
 import { Formik, Form } from "formik"
 import { $Input, $TextArea, $Radio } from "../CustomComponents/index.ts";
-import { General, InventoryFormInitInfo, AdjustmentType } from './Constants.ts/Constants.ts';
+import { General, InventoryFormInitInfo, AdjustmentType, SelectedRawDrugItemInfo } from './Constants.ts/Constants.ts';
 import { StoreKeeperValidationSchema } from './Validation/StoreKeeperValidationSchema.ts';
-import moment from "moment";
 import { BalanceAmountCalculator, TableDataHandler } from './Functions/Functions.tsx';
-import { IInventoryFormInitInfo } from './Interfaces/Interfaces.ts';
-import { AnyObject } from 'antd/es/_util/type';
+import { IInventoryFormInitInfo, ISelectedRawDrugItemInfo } from './Interfaces/Interfaces.ts';
 import { IsTokenExpiredOrMissingChecker, JWTDecoder } from "../../GlobalFunctions/Functions.tsx"
 import { useNavigate } from 'react-router-dom';
 import { StoreKeeperActions } from '../../actions/StoreKeeper/StoreKeeper.ts';
@@ -39,7 +37,7 @@ const StoreKeeper: React.FC<props> = (props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isInventoryUpdateFormOpen, setisInventoryUpdateFormOpen] = useState(false);
     const [invertoryUpdateFormInitInfo, setInvertoryUpdateFormInitInfo] = useState<IInventoryFormInitInfo>(InventoryFormInitInfo);
-    const [selectedRawDrugItemId, setSelectedRawDrugItemId] = useState<string>(General.EMPTY_VALUE);
+    const [selectedRawDrugItemId, setSelectedRawDrugItemId] = useState<ISelectedRawDrugItemInfo>(SelectedRawDrugItemInfo);
 
     const { data, rawDrugRetrievingLoader, updateRawDrugInventory, getAllRawDrugItems } = props ?? {};
 
@@ -80,17 +78,21 @@ const StoreKeeper: React.FC<props> = (props) => {
     const submitInventoryUpdate = (values: any, actions: any) => {
         console.log("froggggg");
         console.log("Tiger", values);
-        const { amount, amountAdjusted, adjustmentType } = values ?? {};
+        const { amount, amountAdjusted, adjustmentType, reason, itemName } = values ?? {};
         const result = BalanceAmountCalculator(amount, amountAdjusted, adjustmentType);
         const author = JWTDecoder(localStorage.getItem('token')).fullName;
         if (result != -1) {
             const updatedInventory = {
                 balance: result,
+                initialAmount : amount,
+                itemName,
                 author,
+                measurementUnit : selectedRawDrugItemId?.measurementUnit,
                 adjustmentType,
-                amountAdjusted
+                amountAdjusted,
+                reason
             };
-            updateRawDrugInventory({ ...updatedInventory, id: selectedRawDrugItemId })
+            updateRawDrugInventory({ ...updatedInventory, id: selectedRawDrugItemId?.id })
             actions.resetForm();
             setisInventoryUpdateFormOpen(false);
 
@@ -103,8 +105,11 @@ const StoreKeeper: React.FC<props> = (props) => {
 
     const editDataRow = (rawData: DataType) => {
         console.log("Lions", rawData);
-        const { id, itemName, amount, amountWithUnit } = rawData ?? {};
-        setSelectedRawDrugItemId(id);
+        const { id, itemName, amount, amountWithUnit, measurementUnit } = rawData ?? {};
+        setSelectedRawDrugItemId({
+            id,
+            measurementUnit
+        });
         setInvertoryUpdateFormInitInfo({
             ...invertoryUpdateFormInitInfo,
             itemName,
@@ -298,9 +303,9 @@ const StoreKeeper: React.FC<props> = (props) => {
                                     />
                                     <br />
                                     <$TextArea
-                                        label="Comment : (Optional)"
+                                        label="Reason : (Optional)"
                                         type="text"
-                                        name="comment"
+                                        name="reason"
                                         placeholder="Add a comment about the inventory update..."
                                     />
                                     <hr />

@@ -12,7 +12,8 @@ export interface IRawDrugsItemInitInfo  {
     expirationDate : string,
     category : string,
     measurementUnit : string,
-    amount : number
+    amount : number,
+    reorderPoint : number
 }
 
 export interface IRawDrugInfoForEditModal {
@@ -20,7 +21,8 @@ export interface IRawDrugInfoForEditModal {
     expirationDateEdit : string,
     categoryEdit : string,
     measurementUnitEdit : string,
-    amountEdit : number
+    amountEdit : number,
+    reorderPointEdit : number
 }
 
 export interface IEditUserInfos {

@@ -1,17 +1,21 @@
-export const rawDrugsItemInitInfo = {
+import { IRawDrugsItemInitInfo, IRawDrugInfoForEditModal } from "../Interfaces/Interfaces.ts";
+
+export const rawDrugsItemInitInfo : IRawDrugsItemInitInfo = {
     itemName : "",
     expirationDate : "",
     category : "",
     measurementUnit : "",
-    amount : 0
+    amount : 0,
+    reorderPoint : 0
 }
 
-export const rawDrugsItemInitInfoForEditModal = {
+export const rawDrugsItemInitInfoForEditModal : IRawDrugInfoForEditModal = {
     itemNameEdit : "",
     expirationDateEdit : "",
     categoryEdit : "",
     measurementUnitEdit : "",
-    amountEdit : 0
+    amountEdit : 0,
+    reorderPointEdit : 0
 }
 
 export enum MeasurementUnits {

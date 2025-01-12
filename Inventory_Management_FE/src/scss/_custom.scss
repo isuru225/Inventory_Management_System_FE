@@ -744,28 +744,34 @@
     align-self: center;
 }
 
-.hospital-description{
+.hospital-description {
     text-align: justify;
     font-family: Arial, sans-serif;
 }
 
 .hospital-description p {
-    font-size: 1.2em; /* Slightly increase the font size for paragraphs */
-    line-height: 1.6; /* Add line spacing for better readability */
-    margin-top: 10px; /* Add space between paragraphs */
+    font-size: 1.2em;
+    /* Slightly increase the font size for paragraphs */
+    line-height: 1.6;
+    /* Add line spacing for better readability */
+    margin-top: 10px;
+    /* Add space between paragraphs */
     margin-right: 30px
-  }
+}
 
-  .hospital-description .hospital-name {
-    font-size: 1.2em; /* Increase the font size of the hospital name */
-    font-weight: bold; /* Make it bold */
-    color: #2d572c; /* Optional: Add a unique color */
-  }
+.hospital-description .hospital-name {
+    font-size: 1.2em;
+    /* Increase the font size of the hospital name */
+    font-weight: bold;
+    /* Make it bold */
+    color: #2d572c;
+    /* Optional: Add a unique color */
+}
 
-  .achievement-btn{
-    background-color:#3399FF ;
+.achievement-btn {
+    background-color: #3399FF;
     color: #FFF;
-  }
+}
 
 //-----Styles for project buttons-----//
 
@@ -966,8 +972,9 @@
 
 .icons {
     display: flex;
-    align-items: center; /* Align icons vertically */
-  }
+    align-items: center;
+    /* Align icons vertically */
+}
 
 .icons span {
     margin-right: 8px;
@@ -1015,28 +1022,30 @@
 }
 
 .task-card-panel {
-    display: flex;        
+    display: flex;
     justify-content: space-between;
-  }
+}
 
-.task-unit-empty{
+.task-unit-empty {
     width: 320px;
     padding: 16px;
     margin: 16px;
 }
 
-.task-units-bundle{
-    display : flex;
-    flex-direction : column
+.task-units-bundle {
+    display: flex;
+    flex-direction: column
 }
-  
-  @media (min-width: 768px) {
+
+@media (min-width: 768px) {
     .task-card-panel {
-      flex-direction: row; /* Aligns TaskCards horizontally */
-      flex-wrap: wrap; /* Allows wrapping of cards to the next row */
-      //justify-content: space-between;
+        flex-direction: row;
+        /* Aligns TaskCards horizontally */
+        flex-wrap: wrap;
+        /* Allows wrapping of cards to the next row */
+        //justify-content: space-between;
     }
-  }
+}
 
 //-----Styles for chart container-----//
 
@@ -1067,43 +1076,46 @@
     background-color: #f7f8fa;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     width: 320px;
-  }
-  
-  .task-status {
+}
+
+.task-status {
     display: flex;
     //flex-direction: column;
     align-items: center;
-  }
-  
-  .status-indicator{
+}
+
+.status-indicator {
     width: 12px;
     height: 12px;
     border-radius: 50%;
     margin-right: 10px;
-  }
-  .To-Do{
-    background-color: #1F62F1;
-  }
-  .In-Progress{
-    background-color: #ffcc00;
-  }
-  .Completed{
-    background-color: #28d070;
-  }
+}
 
-  .status-text {
+.To-Do {
+    background-color: #1F62F1;
+}
+
+.In-Progress {
+    background-color: #ffcc00;
+}
+
+.Completed {
+    background-color: #28d070;
+}
+
+.status-text {
     font-size: 16px;
     color: #333;
     font-weight: 500;
-  }
-  
-  .add-btn {
+}
+
+.add-btn {
     background-color: transparent;
     border: none;
     font-size: 18px;
     cursor: pointer;
     color: #333;
-  }
+}
 
 //-----Styles for Task Menu Options-----//
 
@@ -1137,37 +1149,213 @@
 }
 
 //styles for raw drug modal
-.raw-drug-modal{
+.raw-drug-modal {
     z-index: 1050 !important;
 }
 
-.appBreadcrumb-container{
+.appBreadcrumb-container {
     z-index: 999 !important;
 }
 
-.rawdrug-add-btn{
+.rawdrug-add-btn {
     background-color: #3399FF;
-    color : white,
+    color: white,
 }
 
-.edit-pen-btn{
-    color : #3a83cd;
+.edit-pen-btn {
+    color: #3a83cd;
 }
-.delete-bin-btn{
-    color : red;
+
+.delete-bin-btn {
+    color: red;
 }
 
 //---Styles for Login image---//
+
+
 .login-image {
-    width: 100%; /* Make the image responsive */
-    height: 100%; /* Scale the height to fill the container */
-    object-fit: cover; /* Ensures the image fills without distortion */
-    position: absolute; /* Keeps the image aligned */
+    width: 100%;
+    /* Make the image responsive */
+    height: 100%;
+    /* Scale the height to fill the container */
+    object-fit: cover;
+    /* Ensures the image fills without distortion */
+    position: absolute;
+    /* Keeps the image aligned */
     top: 0;
     left: 0;
 }
 
 .login-image-container {
-    overflow: hidden; 
+    overflow: hidden;
     position: relative;
+}
+
+//---Styles for History table---//
+/* Style the table wrapper */
+.history-table .ant-table-wrapper {
+    border-radius: 10px;
+    /* Rounded corners */
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    background-color: #f5f5f5;
+    /* Light gray background */
+    border: none;
+    /* Remove borders */
+}
+
+/* Table header styling */
+.history-table .ant-table-thead>tr>th {
+    background-color: #4caf50;
+    /* Green header */
+    color: #ffffff;
+    /* White text */
+    text-align: center;
+    /* Center text */
+    font-size: 16px;
+    /* Slightly larger font size */
+    font-weight: bold;
+    padding: 12px;
+    border-bottom: none;
+    /* Remove bottom border */
+}
+
+/* Table body row styling */
+.history-table .ant-table-tbody>tr>td {
+    background-color: #ffffff;
+    /* White row background */
+    color: #333;
+    /* Darker text for readability */
+    text-align: center;
+    /* Center text */
+    font-size: 14px;
+    /* Standard font size */
+    padding: 10px;
+    border-bottom: none;
+    /* Remove row borders */
+}
+
+/* Add hover effect to table rows */
+.history-table .ant-table-tbody>tr:hover>td {
+    background-color: #e8f5e9;
+    /* Light green hover effect */
+    transition: background-color 0.3s ease;
+}
+
+/* Remove table content borders */
+.history-table .ant-table-content {
+    border: none;
+}
+
+/* Remove table outline */
+.history-table .ant-table {
+    outline: none;
+    border: none;
+}
+
+/* Style the pagination */
+.history-table .ant-pagination {
+    display: flex;
+    justify-content: center;
+    padding: 15px 0;
+    border: none;
+    /* Remove border lines from pagination */
+}
+
+.history-table .ant-pagination-item-active {
+    background-color: #4caf50;
+    /* Active page green */
+    border-color: #4caf50;
+    color: #ffffff;
+}
+
+.history-table .ant-pagination-item:hover {
+    border-color: #4caf50;
+    color: #4caf50;
+}
+
+
+//---Styles for Bell Notification---//
+
+.notification-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.bell-icon {
+    cursor: pointer;
+    position: relative;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 50%;
+}
+
+.bell-dropdown-menu {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bell-dropdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+}
+
+.notifications-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.notification-item.new {
+    background: #f9f9f9;
+}
+
+.notification-item .time {
+    display: block;
+    font-size: 12px;
+    color: gray;
+}
+
+.mark-read-btn {
+    width: 100%;
+    border: none;
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 0 0 5px 5px;
+}
+
+.dnd-switch {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }

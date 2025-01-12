@@ -49,7 +49,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'History',
-    to: '/charts',
+    href : "#/history",
     icon: <CIcon icon={cilList} customClassName="nav-icon" />,
   },
   // {

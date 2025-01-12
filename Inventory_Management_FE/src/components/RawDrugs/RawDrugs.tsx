@@ -25,6 +25,7 @@ interface DataType {
     expirationDate: string;
     category: string;
     amount: number,
+    reorderPoint : number,
     id: string,
     measurementUnit: string
 }
@@ -121,14 +122,15 @@ const RawDrugs: React.FC<props> = (props) => {
 
     const editDataRow = (rawData: DataType) => {
         console.log("Lions", rawData);
-        const { id, itemName, expirationDate, category, measurementUnit, amount } = rawData ?? {};
+        const { id, itemName, expirationDate, category, measurementUnit, amount, reorderPoint } = rawData ?? {};
         setSelectedRawDrugItemId(id);
         setEditModalInitInfo({
             itemNameEdit: itemName,
             expirationDateEdit: expirationDate,
             categoryEdit: category,
             measurementUnitEdit: measurementUnit,
-            amountEdit: amount
+            amountEdit: amount,
+            reorderPointEdit : reorderPoint
         })
         setIsEditModalOpen(true);
     }
@@ -231,13 +233,14 @@ const RawDrugs: React.FC<props> = (props) => {
             title: 'Expiration Date',
             dataIndex: 'expirationDate',
             key: 'expirationDate',
-            width: '20%',
+            width: '15%',
             ...getColumnSearchProps('expirationDate'),
         },
         {
             title: 'Category',
             dataIndex: 'category',
             key: 'category',
+            width: '15%',
             ...getColumnSearchProps('category'),
             // sorter: (a, b) => a.address.length - b.address.length,
             // sortDirections: ['descend', 'ascend'],
@@ -246,12 +249,20 @@ const RawDrugs: React.FC<props> = (props) => {
             title: 'Amount',
             dataIndex: 'amount',
             key: 'amount',
-            width: '20%',
+            width: '15%',
             ...getColumnSearchProps('amount'),
+        },
+        {
+            title: 'Reorder Point',
+            dataIndex: 'reorderPoint',
+            key: 'reorderPoint',
+            width: '15%',
+            ...getColumnSearchProps('reorderPoint'),
         },
         {
             title: 'Action',
             key: 'action',
+            width: '10%',
             render: (_, record) => (
                 <Space size="middle">
                     <EditOutlined className="edit-pen-btn" onClick={() => { editDataRow(record) }} />
@@ -346,6 +357,13 @@ const RawDrugs: React.FC<props> = (props) => {
                                         name="amount"
                                         placeholder="Enter Amount of the item..."
                                     />
+                                    <br />
+                                    <$Input
+                                        label="Reorder Point : "
+                                        type="number"
+                                        name="reorderPoint"
+                                        placeholder="Enter Reorder Point of the item..."
+                                    />
                                     <hr />
                                     <Button type="primary" htmlType="submit"  >Submit</Button>
                                     <br />
@@ -420,6 +438,12 @@ const RawDrugs: React.FC<props> = (props) => {
                                         type="number"
                                         name="amountEdit"
                                         placeholder="Enter Amount of the item..."
+                                    />
+                                    <$Input
+                                        label="Reorder Point : "
+                                        type="number"
+                                        name="reorderPointEdit"
+                                        placeholder="Enter Reorder Point of the item..."
                                     />
                                     <hr />
                                     <Button type="primary" htmlType="submit"  >Submit</Button>
