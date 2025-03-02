@@ -58,6 +58,7 @@ const Tasks = React.lazy(()=> import('./components/Tasks/Tasks.tsx'))
 const RawDrugs = React.lazy(()=> import('./components/RawDrugs/RawDrugs.tsx'))
 const StoreKeeper = React.lazy(()=> import('./components/StoreKeeper/StoreKeeper.tsx'))
 const History = React.lazy(()=> import('./components/History/History.tsx'))
+const Registration = React.lazy(()=> import('./components/Admin/Admin.tsx'))
 
 
 const routes = [
@@ -68,8 +69,8 @@ const routes = [
    { path: '/project/tasks', name: 'Tasks', element: Tasks },
    { path: '/rawdrugs', name: 'RawDrugs', element : RawDrugs},
    { path: ':variable/storekeeper', name: 'StoreKeeper', element : StoreKeeper},
-   { path: '/history', name: 'History', element : History}
-  
+   { path: '/history', name: 'History', element : History},
+   { path: '/admin', name: 'Registration', element : Registration}
 ]
 
 export default routes

@@ -94,7 +94,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Admin',
-    to: '/widgets',
+    href : "#/admin",
     icon: <CIcon icon={cilUserPlus}  customClassName="nav-icon" />,
     badge: {
       color: 'info',

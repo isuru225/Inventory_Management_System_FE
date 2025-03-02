@@ -11,7 +11,7 @@ import { $Input, $Select, $TextArea, $DatePicker } from "../CustomComponents/ind
 import { General, measurementUnitsArray, rawDrugsItemInitInfo, rawDrugsItemInitInfoForEditModal } from './Constants/Constants.ts';
 import { RawDrugsValidationSchema, EditDrugValidationSchema } from './Validation/RawDrugsValidationSchema.ts';
 import moment from "moment";
-import { MeasurementOptionsHandler, TableDataHandler } from './Functions/Functions.tsx';
+import { extractNumber, MeasurementOptionsHandler, TableDataHandler } from './Functions/Functions.tsx';
 import { IRawDrugInfoForEditModal, IRawDrugsItemInitInfo } from './Interfaces/Interfaces.ts';
 import { AnyObject } from 'antd/es/_util/type';
 import { IsTokenExpiredOrMissingChecker } from "../../GlobalFunctions/Functions.tsx"
@@ -92,13 +92,14 @@ const RawDrugs: React.FC<props> = (props) => {
 
     const submitEditInfo = (values: any, actions: AnyObject) => {
         console.log("FAV", values);
-        const { itemNameEdit, categoryEdit, amountEdit, expirationDateEdit, measurementUnitEdit } = values ?? {};
+        const { itemNameEdit, categoryEdit, amountEdit, expirationDateEdit, measurementUnitEdit, reorderPointEdit } = values ?? {};
         const editData = {
             ItemName: itemNameEdit,
             ExpirationDate: expirationDateEdit,
             Category: categoryEdit,
             MeasurementUnit: measurementUnitEdit,
-            Amount: amountEdit
+            Amount: amountEdit,
+            ReorderPoint : reorderPointEdit
         }
         editRawDrug({ ...editData, id: selectedRawDrugItemId })
         actions.resetForm();
@@ -120,7 +121,7 @@ const RawDrugs: React.FC<props> = (props) => {
         setIsConfirmationModalOpen(false)
     }
 
-    const editDataRow = (rawData: DataType) => {
+    const editDataRow = (rawData : any) => {
         console.log("Lions", rawData);
         const { id, itemName, expirationDate, category, measurementUnit, amount, reorderPoint } = rawData ?? {};
         setSelectedRawDrugItemId(id);
@@ -129,8 +130,8 @@ const RawDrugs: React.FC<props> = (props) => {
             expirationDateEdit: expirationDate,
             categoryEdit: category,
             measurementUnitEdit: measurementUnit,
-            amountEdit: amount,
-            reorderPointEdit : reorderPoint
+            amountEdit: extractNumber(amount),
+            reorderPointEdit : extractNumber(reorderPoint)
         })
         setIsEditModalOpen(true);
     }

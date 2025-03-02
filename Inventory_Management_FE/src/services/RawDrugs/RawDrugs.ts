@@ -29,15 +29,9 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { id, ItemName, Category, Amount, ExpirationDate, MeasurementUnit } = params ?? {};
-                const editData = {
-                    ItemName, 
-                    Category, 
-                    Amount, 
-                    ExpirationDate, 
-                    MeasurementUnit
-                }
-                const { data, status } =  await cinemaCafeHttpColection.put('updaterawdrug', id, editData);
+                const { id } = params ?? {};
+                
+                const { data, status } =  await cinemaCafeHttpColection.put('updaterawdrug', id, params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);

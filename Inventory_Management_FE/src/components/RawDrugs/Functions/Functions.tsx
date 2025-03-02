@@ -21,11 +21,21 @@ export const TableDataHandler = (data : Array<IRawDrug>) => {
     console.log("Shark",data);
     const formattedData = data?.map((rawDrug : IRawDrug , index : number)=>{
         const dateOnly = moment(rawDrug.expirationDate).format("YYYY-MM-DD");
-        return {...rawDrug, amount : `${rawDrug.amount} ${rawDrug.measurementUnit}`,key : index.toString(), expirationDate : dateOnly}
+        return {
+            ...rawDrug, 
+            amount : `${rawDrug.amount} ${rawDrug.measurementUnit}`, 
+            reorderPoint: `${rawDrug.reorderPoint} ${rawDrug.measurementUnit}` ,
+            key : index.toString(), expirationDate : dateOnly
+        }
     });
     console.log("TigerShark",formattedData);
     return formattedData;
 }
+
+export const extractNumber = (value : string) => {
+    const match = value.match(/\d+(\.\d+)?/);
+    return match ? parseFloat(match[0]) : 0;
+  };
 
 
 export const GetEditorInfos = () : IEditUserInfos =>  {

@@ -5,6 +5,7 @@ export interface IRawDrug
     expirationDate : string,
     category : string,
     amount : number,
+    reorderPoint : number,
     measurementUnit : string
 }
 export interface IRawDrugsItemInitInfo  {

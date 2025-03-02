@@ -5,6 +5,9 @@ import { TasksSagas } from "./Tasks/index.ts"
 import { RawDrugsSagas } from "./RawDrugs/index.ts"
 import { StoreKeeperSagas } from "./StoreKeeper/index.ts"
 import { HistorySagas } from "./History/index.ts"
+import { NotificationSagas } from "./Notification/index.ts"
+import { RegisterSagas } from "./Register/index.ts"
+import { RegisteredUserSagas } from "./RegisteredUser/index.ts"
 
 export default [ 
     ...LoginSagas,
@@ -13,6 +16,9 @@ export default [
     ...TasksSagas,
     ...RawDrugsSagas,
     ...StoreKeeperSagas,
-    ...HistorySagas
+    ...HistorySagas,
+    ...NotificationSagas,
+    ...RegisterSagas,
+    ...RegisteredUserSagas
 ]
 
