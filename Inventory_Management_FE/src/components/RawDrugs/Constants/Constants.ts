@@ -36,4 +36,8 @@ export enum EditUserInfos {
     EMPTY_USER_ID = ""
 }
 
+export enum Component {
+    COMPONENT_NAME = "rawDrugs"
+}
+
 export const measurementUnitsArray = ["","g","kg","mg","l","ml"];

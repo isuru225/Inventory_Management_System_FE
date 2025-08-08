@@ -1,0 +1,1 @@
+export { default as FinishedDrugs} from "./FinishdDrugs.tsx"

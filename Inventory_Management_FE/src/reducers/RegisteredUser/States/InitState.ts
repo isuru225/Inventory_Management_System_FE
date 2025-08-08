@@ -3,10 +3,10 @@ import { RegisteredUserInterface } from "../Interfaces/RegisteredUserInterface.t
 export const RegisteredUserInitState : RegisteredUserInterface= {
     data : [],
     isLoading : false,
-    delete : {
+    deleteOperation : {
         data : {
             message : "",
-            succes : false
+            success : false
         },
         isLoading : false
     }

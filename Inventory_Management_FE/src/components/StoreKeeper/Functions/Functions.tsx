@@ -3,7 +3,7 @@ import moment from 'moment';
 import { IEditUserInfos, IRawDrug } from "../Interfaces/Interfaces.ts";
 import { JWTDecoder } from "../../../GlobalFunctions/Functions.tsx";
 import { useNavigate } from 'react-router-dom';
-import { AdjustmentTypes, EditUserInfos } from "../Constants.ts/Constants.ts"
+import { AdjustmentTypes, EditUserInfos } from "../Constants/Constants.ts"
 
 export const TableDataHandler = (data : Array<IRawDrug>) => {
     console.log("Shark",data);

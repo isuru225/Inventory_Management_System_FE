@@ -38,6 +38,7 @@ const _nav = [
     component: CNavItem,
     name: 'Finished Drugs',
     to: '/charts',
+    href : "#/finisheddrugs",
     icon: <CIcon icon={cilCheckCircle} customClassName="nav-icon" />,
   },
   {

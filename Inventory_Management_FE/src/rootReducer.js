@@ -1,10 +1,10 @@
 import { combineReducers } from "redux"
-import {
-changeState,
-updateSeatIDStringReducer,
-updateSelectedMovieIdReducer,
-}
-from './reducer'
+// import {
+// changeState,
+// updateSeatIDStringReducer,
+// updateSelectedMovieIdReducer,
+// }
+// from './reducer'
 
 import {
 HomeReducer,
@@ -16,14 +16,15 @@ StoreKeeperReducer,
 HistoryReducer,
 NotificationReducer,
 RegisterReducer,
-RegisteredUserReducer
+RegisteredUserReducer,
+FinishedDrugsReducer
 
 } from "./reducers/index.ts"
 
 export default combineReducers({
-    changeState,
-    updateSeatIDStringReducer,
-    updateSelectedMovieIdReducer,
+    // changeState,
+    // updateSeatIDStringReducer,
+    // updateSelectedMovieIdReducer,
 
     HomeReducer,
     LoginReducer,
@@ -34,5 +35,6 @@ export default combineReducers({
     HistoryReducer,
     NotificationReducer,
     RegisterReducer,
-    RegisteredUserReducer
+    RegisteredUserReducer,
+    FinishedDrugsReducer
 })

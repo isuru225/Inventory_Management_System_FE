@@ -1,7 +1,7 @@
 export interface RegisteredUserInterface {
     data : Array<RegisterUserDataInterface>
     isLoading : boolean,
-    delete : {
+    deleteOperation : {
         data : deleteInfoInterface,
         isLoading : boolean
     }
@@ -9,7 +9,7 @@ export interface RegisteredUserInterface {
 
 interface deleteInfoInterface {
     message : string,
-    succes : boolean
+    success : boolean
 }
 
 export interface RegisterUserDataInterface {

@@ -17,7 +17,7 @@ export interface IInventoryFormInitInfo  {
     reason : string
 }
 
-export interface ISelectedRawDrugItemInfo {
+export interface ISelectedItemInfo {
     id : string,
     measurementUnit : string
 }

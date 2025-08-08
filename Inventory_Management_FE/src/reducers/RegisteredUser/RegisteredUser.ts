@@ -25,16 +25,16 @@ export const RegisteredUserReducer = (state = RegisteredUserInitState, action: a
         case RegisteredUser.DELETE_REGISTERED_USER:
             return {
                 ...state,
-                delete : {
-                    ...state.delete,
+                deleteOperation : {
+                    ...state.deleteOperation,
                     isLoading : action.payload.isLoading
                 }  
             }
         case RegisteredUser.DELETE_REGISTERED_USER_SUCCESS:
             return {
                 ...state,
-                delete : {
-                    ...state.delete,
+                deleteOperation : {
+                    ...state.deleteOperation,
                     data:action.payload.data,
                     isLoading : action.payload.isLoading
                 }  
@@ -42,8 +42,8 @@ export const RegisteredUserReducer = (state = RegisteredUserInitState, action: a
         case RegisteredUser.DELETE_REGISTERED_USER_FAIL:
             return {
                 ...state,
-                delete : {
-                    ...state.delete,
+                deleteOperation : {
+                    ...state.deleteOperation,
                     isLoading : action.payload.isLoading
                 }  
             }

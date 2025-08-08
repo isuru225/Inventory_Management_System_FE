@@ -8,7 +8,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RawDrugsActions } from '../../actions/RawDrugs/index.ts';
 import { Formik, Form } from "formik"
 import { $Input, $Select, $TextArea, $DatePicker } from "../CustomComponents/index.ts";
-import { General, measurementUnitsArray, rawDrugsItemInitInfo, rawDrugsItemInitInfoForEditModal } from './Constants/Constants.ts';
+import { Component, General, measurementUnitsArray, rawDrugsItemInitInfo, rawDrugsItemInitInfoForEditModal } from './Constants/Constants.ts';
 import { RawDrugsValidationSchema, EditDrugValidationSchema } from './Validation/RawDrugsValidationSchema.ts';
 import moment from "moment";
 import { extractNumber, MeasurementOptionsHandler, TableDataHandler } from './Functions/Functions.tsx';
@@ -286,7 +286,7 @@ const RawDrugs: React.FC<props> = (props) => {
                     <Button color='3D99F5' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
                         <PlusOutlined /> ADD
                     </Button>
-                    <Button color='3D99F5' onClick={() => {navigate('/rawdrugs/storekeeper')}} className="store-keeper-btn">
+                    <Button color='3D99F5' onClick={() => {navigate('/rawdrugs/storekeeper',{ state: { from: Component.COMPONENT_NAME } })}} className="store-keeper-btn">
                         <UserOutlined /> Store Keeper
                     </Button>
                 </div>

@@ -1,4 +1,4 @@
-import { ISelectedRawDrugItemInfo } from "../Interfaces/Interfaces.ts"
+import { ISelectedItemInfo } from "../Interfaces/Interfaces.js"
 
 export const InventoryFormInitInfo = {
     itemName : "",
@@ -10,7 +10,7 @@ export const InventoryFormInitInfo = {
 }
 
 
-export const SelectedRawDrugItemInfo : ISelectedRawDrugItemInfo = {
+export const SelectedItemInfo : ISelectedItemInfo = {
     id : "",
     measurementUnit : ""
 }
@@ -33,3 +33,15 @@ export const AdjustmentType = [
     {label : 'Increase' , value : '1'},
     {label : 'Decrease' , value : '0'}
 ]
+
+export enum Component {
+    COMPONENT_NAME_RAW_DRUG = "rawDrugs",
+    COMPONENT_NAME_FINISHED_DRUG = "finishedDrugs",
+    COMPONENT_NAME_GENERAL_STORE = "generalStore"
+}
+
+export enum Headings {
+    RAW_DRUG = "Raw Drug - Store Keeper",
+    FINISHED_DRUG = "Finished Drug - Store Keeper",
+    GENERAL_STORE = "General Store - Store Keeper"
+}

@@ -24,11 +24,63 @@ export const StoreKeeperSagas = {
             }
         },
     }
+    ,
+    finishedDrugInventory: {
+        update: function* (action: any) {
+            console.log("raven");
+            try {
+                const { data, status } = yield call(
+                    StoreKeeperService.updateFinishedDrugInventory, action.payload.data
+                );
+                if (status == 200) {
+                    console.log("light234", data);
+                    yield put(
+                        StoreKeeperActions.finishedDrugInventory.success(data)
+                    )
+                }
+            } catch (error) {
+                yield put(
+                    StoreKeeperActions.finishedDrugInventory.fail(error.response.data?.errorCode)
+                );
+            }
+        },
+    }
+    ,
+    generalStoreInventory: {
+        update: function* (action: any) {
+            console.log("raven");
+            try {
+                const { data, status } = yield call(
+                    StoreKeeperService.updateGeneralStoreInventory, action.payload.data
+                );
+                if (status == 200) {
+                    console.log("light234", data);
+                    yield put(
+                        StoreKeeperActions.generalStoreInventory.success(data)
+                    )
+                }
+            } catch (error) {
+                yield put(
+                    StoreKeeperActions.generalStoreInventory.fail(error.response.data?.errorCode)
+                );
+            }
+        },
+    }
 }
 
 export default [
     takeLatest(
         StoreKeeper.UPDATE_INVENTORY_RAW_DRUGS,
         StoreKeeperSagas.rawDrugInventory.update
+    )
+    ,
+    takeLatest(
+        StoreKeeper.UPDATE_INVENTORY_FINISHED_DRUGS,
+        StoreKeeperSagas.finishedDrugInventory.update
+    )
+    ,
+    takeLatest(
+        StoreKeeper.UPDATE_INVENTORY_GENERAL_STORE,
+        StoreKeeperSagas.generalStoreInventory.update
     )
 ]
