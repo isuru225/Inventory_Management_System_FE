@@ -17,11 +17,12 @@ const Registration: React.FC<props> = (props) => {
     const { registerNewUser, isLoading, data } = props ?? {};
     const isMounted = useRef(false);
 
-    const submit = (values: any) => {
+    const submit = (values: any , actions : any) => {
         console.log("jackle", values);
         if (values) {
             registerNewUser(values);
         }
+        actions.resetForm();
     }
 
     const [api, contextHolder] = notification.useNotification();
@@ -71,9 +72,6 @@ const Registration: React.FC<props> = (props) => {
             </h2>
             <hr />
             {contextHolder}
-            <Button onClick={openNotification(true)}>
-                dsds
-            </Button>
             <Row>
                 <Col span={12} >
                     <Formik

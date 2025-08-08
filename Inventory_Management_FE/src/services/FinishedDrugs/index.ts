@@ -1,0 +1,1 @@
+export { default as FinishedDrugsService } from "./FinishedDrugs.ts"

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 import type { InputRef, TableColumnsType, TableColumnType } from 'antd';
-import { Button, Input, Modal, Space, Table, Skeleton, Radio } from 'antd';
+import { Button, Input, Modal, Space, Table, Skeleton, Radio, Col, notification } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
 import { connect, ConnectedProps } from 'react-redux';
@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { RegisteredUserActions } from '../../../actions/RegisteredUser/RegisteredUser.ts';
 import { registeredUserInfoHandler } from './Functions/Functions.tsx';
 import { IRegisteredUserData } from './Interfaces/Interfaces.ts';
+import { successNotification, failedNotification } from './Constants/Constants.ts';
 
 
 type props = propsFromRedux;
@@ -28,10 +29,10 @@ const RegisteredUsers : React.FC<props> = (props) => {
     const [ isConfirmationModalOpen,setIsConfirmationModalOpen ] = useState<boolean>(false);
     const [selectedUserId, setSelectedUserId] = useState<string>("");
 
-    const { data, isLoading, getRegisteredUsers, deleteRegisteredUser } = props ?? {};
+    const { data, isLoading, getRegisteredUsers, deleteRegisteredUser, deleteOperation, statusAfterRegistration } = props ?? {};
 
     const navigate = useNavigate();
-
+    const isMounted = useRef(false);
 
     //get all available raw drug items
     useEffect(() => {
@@ -40,7 +41,7 @@ const RegisteredUsers : React.FC<props> = (props) => {
         } else {
             getRegisteredUsers({});
         }
-    }, [])
+    }, [statusAfterRegistration?.data , deleteOperation?.data])
 
     //delete a selected history record
     const handleDeleteHistoryRecord = (record: any) => {
@@ -62,6 +63,35 @@ const RegisteredUsers : React.FC<props> = (props) => {
     const abortDeleteProcess = () => {
         setIsConfirmationModalOpen(false)
     }
+
+    const [api, contextHolder] = notification.useNotification();
+
+    useEffect(() => {
+    
+            if (!isMounted.current) {
+                isMounted.current = true;
+                return;
+            }
+    
+            console.log("kkkkkkkkkkkkkkkk", data);
+            if (deleteOperation?.data.success) {
+                api.open({
+                    message: successNotification.MESSAGE,
+                    description: successNotification.DESCRIPTION,
+                    showProgress: true,
+                    pauseOnHover: true
+                });
+                
+            }else if(!deleteOperation?.data.success){
+                api.open({
+                    message: failedNotification.MESSAGE,
+                    description: failedNotification.DESCRIPTION,
+                    showProgress: true,
+                    pauseOnHover: true
+                });
+            }
+    
+        }, [deleteOperation?.data])
 
 
 
@@ -214,7 +244,8 @@ const RegisteredUsers : React.FC<props> = (props) => {
                     </h2>
                 </div>
                 <hr />
-                <Skeleton active loading={isLoading }>
+                {contextHolder}
+                <Skeleton active loading={isLoading || deleteOperation?.isLoading || statusAfterRegistration?.isLoading }>
                     <Table<IRegisteredUserData> columns={columns} dataSource={registeredUserInfoHandler(data)} className="history-table" />
                 </Skeleton>
                 <Modal title="DELETE CONFIRMATION!" open={isConfirmationModalOpen} onOk={confirmDeleteProcess} onCancel={abortDeleteProcess}>
@@ -230,11 +261,13 @@ const RegisteredUsers : React.FC<props> = (props) => {
 }
 
 const mapStateToProps = (state: any) => {
-    const { RegisteredUserReducer } = state;
-    const { data, isLoading , delete } = RegisteredUserReducer;
+    const { RegisteredUserReducer, RegisterReducer : statusAfterRegistration } = state;
+    const { data, isLoading , deleteOperation } = RegisteredUserReducer;
     return {
         data,
-        isLoading
+        isLoading,
+        deleteOperation,
+        statusAfterRegistration
     }
 }
 

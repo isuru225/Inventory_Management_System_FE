@@ -8,6 +8,7 @@ import { HistorySagas } from "./History/index.ts"
 import { NotificationSagas } from "./Notification/index.ts"
 import { RegisterSagas } from "./Register/index.ts"
 import { RegisteredUserSagas } from "./RegisteredUser/index.ts"
+import { FinishedDrugSagas } from "./FinishedDrugs/index.ts"
 
 export default [ 
     ...LoginSagas,
@@ -19,6 +20,7 @@ export default [
     ...HistorySagas,
     ...NotificationSagas,
     ...RegisterSagas,
-    ...RegisteredUserSagas
+    ...RegisteredUserSagas,
+    ...FinishedDrugSagas
 ]
 
