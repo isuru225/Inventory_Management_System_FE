@@ -69,6 +69,17 @@ const getToken = () => `Bearer ${localStorage.getItem('token')}`
             }
         ) 
     }
+    ,
+    patch : async (uniqueURL: string, partialData : any) => {
+        return await axios.patch(`${axiosInstance.baseURL}${uniqueURL}`,partialData,
+            {
+                headers: {
+                    ...axiosInstance.headers,
+                    Authorization : getToken()
+                }
+            }
+        ) 
+    }
 }
 
 export default cinemaCafeHttp;

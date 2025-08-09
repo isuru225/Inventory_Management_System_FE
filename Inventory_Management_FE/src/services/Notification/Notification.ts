@@ -13,5 +13,16 @@ export default {
         });
     }
     ,
+    markAllMessages : (params: any): Promise<any> => {
+
+        return new Promise<any>(async (resolve, reject) => {
+            try {
+                const { data, status } =  await cinemaCafeHttpColection.patch('updatenotificationsasmarked',params);
+                resolve({ data, status });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
     
 }

@@ -24,8 +24,8 @@ interface DataType {
     itemName: string;
     expirationDate: string;
     category: string;
-    amount: number,
-    reorderPoint : number,
+    amount: string | number,
+    reorderPoint : string | number,
     id: string,
     measurementUnit: string
 }
@@ -283,10 +283,10 @@ const RawDrugs: React.FC<props> = (props) => {
                     <hr />
                 </div>
                 <div>
-                    <Button color='3D99F5' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
+                    <Button color='#3D99F5' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
                         <PlusOutlined /> ADD
                     </Button>
-                    <Button color='3D99F5' onClick={() => {navigate('/rawdrugs/storekeeper',{ state: { from: Component.COMPONENT_NAME } })}} className="store-keeper-btn">
+                    <Button color='#3D99F5' onClick={() => {navigate('/rawdrugs/storekeeper',{ state: { from: Component.COMPONENT_NAME } })}} className="store-keeper-btn">
                         <UserOutlined /> Store Keeper
                     </Button>
                 </div>
@@ -457,7 +457,15 @@ const RawDrugs: React.FC<props> = (props) => {
 
                 </>
                 <>
-                    <Modal title="DELETE CONFIRMATION!" open={isConfirmationModalOpen} onOk={confirmDeleteProcess} onCancel={abortDeleteProcess}>
+                    <Modal 
+                    title="DELETE CONFIRMATION!" 
+                    open={isConfirmationModalOpen} 
+                    onOk={confirmDeleteProcess} 
+                    onCancel={abortDeleteProcess}
+                    okText="Delete"
+                    okButtonProps={{
+                        style: { backgroundColor: "#DC3545", borderColor: "#DC3545" }, // Green
+                    }}>
                         <hr/>
                         <p>Are you sure to delete the selected record?</p>
                         <hr/>

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
+import { SearchOutlined, DeleteOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 import type { InputRef, TableColumnsType, TableColumnType } from 'antd';
-import { Button, Input, Modal, Space, Table, Skeleton, Radio } from 'antd';
+import { Button, Input, Modal, Space, Table, Skeleton, Tooltip } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
 import { connect, ConnectedProps } from 'react-redux';
@@ -37,7 +37,7 @@ const History: React.FC<props> = (props) => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef<InputRef>(null);
-    const [ isConfirmationModalOpen,setIsConfirmationModalOpen ] = useState<boolean>(false);
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
     const [selectedRawDrugItemId, setSelectedRawDrugItemId] = useState<string>(General.EMPTY_VALUE);
 
     const { data, isLoading, getAllHistoryRecords, deleteHistoryRecord, deleteHistoryRecordStatus } = props ?? {};
@@ -64,9 +64,9 @@ const History: React.FC<props> = (props) => {
     }
 
     const confirmDeleteProcess = () => {
-        if(selectedRawDrugItemId != "" || selectedRawDrugItemId != undefined){
+        if (selectedRawDrugItemId != "" || selectedRawDrugItemId != undefined) {
             deleteHistoryRecord({
-                id : selectedRawDrugItemId
+                id: selectedRawDrugItemId
             })
             setIsConfirmationModalOpen(false);
         }
@@ -216,6 +216,20 @@ const History: React.FC<props> = (props) => {
             dataIndex: 'reason',
             key: 'reason',
             width: '15%',
+            render: (text: string) => (
+                <Tooltip title={text}>
+                    <div
+                        style={{
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            maxWidth: "100%", // keeps within cell width
+                        }}
+                    >
+                        {text}
+                    </div>
+                </Tooltip>
+            ),
         },
         {
             title: 'Action',
@@ -241,7 +255,14 @@ const History: React.FC<props> = (props) => {
                 <Skeleton active loading={isLoading || deleteHistoryRecordStatus?.isLoading}>
                     <Table<DataType> columns={columns} dataSource={historyRecoredFormatter(data)} className="history-table" />
                 </Skeleton>
-                <Modal title="DELETE CONFIRMATION!" open={isConfirmationModalOpen} onOk={confirmDeleteProcess} onCancel={abortDeleteProcess}>
+                <Modal title="DELETE CONFIRMATION!"
+                    open={isConfirmationModalOpen}
+                    onOk={confirmDeleteProcess}
+                    onCancel={abortDeleteProcess}
+                    okText="Delete"
+                    okButtonProps={{
+                        style: { backgroundColor: "#DC3545", borderColor: "#DC3545" }, // Green
+                    }}>
                     <hr />
                     <p>Are you sure to delete the selected record?</p>
                     <hr />

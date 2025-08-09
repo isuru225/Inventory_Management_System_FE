@@ -126,11 +126,11 @@ const AppHeader = () => {
             <CNavLink href="#/login">Login</CNavLink>
           </CNavItem>}
         </CHeaderNav>
-        <$BellNotification/>
+        <$BellNotification />
         <CHeaderNav className="d-none d-md-flex">
           <CNavItem>
             {/* <CNavLink href="#/home" component={NavLink}> */}
-              
+
             {/* </CNavLink> */}
           </CNavItem>
         </CHeaderNav>
@@ -178,10 +178,16 @@ const AppHeader = () => {
               </CDropdownItem>
             </CDropdownMenu>
           </CDropdown>
-          <li className="nav-item py-1">
+          {/* <li className="nav-item py-1">
             <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
-          </li>
-          {userName && <AppHeaderDropdown logoutHandler={() => { setUserName(null) }} />}
+          </li> */}
+        </CHeaderNav>
+        <CHeaderNav className="d-none d-md-flex align-items-center">
+          {userName && (
+            <CNavItem>
+              <AppHeaderDropdown logoutHandler={() => setUserName(null)} />
+            </CNavItem>
+          )}
         </CHeaderNav>
       </CContainer>
       {/* <CContainer className="px-4 appBreadcrumb-container" fluid>

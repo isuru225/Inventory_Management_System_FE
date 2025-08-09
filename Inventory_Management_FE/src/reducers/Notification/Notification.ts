@@ -21,7 +21,31 @@ export const NotificationReducer = (state = NotificationInitState, action: any) 
                 ...state,
                 isLoading: action.payload.isLoading,
             }
-        
+        case Notification.MARK_ALL_MESSAGES_AS_READ:
+            return {
+                ...state,
+                markMessages : {
+                    ...state.markMessages,
+                    isLoading: action.payload.isLoading
+                }
+            }
+        case Notification.MARK_ALL_MESSAGES_AS_READ_SUCCESS:
+            return {
+                
+                ...state,
+                markMessages : {
+                    data: action.payload.data,
+                    isLoading: action.payload.isLoading
+                }
+            }
+        case Notification.MARK_ALL_MESSAGES_AS_READ_FAIL:
+            return {
+                ...state,
+                markMessages : {
+                    ...state.markMessages,
+                    isLoading: action.payload.isLoading
+                }
+            }     
         default:
             return state;
     }
