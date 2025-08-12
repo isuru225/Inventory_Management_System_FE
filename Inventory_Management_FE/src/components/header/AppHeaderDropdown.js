@@ -19,7 +19,8 @@ import {
   cilAccountLogout,
   cilBellExclamation,
   cilUser,
-  cilHistory,
+  cilX,
+  cilWarning
 } from '@coreui/icons';
 
 import CIcon from '@coreui/icons-react';
@@ -60,6 +61,10 @@ const AppHeaderDropdown = ({ logoutHandler }) => {
     navigate('/user-profile');
   }
 
+  const onCancel = () => {
+    setVisible(false)
+  }
+
   const avatarNameHandler = () => {
     const encodedValue = localStorage.getItem('token');
     if (encodedValue !== null) {
@@ -97,26 +102,21 @@ const AppHeaderDropdown = ({ logoutHandler }) => {
           </CDropdownItem>
         </CDropdownMenu>
       </CDropdown>
-      {visible && <CModal
-        alignment="center"
-        visible={visible}
-        onClose={() => setVisible(false)}
-        aria-labelledby="VerticallyCenteredExample"
-      >
-        <CModalHeader>
-          <CIcon icon={cilBellExclamation} />
-          <CModalTitle id="VerticallyCenteredExample">{modalInfo.TITLE}</CModalTitle>
+      {visible && <CModal alignment="center" visible={visible} onClose={onCancel} className="custom-warning-modal">
+        <CModalHeader className="custom-header">
+          <CIcon icon={cilWarning} className="warning-icon" />
+          <div className="header-text">LogOut?</div>
+          <CIcon icon={cilX} className="close-icon" onClick={onCancel} />
         </CModalHeader>
-        <CModalBody>
-          {modalInfo.BODY}
+        <CModalBody className="custom-body">
+          Are you sure to logout from the system?
         </CModalBody>
-        <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)}>
-            {modalInfo.NO}
-          </CButton>
-          <CButton color="primary" onClick={logOut}>{modalInfo.YES}</CButton>
+        <CModalFooter className="custom-footer">
+          <button className="btn-text" onClick={onCancel}>No</button>
+          <CButton color="warning" onClick={logOut}>Yes</CButton>
         </CModalFooter>
-      </CModal>}
+      </CModal>
+      }
     </>
   )
 }

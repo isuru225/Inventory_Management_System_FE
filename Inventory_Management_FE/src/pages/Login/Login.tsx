@@ -25,7 +25,7 @@ type props = propsFromRedux;
 
 const Login: React.FC<props> = (props) => {
 
-    const { isLoginSuccessfull, token, errorCode, logUserCredentials, isLoading } = props;
+    const { isLoginSuccessfull, token, errorCode, logUserCredentials, isLoading, forgotPassword } = props;
     const { accessToken, refreshToken, expiresOn } = token ?? {};
     const navigate = useNavigate();
 
@@ -49,12 +49,8 @@ const Login: React.FC<props> = (props) => {
         }
     }, [isLoginSuccessfull])
 
-    const forgetPassword = () => {
-
-    }
-
-    const register = () => {
-        navigate('/register');
+    const forgotPasswordHandler = () => {
+        navigate('forgotpassword')
     }
 
     return (
@@ -79,13 +75,19 @@ const Login: React.FC<props> = (props) => {
                                                     <$Input label="User Name"
                                                         type="text"
                                                         name="userName"
-                                                        placeholder="Enter your name..." />
+                                                        placeholder="Enter your name..."
+                                                        prefix=""
+                                                        suffix=""
+                                                    />
                                                     <br />
                                                     <LockOutlined />
                                                     <$Input label="Password"
                                                         type="password"
                                                         name="password"
-                                                        placeholder="Enter password name..." />
+                                                        placeholder="Enter password name..."
+                                                        prefix=""
+                                                        suffix=""
+                                                    />
                                                     <br />
                                                     {(errorCode == 101 || errorCode == 102) && <small className="error-msg">*User name or password is incorrect. Check again.</small>}
                                                     <br />
@@ -96,7 +98,7 @@ const Login: React.FC<props> = (props) => {
                                                                 <Button type="primary" loading={isLoading} htmlType='submit'>Login</Button>
                                                             </CCol>
                                                             <CCol>
-                                                                <Button type="link" loading={isLoading} onClick={forgetPassword}>Forget Password?</Button>
+                                                                <Button type="link" loading={isLoading} onClick={forgotPasswordHandler}>Forget Password?</Button>
                                                             </CCol>
                                                         </CRow>
                                                     </CContainer>
@@ -137,7 +139,8 @@ const mapStatetoProps = (state: any) => {
 }
 
 const mapDispathToProps = {
-    logUserCredentials: LoginActions.userCredentials.log
+    logUserCredentials: LoginActions.userCredentials.log,
+    forgotPassword: LoginActions.password.forgot
 }
 
 const connector = connect(mapStatetoProps, mapDispathToProps);

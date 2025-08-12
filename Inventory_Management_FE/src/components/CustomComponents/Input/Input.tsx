@@ -8,13 +8,13 @@ type props = {
     name: string,
     placeholder: string,
     disabled?: boolean,
-    isOnlyPositiveValues?: boolean
+    isOnlyPositiveValues?: boolean,
+    prefix : any,
+    suffix : any
 }
 
 const CustomInput = ({ label, ...rest }: props) => {
-    const [field, meta, helpers] = useField(rest);
-    console.log("DK33", field);
-    console.log("MP", rest);
+    const [field, meta] = useField(rest);
     return (
         <>
             <label>{label}</label>

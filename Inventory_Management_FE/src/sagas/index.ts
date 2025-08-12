@@ -9,6 +9,8 @@ import { NotificationSagas } from "./Notification/index.ts"
 import { RegisterSagas } from "./Register/index.ts"
 import { RegisteredUserSagas } from "./RegisteredUser/index.ts"
 import { FinishedDrugSagas } from "./FinishedDrugs/index.ts"
+import { PasswordResetSagas } from "./PasswordReset/index.ts"
+import { ForgotPasswordSagas } from "./ForgotPassword/index.ts"
 
 export default [ 
     ...LoginSagas,
@@ -21,6 +23,8 @@ export default [
     ...NotificationSagas,
     ...RegisterSagas,
     ...RegisteredUserSagas,
-    ...FinishedDrugSagas
+    ...FinishedDrugSagas,
+    ...PasswordResetSagas,
+    ...ForgotPasswordSagas
 ]
 

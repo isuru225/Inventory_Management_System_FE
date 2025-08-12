@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CContainer,
@@ -42,19 +42,23 @@ const AppHeader = () => {
   //const loginStatus = useSelector((state) => state.LoginReducer.tokenInfo);
   //console.log("hons",loginStatus);
   //const registerStatus = useSelector((state) => state.RegisterReducer.isRegistered);
-
+  const location = useLocation();
 
   useEffect(() => {
-    const encodedValue = localStorage.getItem('token');
-    if (encodedValue !== null) {
-      const decodedPayload = JWTDecoder(encodedValue);
-      const { fullName, exp } = decodedPayload;
-      //check the expiration time of the token
-      if (exp !== null) {
-        const currentTime = Math.floor(Date.now() / 1000);
-        if (currentTime < exp) {
-          if (fullName !== null) {
-            setUserName(fullName);
+    if (location.pathname !== '/login/forgotpassword') {
+      const encodedValue = localStorage.getItem('token');
+      if (encodedValue !== null) {
+        const decodedPayload = JWTDecoder(encodedValue);
+        const { fullName, exp } = decodedPayload;
+        //check the expiration time of the token
+        if (exp !== null) {
+          const currentTime = Math.floor(Date.now() / 1000);
+          if (currentTime < exp) {
+            if (fullName !== null) {
+              setUserName(fullName);
+            } else {
+              setUserName(null);
+            }
           } else {
             setUserName(null);
           }
@@ -63,11 +67,10 @@ const AppHeader = () => {
         }
       } else {
         setUserName(null);
+        navigate('/login')
       }
-    } else {
-      setUserName(null);
-      navigate('/login')
     }
+
 
   }, [])
 

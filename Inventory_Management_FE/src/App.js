@@ -11,6 +11,8 @@ const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 // Pages
 const Login = React.lazy(() => import('./pages/Login/Login.tsx'))
 const Register = React.lazy(() => import('./pages/Register/Register.tsx'))
+const ResetPassword = React.lazy(() => import('./pages/ResetPassword/ResetPassword.tsx'))
+const ForgotPassword = React.lazy(()=> import('./pages/ForgotPassword/ForgotPassword.tsx'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
@@ -54,6 +56,8 @@ const App = () => {
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<LoginLayout><Login /></LoginLayout>} />
           <Route exact path="/register" name="Register Page" element={<LoginLayout><Register /></LoginLayout>} />
+          <Route exact path="/login/resetpassword" name="Resetpassword Page" element={<LoginLayout><ResetPassword /></LoginLayout>}/>
+          <Route exact path="/login/forgotpassword" name="Forgotpassword Page" element={<LoginLayout><ForgotPassword /></LoginLayout>}/>
           <Route exact path="/404" name="Page 404" element={<Page404 />} />
           <Route exact path="/500" name="Page 500" element={<Page500 />} />
           <Route path="*" name="Default Layout" element={<DefaultLayout />} />

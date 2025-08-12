@@ -60,6 +60,8 @@ const StoreKeeper = React.lazy(()=> import('./components/StoreKeeper/StoreKeeper
 const History = React.lazy(()=> import('./components/History/History.tsx'))
 const Registration = React.lazy(()=> import('./components/Admin/Admin.tsx'))
 const FinishedDrugs = React.lazy(()=> import('./components/FinishedDrugs/FinishdDrugs.tsx'))
+const ResetPassword = React.lazy(()=> import('./pages/ResetPassword/ResetPassword.tsx'))
+const ForgotPassword = React.lazy(()=> import('./pages/ForgotPassword/ForgotPassword.tsx'))
 
 
 const routes = [
@@ -72,8 +74,9 @@ const routes = [
    { path: ':variable/storekeeper', name: 'StoreKeeper', element : StoreKeeper},
    { path: '/history', name: 'History', element : History},
    { path: '/admin', name: 'Registration', element : Registration},
-   { path: '/finisheddrugs', name: 'FinishedDrugs', element : FinishedDrugs}
-
+   { path: '/finisheddrugs', name: 'FinishedDrugs', element : FinishedDrugs},
+   { path: '/login/resetpassword', name: 'ResetPassword', element : ResetPassword},
+   { path: '/login/forgotpassword', name: 'ForgotPassword', element : ForgotPassword}
 ]
 
 export default routes
