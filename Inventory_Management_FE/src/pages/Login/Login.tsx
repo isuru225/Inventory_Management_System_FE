@@ -25,11 +25,13 @@ type props = propsFromRedux;
 
 const Login: React.FC<props> = (props) => {
 
-    const { isLoginSuccessfull, token, errorCode, logUserCredentials, isLoading, forgotPassword } = props;
+    const { isLoginSuccessfull, token, errorCode, logUserCredentials, isLoading } = props;
     const { accessToken, refreshToken, expiresOn } = token ?? {};
     const navigate = useNavigate();
 
     console.log("nebula", isLoading);
+
+    console.log("citadle",errorCode);
 
     const submit = (value: ILogin, actions: any) => {
         console.log("log", value);
@@ -89,7 +91,7 @@ const Login: React.FC<props> = (props) => {
                                                         suffix=""
                                                     />
                                                     <br />
-                                                    {(errorCode == 101 || errorCode == 102) && <small className="error-msg">*User name or password is incorrect. Check again.</small>}
+                                                    {(errorCode == 100 || errorCode == 101) && <small className="error-msg">*User name or password is incorrect. Check again.</small>}
                                                     <br />
                                                     <br />
                                                     <CContainer>
@@ -139,8 +141,7 @@ const mapStatetoProps = (state: any) => {
 }
 
 const mapDispathToProps = {
-    logUserCredentials: LoginActions.userCredentials.log,
-    forgotPassword: LoginActions.password.forgot
+    logUserCredentials: LoginActions.userCredentials.log
 }
 
 const connector = connect(mapStatetoProps, mapDispathToProps);

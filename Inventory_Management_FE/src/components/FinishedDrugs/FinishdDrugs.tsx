@@ -14,7 +14,7 @@ import moment from "moment";
 import { extractNumber, MeasurementOptionsHandler, TableDataHandler } from './Functions/Functions.tsx';
 import { IFinishedDrugInfoForEditModal, IFinishedDrugsItemInitInfo } from './Interfaces/interfaces.ts';
 import { AnyObject } from 'antd/es/_util/type';
-import { IsTokenExpiredOrMissingChecker } from "../../GlobalFunctions/Functions.tsx"
+import { getAttributesFromToken, IsTokenExpiredOrMissingChecker } from "../../GlobalFunctions/Functions.tsx"
 import { useNavigate } from 'react-router-dom';
 
 type props = propsFromRedux;
@@ -25,7 +25,7 @@ interface DataType {
     expirationDate: string;
     category: string;
     amount: number,
-    reorderPoint : number,
+    reorderPoint: number,
     id: string,
     measurementUnit: string
 }
@@ -40,27 +40,27 @@ const FinishedDrugs: React.FC<props> = (props) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editModalInitInfo, setEditModalInitInfo] = useState<IFinishedDrugInfoForEditModal>(finishedDrugsItemInitInfoForEditModal);
     const [selectedFinishedDrugItemId, setSelectedFinishedDrugItemId] = useState<string>(General.EMPTY_VALUE);
-    const [ isConfirmationModalOpen,setIsConfirmationModalOpen ] = useState<boolean>(false);
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
 
     const { getAllFinishedDrugItems, addNewFinishedDrug, data, isLoading, AddFinishedDrug, editFinishedDrug, EditFinishedDrug, deleteFinishedDrug, DeleteFinishedDrug } = props ?? {};
 
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        if(EditFinishedDrug?.data.rawDrugId != General.EMPTY_VALUE){
-            
+    useEffect(() => {
+        if (EditFinishedDrug?.data.rawDrugId != General.EMPTY_VALUE) {
+
         }
 
-    },[EditFinishedDrug])
+    }, [EditFinishedDrug])
 
     //get all available finished drug items
-    useEffect(()=>{
-        if(IsTokenExpiredOrMissingChecker()){
+    useEffect(() => {
+        if (IsTokenExpiredOrMissingChecker()) {
             navigate('/login');
-        }else{
+        } else {
             getAllFinishedDrugItems({});
         }
-    },[AddFinishedDrug?.isLoading, EditFinishedDrug?.isLoading, DeleteFinishedDrug?.isLoading])
+    }, [AddFinishedDrug?.isLoading, EditFinishedDrug?.isLoading, DeleteFinishedDrug?.isLoading])
 
 
     const handleSearch = (
@@ -99,7 +99,7 @@ const FinishedDrugs: React.FC<props> = (props) => {
             Category: categoryEdit,
             MeasurementUnit: measurementUnitEdit,
             Amount: amountEdit,
-            ReorderPoint : reorderPointEdit
+            ReorderPoint: reorderPointEdit
         }
         editFinishedDrug({ ...editData, id: selectedFinishedDrugItemId })
         actions.resetForm();
@@ -107,7 +107,7 @@ const FinishedDrugs: React.FC<props> = (props) => {
     }
 
     const confirmDeleteProcess = () => {
-        if(selectedFinishedDrugItemId != "" || selectedFinishedDrugItemId != undefined){
+        if (selectedFinishedDrugItemId != "" || selectedFinishedDrugItemId != undefined) {
             deleteFinishedDrug(selectedFinishedDrugItemId)
             setIsConfirmationModalOpen(false);
         }
@@ -117,7 +117,7 @@ const FinishedDrugs: React.FC<props> = (props) => {
         setIsConfirmationModalOpen(false)
     }
 
-    const editDataRow = (rawData : any) => {
+    const editDataRow = (rawData: any) => {
         console.log("Lions", rawData);
         const { id, itemName, expirationDate, category, measurementUnit, amount, reorderPoint } = rawData ?? {};
         setSelectedFinishedDrugItemId(id);
@@ -127,7 +127,7 @@ const FinishedDrugs: React.FC<props> = (props) => {
             categoryEdit: category,
             measurementUnitEdit: measurementUnit,
             amountEdit: extractNumber(amount),
-            reorderPointEdit : extractNumber(reorderPoint)
+            reorderPointEdit: extractNumber(reorderPoint)
         })
         setIsEditModalOpen(true);
     }
@@ -256,17 +256,17 @@ const FinishedDrugs: React.FC<props> = (props) => {
             width: '15%',
             ...getColumnSearchProps('reorderPoint'),
         },
-        {
+        ...(getAttributesFromToken(['role']).role === "Admin" ? [{
             title: 'Action',
             key: 'action',
             width: '10%',
-            render: (_, record) => (
+            render: (_: any, record: any) => (
                 <Space size="middle">
                     <EditOutlined className="edit-pen-btn" onClick={() => { editDataRow(record) }} />
-                    <DeleteOutlined className="delete-bin-btn" onClick={()=> { deleteDataRaw(record)}}/>
+                    <DeleteOutlined className="delete-bin-btn" onClick={() => { deleteDataRaw(record) }} />
                 </Space>
             ),
-        },
+        }] : [])
     ];
 
     return (
@@ -278,15 +278,20 @@ const FinishedDrugs: React.FC<props> = (props) => {
                     </h2>
                     <hr />
                 </div>
-                <div>
-                    <Button color='3D99F5' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
-                        <PlusOutlined /> ADD
-                    </Button>
-                    <Button color='3D99F5' onClick={() => {navigate('/finisheddrugs/storekeeper',{ state: { from: Component.COMPONENT_NAME } })}} className="store-keeper-btn">
-                        <UserOutlined /> Store Keeper
-                    </Button>
-                </div>
-                <hr />
+                {getAttributesFromToken(['role']).role === "Admin" &&
+                    <>
+                        <div>
+                            <Button color='3D99F5' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
+                                <PlusOutlined /> ADD
+                            </Button>
+                            <Button color='3D99F5' onClick={() => { navigate('/finisheddrugs/storekeeper', { state: { from: Component.COMPONENT_NAME } }) }} className="store-keeper-btn">
+                                <UserOutlined /> Store Keeper
+                            </Button>
+                        </div>
+                        <hr />
+                    </>
+                }
+
                 <Skeleton active loading={isLoading}>
                     <Table<DataType> columns={columns} dataSource={TableDataHandler(data)} />
                 </Skeleton>
@@ -454,9 +459,9 @@ const FinishedDrugs: React.FC<props> = (props) => {
                 </>
                 <>
                     <Modal title="DELETE CONFIRMATION!" open={isConfirmationModalOpen} onOk={confirmDeleteProcess} onCancel={abortDeleteProcess}>
-                        <hr/>
+                        <hr />
                         <p>Are you sure to delete the selected record?</p>
-                        <hr/>
+                        <hr />
                     </Modal>
                 </>
 
@@ -482,7 +487,7 @@ const mapDispatchToProps = {
     getAllFinishedDrugItems: FinishedDrugsActions.allFinishedDrugItems.get,
     addNewFinishedDrug: FinishedDrugsActions.addFinishedDrugItem.add,
     editFinishedDrug: FinishedDrugsActions.editFinishedDrugItem.edit,
-    deleteFinishedDrug : FinishedDrugsActions.deleteFinishedDrug.delete
+    deleteFinishedDrug: FinishedDrugsActions.deleteFinishedDrug.delete
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

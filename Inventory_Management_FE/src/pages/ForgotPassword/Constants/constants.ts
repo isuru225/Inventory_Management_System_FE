@@ -1,7 +1,7 @@
 export const forgotPasswordInitValues : IForgotPassword = {
-    email : ""
+    registeredEmail : ""
 }
 
 export interface IForgotPassword {
-    email : string
+    registeredEmail : string
 }

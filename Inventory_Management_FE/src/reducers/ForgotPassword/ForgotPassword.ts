@@ -4,6 +4,7 @@ import { forgotPasswordInitState } from "./States/InitState.ts";
 
 
 export const ForgotPasswordReducer = (state = forgotPasswordInitState, action: any) => {
+    console.log("jaguar33",action);
     switch (action.type) {
         case ForgotPassword.FORGOT_PASSWORD:
             return {
@@ -12,12 +13,18 @@ export const ForgotPasswordReducer = (state = forgotPasswordInitState, action: a
             }
         case ForgotPassword.FORGOT_PASSWORD_SUCCESS:
             return {
-                data: action.payload.data,
+                data: {
+                    message : action.payload.data?.message,
+                    isSuccessful :action.payload.data?.isSuccessful
+                },
                 isLoading: action.payload.isLoading
             }
         case ForgotPassword.FORGOT_PASSWORD_FAIL:
             return {
-                ...state,
+                data: {
+                    message : action.payload.error?.message,
+                    isSuccessful :action.payload.error?.isSuccessful
+                },
                 isLoading: action.payload.isLoading
             }
         default:

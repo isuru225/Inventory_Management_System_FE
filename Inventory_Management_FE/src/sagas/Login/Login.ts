@@ -18,6 +18,7 @@ export const LoginSagas = {
         }
 
       } catch (error) {
+        console.log("thunder",error);
         yield put(
           LoginActions.userCredentials.fail(error.response.data?.errorCode)
         );
@@ -25,26 +26,26 @@ export const LoginSagas = {
     },
   }
   ,
-  password: {
-    forgot: function* (action: any) {
+  // password: {
+  //   forgot: function* (action: any) {
 
-      try {
-        const { data, status } = yield call(
-          LoginService.forgotPassword, action.payload.data
-        );
-        if (status == 200) {
-          yield put(
-            LoginActions.password.success(data)
-          )
-        }
+  //     try {
+  //       const { data, status } = yield call(
+  //         LoginService.forgotPassword, action.payload.data
+  //       );
+  //       if (status == 200) {
+  //         yield put(
+  //           LoginActions.password.success(data)
+  //         )
+  //       }
 
-      } catch (error) {
-        yield put(
-          LoginActions.password.fail(error.response.data?.errorCode)
-        );
-      }
-    }
-  }
+  //     } catch (error) {
+  //       yield put(
+  //         LoginActions.password.fail(error.response.data?.errorCode)
+  //       );
+  //     }
+  //   }
+  // }
 }
 
 export default [
@@ -52,9 +53,9 @@ export default [
     Login.LOG_USER_CREDNTIALS,
     LoginSagas.userCredentials.log
   )
-  ,
-  takeLatest(
-    Login.FORGOT_PASSWORD,
-    LoginSagas.password.forgot
-  )
+  // ,
+  // takeLatest(
+  //   Login.FORGOT_PASSWORD,
+  //   LoginSagas.password.forgot
+  // )
 ]

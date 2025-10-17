@@ -5,10 +5,7 @@ const
     LOG_USER_CREDNTIALS,
     LOG_USER_CREDNTIALS_SUCCESS,
     LOG_USER_CREDNTIALS_FAIL,
-    LOG_OUT_USER,
-    FORGOT_PASSWORD,
-    FORGOT_PASSWORD_SUCCESS,
-    FORGOT_PASSWORD_FAIL
+    LOG_OUT_USER
 
 } = Login
 
@@ -50,28 +47,28 @@ export const LoginActions = {
       })
     }
     ,
-    password : {
-      forgot : (data: any) => ({
-        type : FORGOT_PASSWORD,
-        payload : {
-          data,
-          isLoading : true
-        }
-      })
-      ,
-      success: (data: any) => ({
-        type: FORGOT_PASSWORD_SUCCESS,
-        payload: {
-          data,
-          isLoading: false,
-        },
-      }),
-      fail: (error: any) => ({
-        type: FORGOT_PASSWORD_FAIL,
-        payload: {
-          error,
-          isLoading: false,
-        },
-      })
-    }
+    // password : {
+    //   forgot : (data: any) => ({
+    //     type : FORGOT_PASSWORD,
+    //     payload : {
+    //       data,
+    //       isLoading : true
+    //     }
+    //   })
+    //   ,
+    //   success: (data: any) => ({
+    //     type: FORGOT_PASSWORD_SUCCESS,
+    //     payload: {
+    //       data,
+    //       isLoading: false,
+    //     },
+    //   }),
+    //   fail: (error: any) => ({
+    //     type: FORGOT_PASSWORD_FAIL,
+    //     payload: {
+    //       error,
+    //       isLoading: false,
+    //     },
+    //   })
+    // }
 }

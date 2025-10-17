@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Button } from 'antd';
-import { Skeleton } from 'antd';
+import { Button, Modal, Result } from 'antd';
 import { Form, Formik } from 'formik';
 import { $Input } from '../../components/CustomComponents/index.ts';
 import { LockOutlined } from '@ant-design/icons';
@@ -19,25 +18,38 @@ type forgotPasswordRequest = {
 const ForgotPassword: React.FC<props> = (props) => {
 
     const { forgotPassword, isLoading, data } = props;
-    const [isSentResetLinkSuccessful, setIsSentResetLinkSuccessful] = useState<boolean>(true);
+    const clientURI = "http://localhost:3000/#/login";
+    const [isSentResetLinkSuccessfully, setIsResetLinkSuccessfully] = useState(true);
+    const isInitialRender = useRef(true);
 
-    const clientURI = process.env.REACT_APP_CLIENT_URI;
-    console.log("fear",clientURI);
+
     const submit = (value: IForgotPassword, actions: any) => {
+        console.log(value, clientURI, "saman")
+        console.log("fear", clientURI);
         const requestPayload: forgotPasswordRequest = {
-            ...value,
+            email: value.registeredEmail,
             clientURI
         }
         forgotPassword(requestPayload);
         actions.resetForm();
     }
 
-    useEffect(() => {
-        if(data?.isSuccessful){
-            setIsSentResetLinkSuccessful(true)
-        }
-    }, [data])
 
+
+    useEffect(() => {
+        console.log("Doomm",isInitialRender);
+        if (!isInitialRender.current) {
+            console.log("Doomm22",data);
+            if (data?.isSuccessful) {
+                setIsResetLinkSuccessfully(true);
+            } else {
+                setIsResetLinkSuccessfully(false);
+            }
+        }else{
+            isInitialRender.current = false;
+        }
+
+    }, [data])
 
     return (
         <>
@@ -66,10 +78,10 @@ const ForgotPassword: React.FC<props> = (props) => {
                                     prefix=""
                                     suffix=""
                                 />
-                                <br />                    
-                                {!isSentResetLinkSuccessful ? (
+                                <br />
+                                {!isSentResetLinkSuccessfully ? (
                                     <small className="error-msg">
-                                        User is not registered by the provided email. 
+                                        User is not registered by the provided email.
                                     </small>
                                 ) : null}
                                 <br />
@@ -88,6 +100,22 @@ const ForgotPassword: React.FC<props> = (props) => {
                     </Formik>
                 </div>
             </div>
+            <Modal
+                open={data?.isSuccessful}
+                footer={null}
+                closable={false}
+            >
+                <Result
+                    status="success"
+                    title={`Password reset link has been successfully sent to your email account. Please visit to the inbox and click the "Reset Password" link to proceed!`}
+                // extra={
+                //     <Button type="primary" key="console" onClick={() => { navigate("/login") }}>
+                //         Go Login
+                //     </Button>
+                // }
+                />
+            </Modal>
+
         </>
 
     )
@@ -95,8 +123,8 @@ const ForgotPassword: React.FC<props> = (props) => {
 
 
 const mapStatetoProps = (state: any) => {
-    const { PasswordResetReducer } = state;
-    const { data, isLoading } = PasswordResetReducer;
+    const { ForgotPasswordReducer } = state;
+    const { data, isLoading } = ForgotPasswordReducer;
     return {
         data,
         isLoading

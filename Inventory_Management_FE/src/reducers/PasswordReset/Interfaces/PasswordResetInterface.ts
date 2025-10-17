@@ -1,4 +1,10 @@
 export interface IPasswordReset {
-    data : object,
+    data : IData,
     isLoading : boolean
+}
+
+interface IData 
+{
+    message : string,
+    isSuccessful : boolean
 }

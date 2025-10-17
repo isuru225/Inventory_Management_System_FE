@@ -12,16 +12,16 @@ export default {
             }
         });
     }
-    ,
-    forgotPassword : (params: any): Promise<any> => {
+    // ,
+    // forgotPassword : (params: any): Promise<any> => {
 
-        return new Promise<any>(async (resolve, reject) => {
-            try {
-                const { data, status } =  await cinemaCafeHttpColection.post('login/forgotpassword', params);
-                resolve({ data, status });
-            } catch (error) {
-                reject(error);
-            }
-        });
-    }
+    //     return new Promise<any>(async (resolve, reject) => {
+    //         try {
+    //             const { data, status } =  await cinemaCafeHttpColection.post('login/forgotpassword', params);
+    //             resolve({ data, status });
+    //         } catch (error) {
+    //             reject(error);
+    //         }
+    //     });
+    // }
 }

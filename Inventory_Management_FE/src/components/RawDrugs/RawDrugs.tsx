@@ -14,7 +14,7 @@ import moment from "moment";
 import { extractNumber, MeasurementOptionsHandler, TableDataHandler } from './Functions/Functions.tsx';
 import { IRawDrugInfoForEditModal, IRawDrugsItemInitInfo } from './Interfaces/Interfaces.ts';
 import { AnyObject } from 'antd/es/_util/type';
-import { IsTokenExpiredOrMissingChecker } from "../../GlobalFunctions/Functions.tsx"
+import { IsTokenExpiredOrMissingChecker, getAttributesFromToken } from "../../GlobalFunctions/Functions.tsx"
 import { useNavigate } from 'react-router-dom';
 
 type props = propsFromRedux;
@@ -25,7 +25,7 @@ interface DataType {
     expirationDate: string;
     category: string;
     amount: string | number,
-    reorderPoint : string | number,
+    reorderPoint: string | number,
     id: string,
     measurementUnit: string
 }
@@ -40,27 +40,27 @@ const RawDrugs: React.FC<props> = (props) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editModalInitInfo, setEditModalInitInfo] = useState<IRawDrugInfoForEditModal>(rawDrugsItemInitInfoForEditModal);
     const [selectedRawDrugItemId, setSelectedRawDrugItemId] = useState<string>(General.EMPTY_VALUE);
-    const [ isConfirmationModalOpen,setIsConfirmationModalOpen ] = useState<boolean>(false);
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
 
     const { getAllRawDrugItems, addNewRawDrug, data, isLoading, AddRawDrug, editRawDrug, EditRawDrug, deleteRawDrug, DeleteRawDrug } = props ?? {};
 
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        if(EditRawDrug?.data.rawDrugId != General.EMPTY_VALUE){
-            
+    useEffect(() => {
+        if (EditRawDrug?.data.rawDrugId != General.EMPTY_VALUE) {
+
         }
 
-    },[EditRawDrug])
+    }, [EditRawDrug])
 
     //get all available raw drug items
-    useEffect(()=>{
-        if(IsTokenExpiredOrMissingChecker()){
+    useEffect(() => {
+        if (IsTokenExpiredOrMissingChecker()) {
             navigate('/login');
-        }else{
+        } else {
             getAllRawDrugItems({});
         }
-    },[AddRawDrug?.isLoading, EditRawDrug?.isLoading, DeleteRawDrug?.isLoading])
+    }, [AddRawDrug?.isLoading, EditRawDrug?.isLoading, DeleteRawDrug?.isLoading])
 
 
     const handleSearch = (
@@ -99,7 +99,7 @@ const RawDrugs: React.FC<props> = (props) => {
             Category: categoryEdit,
             MeasurementUnit: measurementUnitEdit,
             Amount: amountEdit,
-            ReorderPoint : reorderPointEdit
+            ReorderPoint: reorderPointEdit
         }
         editRawDrug({ ...editData, id: selectedRawDrugItemId })
         actions.resetForm();
@@ -111,7 +111,7 @@ const RawDrugs: React.FC<props> = (props) => {
     }
 
     const confirmDeleteProcess = () => {
-        if(selectedRawDrugItemId != "" || selectedRawDrugItemId != undefined){
+        if (selectedRawDrugItemId != "" || selectedRawDrugItemId != undefined) {
             deleteRawDrug(selectedRawDrugItemId)
             setIsConfirmationModalOpen(false);
         }
@@ -121,7 +121,7 @@ const RawDrugs: React.FC<props> = (props) => {
         setIsConfirmationModalOpen(false)
     }
 
-    const editDataRow = (rawData : any) => {
+    const editDataRow = (rawData: any) => {
         console.log("Lions", rawData);
         const { id, itemName, expirationDate, category, measurementUnit, amount, reorderPoint } = rawData ?? {};
         setSelectedRawDrugItemId(id);
@@ -131,7 +131,7 @@ const RawDrugs: React.FC<props> = (props) => {
             categoryEdit: category,
             measurementUnitEdit: measurementUnit,
             amountEdit: extractNumber(amount),
-            reorderPointEdit : extractNumber(reorderPoint)
+            reorderPointEdit: extractNumber(reorderPoint)
         })
         setIsEditModalOpen(true);
     }
@@ -260,17 +260,20 @@ const RawDrugs: React.FC<props> = (props) => {
             width: '15%',
             ...getColumnSearchProps('reorderPoint'),
         },
-        {
-            title: 'Action',
-            key: 'action',
-            width: '10%',
-            render: (_, record) => (
-                <Space size="middle">
-                    <EditOutlined className="edit-pen-btn" onClick={() => { editDataRow(record) }} />
-                    <DeleteOutlined className="delete-bin-btn" onClick={()=> { deleteDataRaw(record)}}/>
-                </Space>
-            ),
-        },
+        ...(getAttributesFromToken(['role']).role === "Admin" ?
+            [{
+                title: 'Action',
+                key: 'action',
+                width: '10%',
+                render: (_: any, record: any) => (
+                    <Space size="middle">
+                        <EditOutlined className="edit-pen-btn" onClick={() => { editDataRow(record) }} />
+                        <DeleteOutlined className="delete-bin-btn" onClick={() => { deleteDataRaw(record) }} />
+                    </Space>
+                ),
+            }] : [])
+        ,
+
     ];
 
     return (
@@ -282,15 +285,19 @@ const RawDrugs: React.FC<props> = (props) => {
                     </h2>
                     <hr />
                 </div>
-                <div>
-                    <Button color='#3D99F5' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
-                        <PlusOutlined /> ADD
-                    </Button>
-                    <Button color='#3D99F5' onClick={() => {navigate('/rawdrugs/storekeeper',{ state: { from: Component.COMPONENT_NAME } })}} className="store-keeper-btn">
-                        <UserOutlined /> Store Keeper
-                    </Button>
-                </div>
-                <hr />
+                {getAttributesFromToken(['role']).role === "Admin" &&
+                    <>
+                        <div>
+                            <Button color='#3D99F5' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
+                                <PlusOutlined /> ADD
+                            </Button>
+                            <Button color='#3D99F5' onClick={() => { navigate('/rawdrugs/storekeeper', { state: { from: Component.COMPONENT_NAME } }) }} className="store-keeper-btn">
+                                <UserOutlined /> Store Keeper
+                            </Button>
+                        </div>
+                        <hr />
+                    </>
+                }
                 <Skeleton active loading={isLoading}>
                     <Table<DataType> columns={columns} dataSource={TableDataHandler(data)} />
                 </Skeleton>
@@ -457,18 +464,18 @@ const RawDrugs: React.FC<props> = (props) => {
 
                 </>
                 <>
-                    <Modal 
-                    title="DELETE CONFIRMATION!" 
-                    open={isConfirmationModalOpen} 
-                    onOk={confirmDeleteProcess} 
-                    onCancel={abortDeleteProcess}
-                    okText="Delete"
-                    okButtonProps={{
-                        style: { backgroundColor: "#DC3545", borderColor: "#DC3545" }, // Green
-                    }}>
-                        <hr/>
+                    <Modal
+                        title="DELETE CONFIRMATION!"
+                        open={isConfirmationModalOpen}
+                        onOk={confirmDeleteProcess}
+                        onCancel={abortDeleteProcess}
+                        okText="Delete"
+                        okButtonProps={{
+                            style: { backgroundColor: "#DC3545", borderColor: "#DC3545" }, // Green
+                        }}>
+                        <hr />
                         <p>Are you sure to delete the selected record?</p>
-                        <hr/>
+                        <hr />
                     </Modal>
                 </>
 
@@ -493,7 +500,7 @@ const mapDispatchToProps = {
     getAllRawDrugItems: RawDrugsActions.allRawDrugItems.get,
     addNewRawDrug: RawDrugsActions.addNewDrugItem.add,
     editRawDrug: RawDrugsActions.editRawDrugItem.edit,
-    deleteRawDrug : RawDrugsActions.deleteRawDrug.delete
+    deleteRawDrug: RawDrugsActions.deleteRawDrug.delete
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

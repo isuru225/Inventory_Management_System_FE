@@ -102,20 +102,28 @@ const AppHeaderDropdown = ({ logoutHandler }) => {
           </CDropdownItem>
         </CDropdownMenu>
       </CDropdown>
-      {visible && <CModal alignment="center" visible={visible} onClose={onCancel} className="custom-warning-modal">
-        <CModalHeader className="custom-header">
-          <CIcon icon={cilWarning} className="warning-icon" />
-          <div className="header-text">LogOut?</div>
-          <CIcon icon={cilX} className="close-icon" onClick={onCancel} />
-        </CModalHeader>
-        <CModalBody className="custom-body">
-          Are you sure to logout from the system?
-        </CModalBody>
-        <CModalFooter className="custom-footer">
-          <button className="btn-text" onClick={onCancel}>No</button>
-          <CButton color="warning" onClick={logOut}>Yes</CButton>
-        </CModalFooter>
-      </CModal>
+      {visible && <CModal alignment="center" visible={visible} onClose={onCancel} className="logout-confirmation-modal">
+      <CModalHeader className="modal-header-logout" closeButton>
+        {/* 'closeButton' prop handles the X icon and closure. No need for custom CIcon and onClick */}
+        <div className="header-text">Log Out</div>
+      </CModalHeader>
+      
+      <CModalBody className="modal-body-logout">
+        You will need to log back in to access your account. Are you sure you want to log out?
+      </CModalBody>
+      
+      <CModalFooter className="modal-footer-logout">
+        {/* Secondary action: Cancel. Typically a neutral or 'ghost' button. */}
+        <CButton color="secondary" onClick={onCancel}>
+          Cancel
+        </CButton>
+        
+        {/* Primary action: Log Out. Use 'danger' to visually signal a final action. */}
+        <CButton color="danger" onClick={logOut}>
+          Log Out
+        </CButton>
+      </CModalFooter>
+    </CModal>
       }
     </>
   )

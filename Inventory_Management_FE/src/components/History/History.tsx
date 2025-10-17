@@ -8,7 +8,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RawDrugsActions } from '../../actions/RawDrugs/index.ts';
 import { Formik, Form } from "formik"
 import { $Input, $TextArea, $Radio } from "../CustomComponents/index.ts";
-import { IsTokenExpiredOrMissingChecker, JWTDecoder } from "../../GlobalFunctions/Functions.tsx"
+import { getAttributesFromToken, IsTokenExpiredOrMissingChecker, JWTDecoder } from "../../GlobalFunctions/Functions.tsx"
 import { useNavigate } from 'react-router-dom';
 import { HistoryActions } from '../../actions/History/History.ts';
 import { historyRecoredFormatter } from './Functions/Functions.tsx';
@@ -231,16 +231,16 @@ const History: React.FC<props> = (props) => {
                 </Tooltip>
             ),
         },
-        {
+        ...(getAttributesFromToken(['role']).role === "Admin" ? [{
             title: 'Action',
             key: 'action',
             width: '10%',
-            render: (_, record) => (
+            render: (_ : any, record : any) => (
                 <Space size="middle">
                     <DeleteOutlined className="delete-bin-btn" onClick={() => { handleDeleteHistoryRecord(record) }} />
                 </Space>
             ),
-        },
+        }] : [])  
     ];
 
     return (

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Button } from 'antd';
-import { Skeleton } from 'antd';
+import { Button, Result,Modal } from 'antd';
 import { Form, Formik } from 'formik';
 import { $Input } from '../../components/CustomComponents/index.ts';
 import { EyeInvisibleOutlined, EyeTwoTone, LockOutlined } from '@ant-design/icons';
@@ -13,51 +12,56 @@ import { resetPasswordInitValues, IResetPassword, forgotRequestParams } from './
 type props = propsFromRedux;
 type passwordResetRequest = {
   email: string,
-  passwordResetToken : string,
+  passwordResetToken: string,
   newPassword: string
   confirmedNewPassword: string,
 }
 
 const ResetPassword: React.FC<props> = (props) => {
 
-  const { passwordReset, isLoading , data } = props;
+  const { passwordReset, isLoading, data } = props;
   const navigate = useNavigate();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
-  const [missingTokenOrEmail,setMissingTokenOrEmail] = useState<boolean>(false);
-  const [resetPasswordFail,setResetPasswordFail] = useState<boolean>(false);
+  const [missingTokenOrEmail, setMissingTokenOrEmail] = useState<boolean>(false);
+  const [resetPasswordFail, setResetPasswordFail] = useState<boolean>(false);
+  const isInitialRender = useRef(true);
 
   const email = queryParams.get(forgotRequestParams.EMAIL);
   const passwordResetToken = queryParams.get(forgotRequestParams.PASSWORD_RESET_TOKEN);
 
-  console.log("nebula", isLoading);
+  console.log("nebula", isLoading, email, passwordResetToken);
+
+  console.log("Juliya",resetPasswordFail);
+
+  console.log("mOOn", data);
 
   const submit = (value: IResetPassword, actions: any) => {
     console.log("log", value);
-    if(email !== null && passwordResetToken !== null){
-      const requestPayload : passwordResetRequest= {
-      ...value,
-      email,
-      passwordResetToken
-    }
-    passwordReset(requestPayload);
-    actions.resetForm();
-    }else{
+    if (email !== null && passwordResetToken !== null) {
+      const requestPayload: passwordResetRequest = {
+        ...value,
+        email,
+        passwordResetToken
+      }
+      passwordReset(requestPayload);
+      actions.resetForm();
+    } else {
       setMissingTokenOrEmail(true);
     }
-    
+
   }
-  
-  useEffect(()=>{
-    if(data?.isSuccessful){
-      navigate('/login')
+
+  useEffect(() => {
+    if (!isInitialRender && !data?.isSuccessful) {
+      setResetPasswordFail(true);
     }else{
-      setResetPasswordFail(true)
+      isInitialRender.current = false;
     }
-  },[data])
+  }, [data])
 
 
   return (
@@ -93,8 +97,8 @@ const ResetPassword: React.FC<props> = (props) => {
                     )
                   }
                 />
-                <br/>
-                <br/>
+                <br />
+                <br />
                 <$Input
                   label="Confirm new password"
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -118,8 +122,8 @@ const ResetPassword: React.FC<props> = (props) => {
                     *Password reset failed. Please check and try again.
                   </small>
                 ) : null}
-                <br/>
-                <br/>
+                <br />
+                <br />
                 <Button
                   type="primary"
                   htmlType="submit"
@@ -134,6 +138,22 @@ const ResetPassword: React.FC<props> = (props) => {
           </Formik>
         </div>
       </div>
+      <Modal
+        open={data?.isSuccessful}
+        footer={null}
+        closable={false} 
+      >
+        <Result
+          status="success"
+          title="Password has been successfully reset!"
+          extra={
+            <Button type="primary" key="console" onClick={()=>{navigate("/login")}}>
+              Go Login
+            </Button>
+          }
+        />
+      </Modal>
+
     </>
 
   )

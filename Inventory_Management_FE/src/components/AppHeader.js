@@ -27,7 +27,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 import { JWTDecoder } from './Home/Functions/Functions.tsx'
-import logo from "../assets/images/TN2.png"
+import logo from "../assets/images/mortar.png"
 import { $BellNotification } from './CustomComponents/index.ts'
 
 const AppHeader = () => {
@@ -45,7 +45,7 @@ const AppHeader = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname !== '/login/forgotpassword') {
+    if (location.pathname !== '/login/forgotpassword' || location.pathname !== '/login/resetpassword') {
       const encodedValue = localStorage.getItem('token');
       if (encodedValue !== null) {
         const decodedPayload = JWTDecoder(encodedValue);

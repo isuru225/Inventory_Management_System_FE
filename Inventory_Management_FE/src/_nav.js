@@ -3,21 +3,23 @@ import CIcon from '@coreui/icons-react'
 import {
   cilUserPlus,
   cilTrash,
-  cilUser,
-  cilList,
+  cilReload,
+  cibEventStore,
   cilPencil,
   cilClock,
-  cilSpeedometer,
+  cilHistory,
   cilCheckCircle,
+  cilHome
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
   {
     component: CNavItem,
-    name: 'Dashboard',
-    to: '/dashboard',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    name: 'Home',
+    to: '/home',
+    href : "#/home",
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
     badge: {
       color: 'info',
       text: 'NEW',
@@ -32,7 +34,7 @@ const _nav = [
     name: 'Raw Drugs',
     to: '/theme/typography',
     href : "#/rawdrugs",
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilReload} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
@@ -45,13 +47,13 @@ const _nav = [
     component: CNavItem,
     name: 'General Store',
     to: '/charts',
-    icon: <CIcon icon={cilClock} customClassName="nav-icon" />,
+    icon: <CIcon icon={cibEventStore} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'History',
     href : "#/history",
-    icon: <CIcon icon={cilList} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilHistory} customClassName="nav-icon" />,
   },
   // {
   //   component: CNavItem,

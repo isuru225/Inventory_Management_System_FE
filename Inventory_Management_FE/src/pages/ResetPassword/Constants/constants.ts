@@ -3,10 +3,23 @@ export const resetPasswordInitValues : IResetPassword = {
     confirmedNewPassword : ""
 }
 
+export const resetPasswordResult : IResetPasswordResult = {
+    message: "", 
+    isSuccessful: false
+
+}
+
+interface IResetPasswordResult  
+{
+    message: string, 
+    isSuccessful: boolean
+}
+
 export interface IResetPassword {
     newPassword : string,
     confirmedNewPassword : string
 }
+
 
 
 export enum forgotRequestParams {

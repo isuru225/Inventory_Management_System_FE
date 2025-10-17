@@ -1,116 +1,85 @@
-import React from 'react';
-import { CContainer, CRow, CCol, CButton } from "@coreui/react";
+import React from "react";
+import {
+  HomeOutlined,
+  LockOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  SafetyCertificateOutlined,
+  FileTextOutlined,
+  CustomerServiceOutlined,
+  FormOutlined,
+} from "@ant-design/icons";
+import { Layout, Row, Col, Typography, Button, Divider } from "antd";
+//import "./Footer.css";
 
-const AppFooter: React.FC = () => {
-    return (
+const { Footer } = Layout;
+const { Title, Text } = Typography;
 
-        <footer className="footer">
-            <CContainer>
-                <CRow>
-                    <CCol xs={8}>
-                        <CRow className="footer-links">
-                            <CCol>
-                                <div className="link-column">
-                                    <p>HOME</p>
-                                    <p>MOVIES</p>
-                                    <p>LOCATIONS</p>
-                                    <p>DEALS AND EXCLUSIVES</p>
-                                    <p>ADVERTISE</p>
-                                    <p>ABOUT US</p>
-                                </div>
-                            </CCol>
-                            <CCol>
-                                <div className="link-column">
-                                    <p>CAREERS</p>
-                                    <p>CONTACT US</p>
-                                    <p>EVENTS</p>
-                                    <p>DISCLAIMER</p>
-                                    <p>TERMS AND CONDITIONS</p>
-                                </div>
-                            </CCol>
-                            <CCol>
-                                <div className="footer-social">
-                                    <i className="fab fa-facebook-f"></i>
-                                    <i className="fab fa-instagram"></i>
-                                </div>
+const AppFooter = () => {
+  return (
+    <Footer className="app-footer">
+      <div className="footer-container">
+        <Row gutter={[48, 24]}>
+          {/* IMS NAVIGATION */}
+          <Col xs={24} sm={12} md={8} lg={8}>
+            <h3 className="footer-heading">IMS NAVIGATION</h3>
+            <ul className="footer-list">
+              <li>Dashboard Overview</li>
+              <li>Raw Drugs Inventory</li>
+              <li>Finished Goods Stock</li>
+              <li>General Store Items</li>
+              <li>Inventory Audit Log</li>
+              <li>System Admin</li>
+            </ul>
+          </Col>
 
-                            </CCol>
-                        </CRow>
-                        <CRow>
-                            <div className="footer-subscribe">
-                                <p>SUBSCRIBE FOR NEWSLETTER</p>
-                                <div className="subscribe-form">
-                                    <input type="email" placeholder="Enter Email" />
-                                    <button>SUBSCRIBE</button>
-                                </div>
-                            </div>
-                        </CRow>
-                        <CRow>
-                            <CCol>
-                                <div className="footer-bottom text-start">
-                                    <p>©2024 Cinema Cafe All Right Reserved. Developed by QuantumByte.</p>
-                                </div>
-                            </CCol>
-                        </CRow>
-                    </CCol>
-                    <CCol xs={4}>
-                        <div className="footer-apps">
-                            <p>FIND US ON APP STORE AND GOOGLE PLAY</p>
-                            <div className="app-buttons">
-                                
-                            </div>
-                        </div>
-                    </CCol>
-                </CRow>
-            </CContainer>
-        </footer>
+          {/* HOSPITAL & POLICY */}
+          <Col xs={24} sm={12} md={8} lg={8}>
+            <h3 className="footer-heading">HOSPITAL & POLICY</h3>
+            <ul className="footer-list">
+              <li><HomeOutlined /> About Ayurvedic Hospital</li>
+              <li><SafetyCertificateOutlined /> Privacy Policy</li>
+              <li><FileTextOutlined /> Terms of Service</li>
+              <li><CustomerServiceOutlined /> Contact Support Team</li>
+              <li><FormOutlined /> Feedback & Suggestions</li>
+            </ul>
+          </Col>
 
+          {/* SYSTEM SUPPORT */}
+          <Col xs={24} sm={12} md={8} lg={8}>
+            <h3 className="footer-heading">SYSTEM SUPPORT</h3>
+            <ul className="footer-list">
+              <li><PhoneOutlined /> +94 11 555 1234 (IT Desk)</li>
+              <li><MailOutlined /> support@ayurhospital.lk</li>
+            </ul>
 
-    );
-}
+            <h3 className="footer-heading" style={{ marginTop: "1.5rem" }}>
+              FOLLOW HOSPITAL
+            </h3>
+            <p className="footer-subtext">Stay connected for updates and news.</p>
+          </Col>
+        </Row>
+
+        <Divider className="footer-divider" />
+
+        {/* SYSTEM INFO */}
+        <div className="footer-info">
+          <h4 className="footer-info-heading">SYSTEM STATUS & INFO</h4>
+          <p className="footer-info-text">
+            IMS Version: <strong>3.0.0</strong>
+          </p>
+          <p className="footer-info-text">Last system update: October 2024</p>
+          <p className="footer-warning">
+            This system is for authorized hospital personnel only. Unauthorized
+            access is strictly prohibited.
+          </p>
+          <Button type="default" className="footer-btn">
+            View System Documentation
+          </Button>
+        </div>
+      </div>
+    </Footer>
+  );
+};
 
 export default AppFooter;
-
-
-{/* <div className="footer-links">
-                    <div className="link-column">
-                        <p>HOME</p>
-                        <p>MOVIES</p>
-                        <p>LOCATIONS</p>
-                        <p>DEALS AND EXCLUSIVES</p>
-                        <p>ADVERTISE</p>
-                        <p>ABOUT US</p>
-                    </div>
-                    <div className="link-column">
-                        <p>CAREERS</p>
-                        <p>CONTACT US</p>
-                        <p>EVENTS</p>
-                        <p>DISCLAIMER</p>
-                        <p>TERMS AND CONDITIONS</p>
-                    </div>
-                </div>
-
-                <div className="footer-subscribe">
-                    <p>SUBSCRIBE FOR NEWSLETTER</p>
-                    <div className="subscribe-form">
-                        <input type="email" placeholder="Enter Email" />
-                        <button>SUBSCRIBE</button>
-                    </div>
-                </div>
-
-                <div className="footer-social">
-                    <i className="fab fa-facebook-f"></i>
-                    <i className="fab fa-instagram"></i>
-                </div>
-
-                <div className="footer-apps">
-                    <p>FIND US ON APP STORE AND GOOGLE PLAY</p>
-                    <div className="app-buttons">
-                        <img src="appstore.png" alt="App Store" />
-                        <img src="googleplay.png" alt="Google Play" />
-                    </div>
-                </div>
-
-                <div className="footer-bottom">
-                    <p>©2024 Cinema Cafe All Right Reserved. Developed by QuantumByte.</p>
-                </div> */}

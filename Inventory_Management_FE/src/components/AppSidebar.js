@@ -10,12 +10,11 @@ import {
   CSidebarNav,
   CSidebarToggler,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 
 import { AppSidebarNav } from './AppSidebarNav'
 
-import { logo } from 'src/assets/brand/logo'
-import { sygnet } from 'src/assets/brand/sygnet'
+import logo from '../assets/images/Ayur.png'
+import logo2 from '../assets/images/AyurVault.png'
 
 import SimpleBar from 'simplebar-react'
 import 'simplebar-react/dist/simplebar.min.css'
@@ -36,9 +35,10 @@ const AppSidebar = () => {
       visible={true}
     >
       <CSidebarHeader className="border-bottom">
-        <CSidebarBrand to="/">
-          <CIcon customClassName="sidebar-brand-full" icon={logo} height={32} />
-          <CIcon customClassName="sidebar-brand-narrow" icon={sygnet} height={32} />
+        <CSidebarBrand to="/" className="d-flex align-items-center justify-content-center">
+          <div className="brand-logos d-flex align-items-center">
+            <img src={logo} alt="Logo 1" className="sidebar-logo" />
+          </div>
         </CSidebarBrand>
         <CCloseButton
           className="d-lg-none"
