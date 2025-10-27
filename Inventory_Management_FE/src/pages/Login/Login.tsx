@@ -29,20 +29,20 @@ const Login: React.FC<props> = (props) => {
     const { accessToken, refreshToken, expiresOn } = token ?? {};
     const navigate = useNavigate();
 
-    console.log("nebula", isLoading);
+    
 
-    console.log("citadle",errorCode);
+    
 
     const submit = (value: ILogin, actions: any) => {
-        console.log("log", value);
+        
         logUserCredentials(value);
         actions.resetForm();
     }
-    console.log("DMC", errorCode);
-    console.log("waves", token);
-    console.log("spartan", isLoginSuccessfull);
+    
+    
+    
     useEffect(() => {
-        console.log("spartan22", isLoginSuccessfull);
+        
         if (isLoginSuccessfull == true) {
             //when the user is registered , user will be navigated to the Home page
 

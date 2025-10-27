@@ -4,7 +4,7 @@ import { HomeInitState } from "./States/InitState.ts";
 
 
 export const HomeReducer = (state = HomeInitState, action: any) => {
-    console.log("pannda", action);
+    
     switch (action.type) {
         case Home.GET_ALL_PROJECTS:
             return {

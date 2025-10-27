@@ -18,7 +18,7 @@ export const LoginSagas = {
         }
 
       } catch (error) {
-        console.log("thunder",error);
+        
         yield put(
           LoginActions.userCredentials.fail(error.response.data?.errorCode)
         );

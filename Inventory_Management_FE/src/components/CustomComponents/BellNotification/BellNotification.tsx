@@ -39,13 +39,11 @@ const BellNotification: React.FC<props> = (props) => {
   };
 
   useEffect(() => {
-    console.log("fast", data);
     //setNotifications(notificationMessageHandler(data))
     setNotifications(data);
   }, [data])
 
   useEffect(()=>{
-    console.log("Lion",markMessages)
     if(markMessages?.data){
       setNotifications(markMessages?.data)
     }

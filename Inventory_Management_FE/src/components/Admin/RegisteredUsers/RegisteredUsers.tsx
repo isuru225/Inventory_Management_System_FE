@@ -3,6 +3,7 @@ import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined, UserOutline
 import type { InputRef, TableColumnsType, TableColumnType } from 'antd';
 import { Button, Input, Modal, Space, Table, Skeleton, Radio, Col, notification } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
+// @ts-ignore
 import Highlighter from 'react-highlight-words';
 import { connect, ConnectedProps } from 'react-redux';
 import { Formik, Form } from "formik"
@@ -14,11 +15,7 @@ import { registeredUserInfoHandler } from './Functions/Functions.tsx';
 import { IRegisteredUserData } from './Interfaces/Interfaces.ts';
 import { successNotification, failedNotification } from './Constants/Constants.ts';
 
-
 type props = propsFromRedux;
-
-
-
 type DataIndex = keyof IRegisteredUserData;
 
 const RegisteredUsers : React.FC<props> = (props) => {
@@ -45,7 +42,6 @@ const RegisteredUsers : React.FC<props> = (props) => {
 
     //delete a selected history record
     const handleDeleteHistoryRecord = (record: any) => {
-        console.log("alex", record);
         const { id } = record ?? {};
         setSelectedUserId(id);
         setIsConfirmationModalOpen(true);
@@ -72,8 +68,6 @@ const RegisteredUsers : React.FC<props> = (props) => {
                 isMounted.current = true;
                 return;
             }
-    
-            console.log("kkkkkkkkkkkkkkkk", data);
             if (deleteOperation?.data.success) {
                 api.open({
                     message: successNotification.MESSAGE,
@@ -109,8 +103,6 @@ const RegisteredUsers : React.FC<props> = (props) => {
         clearFilters();
         setSearchText('');
     };
-
-    console.log("Drill",data)
 
     const getColumnSearchProps = (dataIndex: DataIndex): TableColumnType<IRegisteredUserData> => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (

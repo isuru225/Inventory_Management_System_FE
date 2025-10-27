@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const baseUrl = process.env.BACKEND_APP_BASE_URL;
+
 const axiosInstance = {
-    baseURL: "http://localhost:5062/",
+    baseURL: baseUrl,
     headers: {
         'Accept': "application/json",
         'Content-Type': "application/json",
@@ -13,7 +15,7 @@ const axiosInstance = {
 
 const getToken = () => `Bearer ${localStorage.getItem('token')}`
 
- const cinemaCafeHttp = {
+ const AyurVaultHttp = {
     get : async (uniqueURL: string) => {
         return await axios.get(`${axiosInstance.baseURL}${uniqueURL}`,
             {
@@ -82,4 +84,4 @@ const getToken = () => `Bearer ${localStorage.getItem('token')}`
     }
 }
 
-export default cinemaCafeHttp;
+export default AyurVaultHttp;

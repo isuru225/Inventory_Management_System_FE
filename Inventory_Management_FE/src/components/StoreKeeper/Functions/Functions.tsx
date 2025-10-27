@@ -6,12 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { AdjustmentTypes, EditUserInfos } from "../Constants/Constants.ts"
 
 export const TableDataHandler = (data : Array<IRawDrug>) => {
-    console.log("Shark",data);
+    
     const formattedData = data?.map((rawDrug : IRawDrug , index : number)=>{
         const dateOnly = moment(rawDrug.expirationDate).format("YYYY-MM-DD");
         return {...rawDrug, amountWithUnit : `${rawDrug.amount} ${rawDrug.measurementUnit}`,key : index.toString(), expirationDate : dateOnly}
     });
-    console.log("TigerShark",formattedData);
+    
     return formattedData;
 }
 

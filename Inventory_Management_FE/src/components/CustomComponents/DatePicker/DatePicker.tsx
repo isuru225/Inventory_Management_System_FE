@@ -13,7 +13,6 @@ type props = {
 
 const CustomDatePicker = ({ label, onChange, onOk, ...rest }: props) => {
     const [field, meta, helpers] = useField(rest);
-    console.log("DK33",field)
     return (
         <>
             <label>{label}</label>
@@ -27,14 +26,5 @@ const CustomDatePicker = ({ label, onChange, onOk, ...rest }: props) => {
     )
 }
 
-
-// <DatePicker
-//       showTime
-//       onChange={(value, dateString) => {
-//         console.log('Selected Time: ', value);
-//         console.log('Formatted Selected Time: ', dateString);
-//       }}
-//       onOk={onOk}
-//     />
 
 export default CustomDatePicker;

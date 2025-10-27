@@ -3,7 +3,7 @@ import { AdjustmentTypes, AdjustmentTypesString } from "../Constants/Constants.t
 import { IHistoryRecord } from "../Interfaces/Interfaces.ts"
 
 export const historyRecoredFormatter = (data : Array<IHistoryRecord>) : any => {
-    console.log("Jinx",data);
+    
     const updatedData = data?.map((record : IHistoryRecord)=>{
         const updatedRecord = 
         {

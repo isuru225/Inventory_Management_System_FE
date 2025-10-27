@@ -1,1 +1,1 @@
-export { default as cinemaCafeHttpColection } from './http.ts'
+export { default as AyurVaultHttpColection } from './http.ts'

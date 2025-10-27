@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 import type { InputRef, TableColumnsType, TableColumnType, message, Popconfirm } from 'antd';
-import { Button, Input, Modal, Space, Table, Skeleton } from 'antd';
+import { Button, Input, Modal, Space, Table, Skeleton, Result } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
+// @ts-ignore
 import Highlighter from 'react-highlight-words';
 import { connect, ConnectedProps } from 'react-redux';
 import { FinishedDrugsActions } from '../../actions/FinishedDrugs/index.ts';
@@ -24,8 +25,8 @@ interface DataType {
     itemName: string;
     expirationDate: string;
     category: string;
-    amount: number,
-    reorderPoint: number,
+    amount: number | string,
+    reorderPoint: number | string,
     id: string,
     measurementUnit: string
 }
@@ -41,6 +42,7 @@ const FinishedDrugs: React.FC<props> = (props) => {
     const [editModalInitInfo, setEditModalInitInfo] = useState<IFinishedDrugInfoForEditModal>(finishedDrugsItemInitInfoForEditModal);
     const [selectedFinishedDrugItemId, setSelectedFinishedDrugItemId] = useState<string>(General.EMPTY_VALUE);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
+    const [isDuplicateWarningModelOpen, setIsDuplicateWarningModelOpen] = useState<boolean>(false);
 
     const { getAllFinishedDrugItems, addNewFinishedDrug, data, isLoading, AddFinishedDrug, editFinishedDrug, EditFinishedDrug, deleteFinishedDrug, DeleteFinishedDrug } = props ?? {};
 
@@ -62,6 +64,14 @@ const FinishedDrugs: React.FC<props> = (props) => {
         }
     }, [AddFinishedDrug?.isLoading, EditFinishedDrug?.isLoading, DeleteFinishedDrug?.isLoading])
 
+    useEffect(() => {
+        if (AddFinishedDrug?.errorCode === 103) {
+            setIsDuplicateWarningModelOpen(true);
+        } else {
+            setIsDuplicateWarningModelOpen(false);
+        }
+    }, [AddFinishedDrug?.errorCode])
+
 
     const handleSearch = (
         selectedKeys: string[],
@@ -79,8 +89,6 @@ const FinishedDrugs: React.FC<props> = (props) => {
     };
 
     const submit = (values: any, actions: any) => {
-        console.log("froggggg");
-        console.log("Tiger", values);
         if (values) {
             addNewFinishedDrug(values);
         }
@@ -91,7 +99,6 @@ const FinishedDrugs: React.FC<props> = (props) => {
     }
 
     const submitEditInfo = (values: any, actions: AnyObject) => {
-        console.log("FAV", values);
         const { itemNameEdit, categoryEdit, amountEdit, expirationDateEdit, measurementUnitEdit, reorderPointEdit } = values ?? {};
         const editData = {
             ItemName: itemNameEdit,
@@ -118,7 +125,6 @@ const FinishedDrugs: React.FC<props> = (props) => {
     }
 
     const editDataRow = (rawData: any) => {
-        console.log("Lions", rawData);
         const { id, itemName, expirationDate, category, measurementUnit, amount, reorderPoint } = rawData ?? {};
         setSelectedFinishedDrugItemId(id);
         setEditModalInitInfo({
@@ -281,10 +287,10 @@ const FinishedDrugs: React.FC<props> = (props) => {
                 {getAttributesFromToken(['role']).role === "Admin" &&
                     <>
                         <div>
-                            <Button color='3D99F5' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
+                            <Button color='green' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
                                 <PlusOutlined /> ADD
                             </Button>
-                            <Button color='3D99F5' onClick={() => { navigate('/finisheddrugs/storekeeper', { state: { from: Component.COMPONENT_NAME } }) }} className="store-keeper-btn">
+                            <Button color='green' onClick={() => { navigate('/finisheddrugs/storekeeper', { state: { from: Component.COMPONENT_NAME } }) }} className="store-keeper-btn">
                                 <UserOutlined /> Store Keeper
                             </Button>
                         </div>
@@ -297,7 +303,7 @@ const FinishedDrugs: React.FC<props> = (props) => {
                 </Skeleton>
                 <>
                     <Modal
-                        title="ADD NEW RAW DRUG ITEM"
+                        title="ADD NEW Finished DRUG ITEM"
                         open={isModalOpen}
                         onCancel={() => { setIsModalOpen(false) }}
                         footer={null}
@@ -354,17 +360,19 @@ const FinishedDrugs: React.FC<props> = (props) => {
                                     <br />
                                     <br />
                                     <$Input
-                                        label="Amount : "
+                                        label={`Amount : ( ${values?.measurementUnit} )`}
                                         type="number"
                                         name="amount"
                                         placeholder="Enter Amount of the item..."
+                                        isOnlyPositiveValues={true}
                                     />
                                     <br />
                                     <$Input
-                                        label="Reorder Point : "
+                                        label={`Reorder Point : ( ${values?.measurementUnit} )`}
                                         type="number"
                                         name="reorderPoint"
                                         placeholder="Enter Reorder Point of the item..."
+                                        isOnlyPositiveValues={true}
                                     />
                                     <hr />
                                     <Button type="primary" htmlType="submit"  >Submit</Button>
@@ -464,6 +472,27 @@ const FinishedDrugs: React.FC<props> = (props) => {
                         <hr />
                     </Modal>
                 </>
+
+                <Modal
+                    open={isDuplicateWarningModelOpen}
+                    footer={null}
+                    closable={false}
+                >
+                    <Result
+                        status="warning"
+                        title={
+                            <>
+                                Finished drug name already exists.<br />
+                                Please use a unique name.
+                            </>
+                        }
+                        extra={
+                            <Button type="primary" key="console" onClick={() => { setIsDuplicateWarningModelOpen(false) }}>
+                                Ok
+                            </Button>
+                        }
+                    />
+                </Modal>
 
             </div >
         </>

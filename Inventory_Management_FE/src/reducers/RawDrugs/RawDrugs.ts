@@ -4,7 +4,7 @@ import { RawDrugsInitState } from "./States/InitState.ts";
 
 
 export const RawDrugsReducer = (state = RawDrugsInitState, action: any) => {
-    console.log("pannda", action);
+    
     switch (action.type) {
         case RawDrugs.GET_RAW_DRUG_ITEM:
             return {
@@ -34,6 +34,7 @@ export const RawDrugsReducer = (state = RawDrugsInitState, action: any) => {
             return {
                 ...state,
                 AddRawDrug: {
+                    errorCode : 0,
                     data: action.payload.data,
                     isLoading: action.payload.isLoading
                 }
@@ -43,6 +44,7 @@ export const RawDrugsReducer = (state = RawDrugsInitState, action: any) => {
                 ...state,
                 AddRawDrug: {
                     ...state.AddRawDrug,
+                    errorCode : action.payload.error,
                     isLoading: action.payload.isLoading
                 }
             }

@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { CBadge } from '@coreui/react'
-import { IsTokenExpiredOrMissingChecker, getAttributesFromToken } from '../GlobalFunctions/Functions.tsx'
+import { getAttributesFromToken } from '../GlobalFunctions/Functions.tsx'
 
 export const AppSidebarNav = ({ items }) => {
   const location = useLocation();
@@ -66,7 +66,6 @@ export const AppSidebarNav = ({ items }) => {
   const dashboardNavItemHandler = () => {
     const { role } = getAttributesFromToken(['role'])
     const navItemArray = items?.map((item, index) => {
-      console.log("MG", item?.name);
       if (role !== "User" || item?.name !== "Admin") {
         if (item?.items) {
           return navGroup(item, index);
@@ -78,9 +77,6 @@ export const AppSidebarNav = ({ items }) => {
 
     return navItemArray;
   }
-
-  
-
 
   return (
     <React.Fragment>

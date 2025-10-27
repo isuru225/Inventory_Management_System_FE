@@ -38,7 +38,7 @@ export const techStackHandler = (techStack : Array<string>) : Array<object> => {
         }
     })
 
-    console.log("F1",items);
+    
     return items;
 }
 

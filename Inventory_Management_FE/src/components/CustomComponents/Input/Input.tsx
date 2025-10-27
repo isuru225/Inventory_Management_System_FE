@@ -9,8 +9,8 @@ type props = {
     placeholder: string,
     disabled?: boolean,
     isOnlyPositiveValues?: boolean,
-    prefix : any,
-    suffix : any
+    prefix? : any,
+    suffix? : any
 }
 
 const CustomInput = ({ label, ...rest }: props) => {

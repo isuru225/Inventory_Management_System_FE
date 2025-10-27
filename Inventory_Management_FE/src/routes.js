@@ -49,12 +49,8 @@ import React from 'react'
 // const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 // const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
-
-const Home = React.lazy(()=> import('./views/home/Home'))
 const Login = React.lazy(()=> import('./pages/Login/Login.tsx'))
-const Home2 = React.lazy(()=> import('./components/Home/Home.tsx'))
-const Dashboard = React.lazy(()=> import('./components/Dashboard/Dashboard.tsx'));
-const Tasks = React.lazy(()=> import('./components/Tasks/Tasks.tsx'))
+const Home = React.lazy(()=> import('./components/Home/Home.tsx'))
 const RawDrugs = React.lazy(()=> import('./components/RawDrugs/RawDrugs.tsx'))
 const StoreKeeper = React.lazy(()=> import('./components/StoreKeeper/StoreKeeper.tsx'))
 const History = React.lazy(()=> import('./components/History/History.tsx'))
@@ -65,11 +61,8 @@ const ForgotPassword = React.lazy(()=> import('./pages/ForgotPassword/ForgotPass
 
 
 const routes = [
-   { path: '/', exact: true, name: 'Home',element: Home},
    { path: '/login', name: 'Login',element: Login},
-   { path: '/home', name: 'Home2', element: Home2},
-   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-   { path: '/project/tasks', name: 'Tasks', element: Tasks },
+   { path: '/home', name: 'Home2', element: Home},
    { path: '/rawdrugs', name: 'RawDrugs', element : RawDrugs},
    { path: ':variable/storekeeper', name: 'StoreKeeper', element : StoreKeeper},
    { path: '/history', name: 'History', element : History},

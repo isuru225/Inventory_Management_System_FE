@@ -33,14 +33,14 @@ const ResetPassword: React.FC<props> = (props) => {
   const email = queryParams.get(forgotRequestParams.EMAIL);
   const passwordResetToken = queryParams.get(forgotRequestParams.PASSWORD_RESET_TOKEN);
 
-  console.log("nebula", isLoading, email, passwordResetToken);
+  
 
-  console.log("Juliya",resetPasswordFail);
+  
 
-  console.log("mOOn", data);
+  
 
   const submit = (value: IResetPassword, actions: any) => {
-    console.log("log", value);
+    
     if (email !== null && passwordResetToken !== null) {
       const requestPayload: passwordResetRequest = {
         ...value,

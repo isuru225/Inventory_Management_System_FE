@@ -100,7 +100,7 @@ export const SeatPlanSagas = {
                 const { data, status } = yield call(
                     SeatPlanService.addTokenClaims, action.payload.data
                 );
-                console.log("Mora", data)
+                
                 if (status == 200) {
                     localStorage.setItem('token', data?.data);
                     yield put(

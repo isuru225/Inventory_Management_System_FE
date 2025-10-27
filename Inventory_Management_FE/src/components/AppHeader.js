@@ -9,7 +9,6 @@ import {
   CDropdownToggle,
   CHeader,
   CHeaderNav,
-  CBadge,
   CNavLink,
   CNavItem,
   useColorModes,
@@ -17,14 +16,9 @@ import {
 import CIcon from '@coreui/icons-react'
 import {
   cilContrast,
-  cilMenu,
   cilMoon,
   cilSun,
-  cilBell
 } from '@coreui/icons'
-import { connect, ConnectedProps } from 'react-redux';
-
-import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 import { JWTDecoder } from './Home/Functions/Functions.tsx'
 import logo from "../assets/images/mortar.png"
@@ -39,9 +33,6 @@ const AppHeader = () => {
   const sidebarShow = useSelector((state) => state.sidebarShow);
   const navigate = useNavigate();
 
-  //const loginStatus = useSelector((state) => state.LoginReducer.tokenInfo);
-  //console.log("hons",loginStatus);
-  //const registerStatus = useSelector((state) => state.RegisterReducer.isRegistered);
   const location = useLocation();
 
   useEffect(() => {
@@ -86,11 +77,6 @@ const AppHeader = () => {
   return (
     <CHeader position="sticky" className="mb-4 p-1" ref={headerRef}>
       <CContainer className="border-bottom px-4" fluid>
-        {/* <CHeaderToggler
-          onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
-          style={{ marginInlineStart: '-14px' }}
-        > */}
-        {/* <CIcon icon={cilMenu} size="lg" /> */}
         <CHeaderNav className="d-none d-md-flex">
           <CNavItem >
             <CNavLink href="/" to="/dashboard" component={NavLink}>
@@ -105,19 +91,6 @@ const AppHeader = () => {
               Home
             </CNavLink>
           </CNavItem>
-          {/* <CNavItem>
-            <CNavLink href="#/movie-browser" component={NavLink}>Movies</CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#/locations" component={NavLink}>
-              Locations
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#/admin" component={NavLink}>
-              Admin
-            </CNavLink>
-          </CNavItem> */}
         </CHeaderNav>
         <CHeaderNav className="ms-auto">
           {userName && <CNavItem>
@@ -132,9 +105,6 @@ const AppHeader = () => {
         <$BellNotification />
         <CHeaderNav className="d-none d-md-flex">
           <CNavItem>
-            {/* <CNavLink href="#/home" component={NavLink}> */}
-
-            {/* </CNavLink> */}
           </CNavItem>
         </CHeaderNav>
         <CHeaderNav>
@@ -181,9 +151,6 @@ const AppHeader = () => {
               </CDropdownItem>
             </CDropdownMenu>
           </CDropdown>
-          {/* <li className="nav-item py-1">
-            <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
-          </li> */}
         </CHeaderNav>
         <CHeaderNav className="d-none d-md-flex align-items-center">
           {userName && (
@@ -193,9 +160,6 @@ const AppHeader = () => {
           )}
         </CHeaderNav>
       </CContainer>
-      {/* <CContainer className="px-4 appBreadcrumb-container" fluid>
-        <AppBreadcrumb />
-      </CContainer> */}
     </CHeader>
   )
 }

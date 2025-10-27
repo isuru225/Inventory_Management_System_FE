@@ -6,13 +6,13 @@ import { RawDrugsService } from "../../services/RawDrugs/index.ts";
 export const RawDrugsSagas = {
   rawDrugItems: {
     get: function* (action: any) {
-      console.log("raven");
+      
       try {
         const { data, status } = yield call(
           RawDrugsService.getAllRawDrugs, action.payload.data
         );
         if (status == 200) {
-          console.log("light234", data);
+          
           yield put(
             RawDrugsActions.allRawDrugItems.success(data)
           )
@@ -25,19 +25,20 @@ export const RawDrugsSagas = {
       }
     },
     add: function* (action: any) {
-      console.log("raven");
+      
       try {
         const { data, status } = yield call(
           RawDrugsService.addNewDrug, action.payload.data
         );
         if (status == 200) {
-          console.log("light234", data);
+          
           yield put(
             RawDrugsActions.addNewDrugItem.success(data)
           )
         }
 
       } catch (error) {
+        
         yield put(
           RawDrugsActions.addNewDrugItem.fail(error.response.data?.errorCode)
         );
@@ -50,7 +51,7 @@ export const RawDrugsSagas = {
           RawDrugsService.editRawDrug, action.payload.data
         );
         if (status == 200) {
-          console.log("light234", data);
+          
           yield put(
             RawDrugsActions.editRawDrugItem.success(data)
           )
@@ -69,7 +70,7 @@ export const RawDrugsSagas = {
           RawDrugsService.addTransactionRecord, action.payload.data
         );
         if (status == 200) {
-          console.log("light234", data);
+          
           yield put(
             RawDrugsActions.updateTransationHistory.success(data)
           )
@@ -88,7 +89,7 @@ export const RawDrugsSagas = {
           RawDrugsService.deleteRawDrug, action.payload.data
         );
         if (status == 200) {
-          console.log("light234", data);
+          
           yield put(
             RawDrugsActions.deleteRawDrug.success(data)
           )

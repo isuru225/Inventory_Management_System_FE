@@ -6,13 +6,13 @@ import { GeneralStoreService } from "../../services/GeneralStore/index.ts";
 export const GeneralStoreSagas = {
     generalStoreItems: {
         get: function* (action: any) {
-            console.log("raven");
+            
             try {
                 const { data, status } = yield call(
                     GeneralStoreService.getAllGeneralStoreItems, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         GeneralStoreActions.allGeneralStoreItems.success(data)
                     )
@@ -25,13 +25,13 @@ export const GeneralStoreSagas = {
             }
         },
         add: function* (action: any) {
-            console.log("raven");
+            
             try {
                 const { data, status } = yield call(
                     GeneralStoreService.addNewGeneralStoreItem, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         GeneralStoreActions.addGeneralStoreItem.success(data)
                     )
@@ -50,7 +50,7 @@ export const GeneralStoreSagas = {
                     GeneralStoreService.editGeneralStoreItem, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         GeneralStoreActions.editGeneralStoreItem.success(data)
                     )
@@ -69,7 +69,7 @@ export const GeneralStoreSagas = {
                     GeneralStoreService.addTransactionRecord, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         GeneralStoreActions.updateTransationHistory.success(data)
                     )
@@ -88,7 +88,7 @@ export const GeneralStoreSagas = {
                     GeneralStoreService.deleteGeneralStoreItem, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         GeneralStoreActions.deleteGeneralStoreItem.success(data)
                     )

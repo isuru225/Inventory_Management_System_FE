@@ -12,14 +12,14 @@ export const ForgotPasswordSagas = {
           ForgotPasswordService.forgotPassword , action.payload.data
         );
         if (status == 200) {
-          console.log("Jaguar",data);
+          
           yield put(
             forgotPasswordActions.password.success(data)
           )
         }
 
       } catch (error) {
-        console.log("Jaguar22",error);
+        
         yield put(
             forgotPasswordActions.password.fail(error.response.data)
         );

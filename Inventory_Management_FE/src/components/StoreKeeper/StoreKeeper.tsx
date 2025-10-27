@@ -1,14 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
+import { SearchOutlined, EditOutlined, LeftCircleOutlined } from '@ant-design/icons';
 import type { InputRef, TableColumnsType, TableColumnType } from 'antd';
-import { Button, Input, Modal, Space, Table, Skeleton, Radio, Col, Row } from 'antd';
+import { Button, Input, Modal, Space, Table, Skeleton, Col, Row } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
+// @ts-ignore
 import Highlighter from 'react-highlight-words';
 import { connect, ConnectedProps } from 'react-redux';
 import { RawDrugsActions } from '../../actions/RawDrugs/index.ts';
 import { Formik, Form } from "formik"
 import { $Input, $TextArea, $Radio } from "../CustomComponents/index.ts";
-import { General, InventoryFormInitInfo, AdjustmentType, SelectedItemInfo, Component, Headings } from './Constants/Constants.ts';
+import { InventoryFormInitInfo, AdjustmentType, SelectedItemInfo, Component, Headings } from './Constants/Constants.ts';
 import { StoreKeeperValidationSchema } from './Validation/StoreKeeperValidationSchema.ts';
 import { BalanceAmountCalculator, TableDataHandler } from './Functions/Functions.tsx';
 import { IInventoryFormInitInfo, ISelectedItemInfo } from './Interfaces/Interfaces.ts';
@@ -65,7 +66,7 @@ const StoreKeeper: React.FC<props> = (props) => {
         if (IsTokenExpiredOrMissingChecker()) {
             navigate('/login');
         } else {
-            console.log("IGN", location.state?.from);
+            
             if (location.state?.from == Component.COMPONENT_NAME_RAW_DRUG) {
                 getAllRawDrugItems({});
             } else if (location.state?.from == Component.COMPONENT_NAME_FINISHED_DRUG) {
@@ -78,7 +79,7 @@ const StoreKeeper: React.FC<props> = (props) => {
 
     //set the updated value
     useEffect(() => {
-        console.log("Giant", updateResponse);
+        
         if (updateResponse?.isSuccessful) {
             if (location.state?.from == Component.COMPONENT_NAME_RAW_DRUG) {
                 getAllRawDrugItems({});
@@ -110,8 +111,8 @@ const StoreKeeper: React.FC<props> = (props) => {
     };
 
     const submitInventoryUpdate = (values: any, actions: any) => {
-        console.log("froggggg");
-        console.log("Tiger", values);
+        
+        
         const { amount, amountAdjusted, adjustmentType, reason, itemName } = values ?? {};
         const result = BalanceAmountCalculator(amount, amountAdjusted, adjustmentType);
         const author = JWTDecoder(localStorage.getItem('token')).fullName;
@@ -148,7 +149,7 @@ const StoreKeeper: React.FC<props> = (props) => {
     }
 
     const editDataRow = (rawData: DataType) => {
-        console.log("Lions", rawData);
+        
         const { id, itemName, amount, amountWithUnit, measurementUnit } = rawData ?? {};
         setSelectedItemId({
             id,
@@ -280,11 +281,26 @@ const StoreKeeper: React.FC<props> = (props) => {
 
     const headingHandler = () => {
         if (location.state?.from == Component.COMPONENT_NAME_RAW_DRUG) {
-            return Headings.RAW_DRUG;
+            return (
+                <h2>
+                    <LeftCircleOutlined className="left-circle-icon" onClick={() => { navigate("/rawdrugs") }} />
+                    {" " + Headings.RAW_DRUG}
+                </h2>
+            );
         } else if (location.state?.from == Component.COMPONENT_NAME_FINISHED_DRUG) {
-            return Headings.FINISHED_DRUG;
+            return (
+                <h2>
+                    <LeftCircleOutlined className="left-circle-icon" onClick={() => { navigate("/finisheddrugs") }} />
+                    {" " + Headings.FINISHED_DRUG}
+                </h2>
+            );
         } else if (location.state?.from == Component.COMPONENT_NAME_GENERAL_STORE) {
-            return Headings.GENERAL_STORE
+            return (
+                <h2>
+                    <LeftCircleOutlined className="left-circle-icon" onClick={() => { navigate("/generalstore") }} />
+                    {" " + Headings.GENERAL_STORE}
+                </h2>
+            );
         }
     }
 
@@ -292,9 +308,7 @@ const StoreKeeper: React.FC<props> = (props) => {
         <>
             <div>
                 <div>
-                    <h2>
-                        {headingHandler()}
-                    </h2>
+                    {headingHandler()}
                 </div>
                 <hr />
                 <Row>
@@ -345,7 +359,7 @@ const StoreKeeper: React.FC<props> = (props) => {
                                             <br />
                                             <br />
                                             <$Input
-                                                label="Adjustment Amount : "
+                                                label={`Adjustment Amount : ( ${selectedItemId?.measurementUnit} )`}
                                                 type="number"
                                                 name="amountAdjusted"
                                                 isOnlyPositiveValues={true}
@@ -380,11 +394,10 @@ const StoreKeeper: React.FC<props> = (props) => {
 }
 
 const mapStateToProps = (state: any) => {
-    const { StoreKeeperReducer, RawDrugsReducer, FinishedDrugsReducer, NotificationReducer } = state;
+    const { StoreKeeperReducer, RawDrugsReducer, FinishedDrugsReducer } = state;
     const { data, isLoading: rawDrugRetrievingLoader } = RawDrugsReducer;
     const { data: finishedDrugsData, isLoading: finishedDrugRetrievingLoader } = FinishedDrugsReducer;
     const { data: updateResponse, isLoading: updatingLoader } = StoreKeeperReducer;
-    const { data : notificationData, isLoading : notificationLoader, markMessages } = NotificationReducer;
     return {
         updateResponse,
         rawDrugRetrievingLoader,

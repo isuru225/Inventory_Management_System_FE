@@ -1,14 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { SearchOutlined, DeleteOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
+import { SearchOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { InputRef, TableColumnsType, TableColumnType } from 'antd';
 import { Button, Input, Modal, Space, Table, Skeleton, Tooltip } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
+// @ts-ignore
 import Highlighter from 'react-highlight-words';
 import { connect, ConnectedProps } from 'react-redux';
-import { RawDrugsActions } from '../../actions/RawDrugs/index.ts';
-import { Formik, Form } from "formik"
-import { $Input, $TextArea, $Radio } from "../CustomComponents/index.ts";
-import { getAttributesFromToken, IsTokenExpiredOrMissingChecker, JWTDecoder } from "../../GlobalFunctions/Functions.tsx"
+import { getAttributesFromToken, IsTokenExpiredOrMissingChecker } from "../../GlobalFunctions/Functions.tsx"
 import { useNavigate } from 'react-router-dom';
 import { HistoryActions } from '../../actions/History/History.ts';
 import { historyRecoredFormatter } from './Functions/Functions.tsx';
@@ -44,7 +42,7 @@ const History: React.FC<props> = (props) => {
 
     const navigate = useNavigate();
 
-    console.log("DECKO", deleteHistoryRecordStatus);
+    
 
     //get all available raw drug items
     useEffect(() => {
@@ -57,7 +55,7 @@ const History: React.FC<props> = (props) => {
 
     //delete a selected history record
     const handleDeleteHistoryRecord = (record: any) => {
-        console.log("alex", record);
+        
         const { id } = record ?? {};
         setSelectedRawDrugItemId(id);
         setIsConfirmationModalOpen(true);

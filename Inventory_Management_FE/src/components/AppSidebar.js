@@ -14,7 +14,6 @@ import {
 import { AppSidebarNav } from './AppSidebarNav'
 
 import logo from '../assets/images/Ayur.png'
-import logo2 from '../assets/images/AyurVault.png'
 
 import SimpleBar from 'simplebar-react'
 import 'simplebar-react/dist/simplebar.min.css'

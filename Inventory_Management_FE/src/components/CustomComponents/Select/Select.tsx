@@ -11,7 +11,6 @@ type props = {
 
 const CustomSelect = ({ label, ...rest }: props) => {
     const [field, meta, helpers] = useField(rest);
-    console.log("DK",field)
     return (
         <>
             <label>{label}</label>

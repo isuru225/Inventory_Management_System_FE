@@ -1,4 +1,4 @@
-import { cinemaCafeHttpColection } from "../../APIService/index.ts";
+import { AyurVaultHttpColection } from "../../APIService/index.ts";
 
 export default {
     updateRawDrugInventory : (params: any): Promise<any> => {
@@ -6,7 +6,7 @@ export default {
         return new Promise<any>(async (resolve, reject) => {
             try {
                 const { id, ...rest } = params ?? {};
-                const { data, status } =  await cinemaCafeHttpColection.put('updaterawdruginventory',id,rest);
+                const { data, status } =  await AyurVaultHttpColection.put('updaterawdruginventory',id,rest);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -19,7 +19,7 @@ export default {
         return new Promise<any>(async (resolve, reject) => {
             try {
                 const { id, ...rest } = params ?? {};
-                const { data, status } =  await cinemaCafeHttpColection.put('updatefinisheddruginventory',id,rest);
+                const { data, status } =  await AyurVaultHttpColection.put('updatefinisheddruginventory',id,rest);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -32,7 +32,7 @@ export default {
         return new Promise<any>(async (resolve, reject) => {
             try {
                 const { id, ...rest } = params ?? {};
-                const { data, status } =  await cinemaCafeHttpColection.put('updategeneralinventory',id,rest);
+                const { data, status } =  await AyurVaultHttpColection.put('updategeneralinventory',id,rest);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);

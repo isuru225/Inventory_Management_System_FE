@@ -6,13 +6,13 @@ import { RegisteredUserService } from "../../services/RegisteredUser/index.ts";
 export const RegisteredUserSagas = {
   getRegisteredUsers: {
     get: function* (action: any) {
-      console.log("raven");
+      
       try {
         const { data, status } = yield call(
             RegisteredUserService.getRegisteredUser, action.payload.data
         );
         if (status == 200) {
-          console.log("light234", data);
+          
           yield put(
             RegisteredUserActions.registeredUser.success(data)
           )
@@ -28,13 +28,13 @@ export const RegisteredUserSagas = {
   ,
   deleteRegisteredUsers: {
     delete: function* (action: any) {
-      console.log("raven");
+      
       try {
         const { data, status } = yield call(
             RegisteredUserService.deleteRegisteredUser, action.payload.data
         );
         if (status == 200) {
-          console.log("light234", data);
+          
           yield put(
             RegisteredUserActions.registeredUserRemoving.success(data)
           )

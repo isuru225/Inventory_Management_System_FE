@@ -1,11 +1,11 @@
-import { cinemaCafeHttpColection } from "../../APIService/index.ts";
+import { AyurVaultHttpColection } from "../../APIService/index.ts";
 
 export default {
     forgotPassword : (params: any): Promise<any> => {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.post('login/forgotpassword', params);
+                const { data, status } =  await AyurVaultHttpColection.post('login/forgotpassword', params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);

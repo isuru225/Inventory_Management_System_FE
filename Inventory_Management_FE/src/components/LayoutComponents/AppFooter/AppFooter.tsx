@@ -9,7 +9,19 @@ import {
   CustomerServiceOutlined,
   FormOutlined,
 } from "@ant-design/icons";
+import { Link } from 'react-router-dom'
+
 import { Layout, Row, Col, Typography, Button, Divider } from "antd";
+
+import {
+  cilUserPlus,
+  cilReload,
+  cibEventStore,
+  cilHistory,
+  cilCheckCircle,
+  cilHome
+} from '@coreui/icons'
+import CIcon from "@coreui/icons-react";
 //import "./Footer.css";
 
 const { Footer } = Layout;
@@ -24,12 +36,28 @@ const AppFooter = () => {
           <Col xs={24} sm={12} md={8} lg={8}>
             <h3 className="footer-heading">IMS NAVIGATION</h3>
             <ul className="footer-list">
-              <li>Dashboard Overview</li>
-              <li>Raw Drugs Inventory</li>
-              <li>Finished Goods Stock</li>
-              <li>General Store Items</li>
-              <li>Inventory Audit Log</li>
-              <li>System Admin</li>
+              <Link to="/home"><li><div><CIcon icon={cilHome}>
+              </CIcon></div>Home</li></Link>
+              <Link to="/rawdrugs">
+                <li><div><CIcon icon={cilReload}>
+                </CIcon></div>Raw Drugs Inventory</li>
+              </Link>
+              <Link to="/finisheddrugs">
+                <li><div><CIcon icon={cilCheckCircle}>
+                </CIcon></div>Finished Goods Inventory</li>
+              </Link>
+              <Link to="/generalstore">
+                <li><div><CIcon icon={cibEventStore}>
+                </CIcon></div>General Store Items</li>
+              </Link>
+              <Link to="/history">
+                <li><div><CIcon icon={cilHistory}>
+                </CIcon></div>Inventory Audit Log</li>
+              </Link>
+              <Link to="/admin">
+                <li><div><CIcon icon={cilUserPlus}>
+                </CIcon></div>System Admin</li>
+              </Link>
             </ul>
           </Col>
 

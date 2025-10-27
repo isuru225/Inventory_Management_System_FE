@@ -1910,3 +1910,42 @@
   }
 }
 
+
+/* Styles for storekeeper back button */
+
+.left-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+/* Base icon styling */
+.left-circle-icon {
+  font-size: 36px;
+  color: #18D26E; /* Slate-like base color */
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Hover effect */
+.left-circle-icon:hover {
+  color: #18D26E; /* Light blue highlight */
+  transform: scale(1.1) translateX(-2px);
+  text-shadow: 0 0 8px #18D26E;
+}
+
+/* Optional active (clicked) effect */
+.left-circle-icon:active {
+  transform: scale(0.95) translateX(-1px);
+  opacity: 0.8;
+}
+
+
+.footer-list a {
+  text-decoration: none;   /* remove underline */
+  color: inherit;          /* keep same color as surrounding text */
+  display: flex;           /* align icon + text */
+  align-items: center;
+  gap: 6px;                /* small gap between icon and text */
+}

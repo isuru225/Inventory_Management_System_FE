@@ -1,11 +1,11 @@
-import { cinemaCafeHttpColection } from "../../APIService/index.ts";
+import { AyurVaultHttpColection } from "../../APIService/index.ts";
 
 export default {
     getAllGeneralStoreItems : (params: any): Promise<any> => {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.get('getgeneralstoreitems');
+                const { data, status } =  await AyurVaultHttpColection.get('getgeneralstoreitems');
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -17,7 +17,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.post('addgeneralstoreitem',params);
+                const { data, status } =  await AyurVaultHttpColection.post('addgeneralstoreitem',params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -31,7 +31,7 @@ export default {
             try {
                 const { id } = params ?? {};
                 
-                const { data, status } =  await cinemaCafeHttpColection.put('updategeneralstoreitem', id, params);
+                const { data, status } =  await AyurVaultHttpColection.put('updategeneralstoreitem', id, params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -43,7 +43,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.post('addgeneralstoreitemtransaction',params);
+                const { data, status } =  await AyurVaultHttpColection.post('addgeneralstoreitemtransaction',params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -55,7 +55,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.delete('deletegeneralstoreitem',params);
+                const { data, status } =  await AyurVaultHttpColection.delete('deletegeneralstoreitem',params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);

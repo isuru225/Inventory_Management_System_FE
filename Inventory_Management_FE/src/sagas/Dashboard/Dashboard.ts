@@ -6,13 +6,13 @@ import { DashboardService } from "../../services/Dashboard/index.ts";
 export const DashboardSagas = {
   projectSpecificTasks : {
     get : function* (action: any) {
-      console.log("raven");
+      
       try {
         const { data, status } = yield call(
             DashboardService.projectSpecificTasks , action.payload.data
         );
         if (status == 200) {
-          console.log("light234",data);
+          
           yield put(
             DashboardActions.projectSpecificTasks.success(data)
           )
@@ -28,13 +28,13 @@ export const DashboardSagas = {
   ,
   employeeInfo : {
     get : function* (action: any) {
-      console.log("raven");
+      
       try {
         const { data, status } = yield call(
             DashboardService.getEmployeeInfo , action.payload.data
         );
         if (status == 200) {
-          console.log("light234",data);
+          
           yield put(
             DashboardActions.employeeInfo.success(data)
           )

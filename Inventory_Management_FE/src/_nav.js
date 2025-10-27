@@ -2,16 +2,13 @@ import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
   cilUserPlus,
-  cilTrash,
   cilReload,
   cibEventStore,
-  cilPencil,
-  cilClock,
   cilHistory,
   cilCheckCircle,
   cilHome
 } from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
   {
@@ -55,45 +52,6 @@ const _nav = [
     href : "#/history",
     icon: <CIcon icon={cilHistory} customClassName="nav-icon" />,
   },
-  // {
-  //   component: CNavItem,
-  //   name: 'Team',
-  //   to: '/charts',
-  //   icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
-  // },
-  // {
-  //   component: CNavItem,
-  //   name: 'Trash',
-  //   to: '/charts',
-  //   icon: <CIcon icon={cilTrash} customClassName="nav-icon" />,
-  // },
-  // {
-  //   component: CNavGroup,
-  //   name: 'Notifications',
-  //   icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
-  //   items: [
-  //     {
-  //       component: CNavItem,
-  //       name: 'Alerts',
-  //       to: '/notifications/alerts',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Badges',
-  //       to: '/notifications/badges',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Modal',
-  //       to: '/notifications/modals',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Toasts',
-  //       to: '/notifications/toasts',
-  //     },
-  //   ],
-  // },
   {
     component: CNavItem,
     name: 'Admin',

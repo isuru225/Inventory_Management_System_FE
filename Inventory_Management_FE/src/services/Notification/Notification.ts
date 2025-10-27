@@ -1,11 +1,11 @@
-import { cinemaCafeHttpColection } from "../../APIService/index.ts";
+import { AyurVaultHttpColection } from "../../APIService/index.ts";
 
 export default {
     getAllNotifications : (params: any): Promise<any> => {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.get('getnotifications');
+                const { data, status } =  await AyurVaultHttpColection.get('getnotifications');
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -17,7 +17,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.patch('updatenotificationsasmarked',params);
+                const { data, status } =  await AyurVaultHttpColection.patch('updatenotificationsasmarked',params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);

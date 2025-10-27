@@ -1,11 +1,11 @@
-import { cinemaCafeHttpColection } from "../../APIService/index.ts";
+import { AyurVaultHttpColection } from "../../APIService/index.ts";
 
 export default {
     getAllHistoryRecords : (params: any): Promise<any> => {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.get('gethistoryrecords');
+                const { data, status } =  await AyurVaultHttpColection.get('gethistoryrecords');
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -17,7 +17,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.delete('deletehistoryrecord',params.id);
+                const { data, status } =  await AyurVaultHttpColection.delete('deletehistoryrecord',params.id);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);

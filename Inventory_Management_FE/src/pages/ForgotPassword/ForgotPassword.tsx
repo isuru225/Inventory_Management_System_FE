@@ -24,8 +24,8 @@ const ForgotPassword: React.FC<props> = (props) => {
 
 
     const submit = (value: IForgotPassword, actions: any) => {
-        console.log(value, clientURI, "saman")
-        console.log("fear", clientURI);
+        
+        
         const requestPayload: forgotPasswordRequest = {
             email: value.registeredEmail,
             clientURI
@@ -37,9 +37,9 @@ const ForgotPassword: React.FC<props> = (props) => {
 
 
     useEffect(() => {
-        console.log("Doomm",isInitialRender);
+        
         if (!isInitialRender.current) {
-            console.log("Doomm22",data);
+            
             if (data?.isSuccessful) {
                 setIsResetLinkSuccessfully(true);
             } else {

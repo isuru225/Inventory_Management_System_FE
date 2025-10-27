@@ -6,13 +6,13 @@ import { StoreKeeperService } from "../../services/StoreKeeper/index.ts";
 export const StoreKeeperSagas = {
     rawDrugInventory: {
         update: function* (action: any) {
-            console.log("raven");
+            
             try {
                 const { data, status } = yield call(
                     StoreKeeperService.updateRawDrugInventory, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         StoreKeeperActions.rawDrugInventory.success(data)
                     )
@@ -27,13 +27,13 @@ export const StoreKeeperSagas = {
     ,
     finishedDrugInventory: {
         update: function* (action: any) {
-            console.log("raven");
+            
             try {
                 const { data, status } = yield call(
                     StoreKeeperService.updateFinishedDrugInventory, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         StoreKeeperActions.finishedDrugInventory.success(data)
                     )
@@ -48,13 +48,13 @@ export const StoreKeeperSagas = {
     ,
     generalStoreInventory: {
         update: function* (action: any) {
-            console.log("raven");
+            
             try {
                 const { data, status } = yield call(
                     StoreKeeperService.updateGeneralStoreInventory, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         StoreKeeperActions.generalStoreInventory.success(data)
                     )

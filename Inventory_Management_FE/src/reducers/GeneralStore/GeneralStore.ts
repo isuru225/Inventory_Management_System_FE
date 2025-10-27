@@ -4,7 +4,7 @@ import { GeneralStoreItemInitState } from "./States/InitState.ts";
 
 
 export const FinishedDrugsReducer = (state = GeneralStoreItemInitState, action: any) => {
-    console.log("pannda", action);
+    
     switch (action.type) {
         case GeneralStore.GET_GENERAL_STORE_ITEM:
             return {

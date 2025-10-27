@@ -20,8 +20,6 @@ const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 const LoginLayout = React.lazy(()=> import('./layout/LoginLayout.tsx'))
 
 // Home Page
- 
-//const Home = React.lazy(()=> import('./views/home/Home'));
 
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')

@@ -1,7 +1,6 @@
 import { IRegisteredUser, IRegisteredUserData } from "../Interfaces/Interfaces.ts"
 
 export const registeredUserInfoHandler = (data: Array<IRegisteredUser>): Array<IRegisteredUserData> => {
-    console.log("bilando",data);
     const formattedData = data?.map((registeredUser: IRegisteredUser) => {
         let nameParts = registeredUser.fullName.split(" ");
         let rolesValue = "";

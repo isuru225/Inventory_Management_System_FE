@@ -4,7 +4,7 @@ import { loginInitState } from "./States/InitState.ts";
 
 
 export const LoginReducer = (state = loginInitState, action: any) => {
-    console.log("pannda", action);
+    
     switch (action.type) {
         case Login.LOG_USER_CREDNTIALS:
             return {
