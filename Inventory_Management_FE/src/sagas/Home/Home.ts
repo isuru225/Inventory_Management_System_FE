@@ -18,7 +18,7 @@ export const HomeSagas = {
           )
         }
 
-      } catch (error) {
+      } catch (error: any) {
         yield put(
             HomeActions.allProjects.fail(error.response.data?.errorCode)
         );

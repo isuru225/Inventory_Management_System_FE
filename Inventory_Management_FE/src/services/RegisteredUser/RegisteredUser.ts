@@ -8,7 +8,7 @@ export default {
                 const { data, status } =  await AyurVaultHttpColection.get('getregisteredusers');
                 
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });
@@ -21,7 +21,7 @@ export default {
                 const { data, status } =  await AyurVaultHttpColection.delete('deleteregistereduser',params?.id);
                 
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });

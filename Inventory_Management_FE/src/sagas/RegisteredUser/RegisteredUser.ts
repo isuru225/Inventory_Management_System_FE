@@ -18,7 +18,7 @@ export const RegisteredUserSagas = {
           )
         }
 
-      } catch (error) {
+      } catch (error: any) {
         yield put(
             RegisteredUserActions.registeredUser.fail(error.response.data?.errorCode)
         );
@@ -40,7 +40,7 @@ export const RegisteredUserSagas = {
           )
         }
 
-      } catch (error) {
+      } catch (error: any) {
         yield put(
             RegisteredUserActions.registeredUserRemoving.fail(error.response.data?.errorCode)
         );

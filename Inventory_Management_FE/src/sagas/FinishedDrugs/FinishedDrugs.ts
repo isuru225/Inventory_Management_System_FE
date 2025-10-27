@@ -18,7 +18,7 @@ export const FinishedDrugsSagas = {
                     )
                 }
 
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     FinishedDrugsActions.allFinishedDrugItems.fail(error.response.data?.errorCode)
                 );
@@ -37,7 +37,7 @@ export const FinishedDrugsSagas = {
                     )
                 }
 
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     FinishedDrugsActions.addFinishedDrugItem.fail(error.response.data?.errorCode)
                 );
@@ -55,7 +55,7 @@ export const FinishedDrugsSagas = {
                         FinishedDrugsActions.editFinishedDrugItem.success(data)
                     )
                 }
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     FinishedDrugsActions.editFinishedDrugItem.fail(error.response.data?.errorCode)
                 );
@@ -74,7 +74,7 @@ export const FinishedDrugsSagas = {
                         FinishedDrugsActions.updateTransationHistory.success(data)
                     )
                 }
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     FinishedDrugsActions.updateTransationHistory.fail(error.response.data?.errorCode)
                 );
@@ -93,7 +93,7 @@ export const FinishedDrugsSagas = {
                         FinishedDrugsActions.deleteFinishedDrug.success(data)
                     )
                 }
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     FinishedDrugsActions.deleteFinishedDrug.fail(error.response.data?.errorCode)
                 );

@@ -17,7 +17,7 @@ export const PasswordResetSagas = {
           )
         }
 
-      } catch (error) {
+      } catch (error: any) {
         yield put(
             PasswordResetActions.password.fail(error.response.data?.errorCode)
         );

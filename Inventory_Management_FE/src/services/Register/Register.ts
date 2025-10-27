@@ -8,7 +8,7 @@ export default {
                 const { data, status } =  await AyurVaultHttpColection.post('register',params);
                 
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });

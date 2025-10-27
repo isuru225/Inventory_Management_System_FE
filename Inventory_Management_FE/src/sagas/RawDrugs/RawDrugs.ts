@@ -18,7 +18,7 @@ export const RawDrugsSagas = {
           )
         }
 
-      } catch (error) {
+      } catch (error: any) {
         yield put(
           RawDrugsActions.allRawDrugItems.fail(error.response.data?.errorCode)
         );
@@ -37,7 +37,7 @@ export const RawDrugsSagas = {
           )
         }
 
-      } catch (error) {
+      } catch (error: any) {
         
         yield put(
           RawDrugsActions.addNewDrugItem.fail(error.response.data?.errorCode)
@@ -56,7 +56,7 @@ export const RawDrugsSagas = {
             RawDrugsActions.editRawDrugItem.success(data)
           )
         }
-      } catch (error) {
+      } catch (error: any) {
         yield put(
           RawDrugsActions.editRawDrugItem.fail(error.response.data?.errorCode)
         );
@@ -75,7 +75,7 @@ export const RawDrugsSagas = {
             RawDrugsActions.updateTransationHistory.success(data)
           )
         }
-      } catch (error) {
+      } catch (error: any) {
         yield put(
           RawDrugsActions.updateTransationHistory.fail(error.response.data?.errorCode)
         );
@@ -94,7 +94,7 @@ export const RawDrugsSagas = {
             RawDrugsActions.deleteRawDrug.success(data)
           )
         }
-      } catch (error) {
+      } catch (error: any) {
         yield put(
           RawDrugsActions.deleteRawDrug.fail(error.response.data?.errorCode)
         );

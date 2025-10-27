@@ -31,8 +31,6 @@ const Login: React.FC<props> = (props) => {
 
     
 
-    
-
     const submit = (value: ILogin, actions: any) => {
         
         logUserCredentials(value);

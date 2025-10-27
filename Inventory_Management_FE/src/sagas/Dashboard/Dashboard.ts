@@ -18,7 +18,7 @@ export const DashboardSagas = {
           )
         }
 
-      } catch (error) {
+      } catch (error: any) {
         yield put(
             DashboardActions.projectSpecificTasks.fail(error.response.data?.errorCode)
         );

@@ -17,7 +17,7 @@ export const HistoySagas = {
                         HistoryActions.allHistoryRecords.success(data)
                     )
                 }
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     HistoryActions.allHistoryRecords.fail(error.response.data?.errorCode)
                 );
@@ -38,7 +38,7 @@ export const HistoySagas = {
                         HistoryActions.historyRecord.success(data)
                     )
                 }
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     HistoryActions.historyRecord.fail(error.response.data?.errorCode)
                 );
