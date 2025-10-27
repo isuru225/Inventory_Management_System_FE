@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 import type { InputRef, TableColumnsType, TableColumnType, message, Popconfirm } from 'antd';
-import { Button, Input, Modal, Space, Table, Skeleton } from 'antd';
+import { Button, Input, Modal, Space, Table, Skeleton, Result } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
+// @ts-ignore
 import Highlighter from 'react-highlight-words';
 import { connect, ConnectedProps } from 'react-redux';
 import { FinishedDrugsActions } from '../../actions/FinishedDrugs/index.ts';
@@ -14,7 +15,7 @@ import moment from "moment";
 import { extractNumber, MeasurementOptionsHandler, TableDataHandler } from './Functions/Functions.tsx';
 import { IFinishedDrugInfoForEditModal, IFinishedDrugsItemInitInfo } from './Interfaces/interfaces.ts';
 import { AnyObject } from 'antd/es/_util/type';
-import { IsTokenExpiredOrMissingChecker } from "../../GlobalFunctions/Functions.tsx"
+import { getAttributesFromToken, IsTokenExpiredOrMissingChecker } from "../../GlobalFunctions/Functions.tsx"
 import { useNavigate } from 'react-router-dom';
 
 type props = propsFromRedux;
@@ -24,8 +25,8 @@ interface DataType {
     itemName: string;
     expirationDate: string;
     category: string;
-    amount: number,
-    reorderPoint : number,
+    amount: number | string,
+    reorderPoint: number | string,
     id: string,
     measurementUnit: string
 }
@@ -40,27 +41,36 @@ const FinishedDrugs: React.FC<props> = (props) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editModalInitInfo, setEditModalInitInfo] = useState<IFinishedDrugInfoForEditModal>(finishedDrugsItemInitInfoForEditModal);
     const [selectedFinishedDrugItemId, setSelectedFinishedDrugItemId] = useState<string>(General.EMPTY_VALUE);
-    const [ isConfirmationModalOpen,setIsConfirmationModalOpen ] = useState<boolean>(false);
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
+    const [isDuplicateWarningModelOpen, setIsDuplicateWarningModelOpen] = useState<boolean>(false);
 
     const { getAllFinishedDrugItems, addNewFinishedDrug, data, isLoading, AddFinishedDrug, editFinishedDrug, EditFinishedDrug, deleteFinishedDrug, DeleteFinishedDrug } = props ?? {};
 
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        if(EditFinishedDrug?.data.rawDrugId != General.EMPTY_VALUE){
-            
+    useEffect(() => {
+        if (EditFinishedDrug?.data.rawDrugId != General.EMPTY_VALUE) {
+
         }
 
-    },[EditFinishedDrug])
+    }, [EditFinishedDrug])
 
     //get all available finished drug items
-    useEffect(()=>{
-        if(IsTokenExpiredOrMissingChecker()){
+    useEffect(() => {
+        if (IsTokenExpiredOrMissingChecker()) {
             navigate('/login');
-        }else{
+        } else {
             getAllFinishedDrugItems({});
         }
-    },[AddFinishedDrug?.isLoading, EditFinishedDrug?.isLoading, DeleteFinishedDrug?.isLoading])
+    }, [AddFinishedDrug?.isLoading, EditFinishedDrug?.isLoading, DeleteFinishedDrug?.isLoading])
+
+    useEffect(() => {
+        if (AddFinishedDrug?.errorCode === 103) {
+            setIsDuplicateWarningModelOpen(true);
+        } else {
+            setIsDuplicateWarningModelOpen(false);
+        }
+    }, [AddFinishedDrug?.errorCode])
 
 
     const handleSearch = (
@@ -79,8 +89,6 @@ const FinishedDrugs: React.FC<props> = (props) => {
     };
 
     const submit = (values: any, actions: any) => {
-        console.log("froggggg");
-        console.log("Tiger", values);
         if (values) {
             addNewFinishedDrug(values);
         }
@@ -91,7 +99,6 @@ const FinishedDrugs: React.FC<props> = (props) => {
     }
 
     const submitEditInfo = (values: any, actions: AnyObject) => {
-        console.log("FAV", values);
         const { itemNameEdit, categoryEdit, amountEdit, expirationDateEdit, measurementUnitEdit, reorderPointEdit } = values ?? {};
         const editData = {
             ItemName: itemNameEdit,
@@ -99,7 +106,7 @@ const FinishedDrugs: React.FC<props> = (props) => {
             Category: categoryEdit,
             MeasurementUnit: measurementUnitEdit,
             Amount: amountEdit,
-            ReorderPoint : reorderPointEdit
+            ReorderPoint: reorderPointEdit
         }
         editFinishedDrug({ ...editData, id: selectedFinishedDrugItemId })
         actions.resetForm();
@@ -107,7 +114,7 @@ const FinishedDrugs: React.FC<props> = (props) => {
     }
 
     const confirmDeleteProcess = () => {
-        if(selectedFinishedDrugItemId != "" || selectedFinishedDrugItemId != undefined){
+        if (selectedFinishedDrugItemId != "" || selectedFinishedDrugItemId != undefined) {
             deleteFinishedDrug(selectedFinishedDrugItemId)
             setIsConfirmationModalOpen(false);
         }
@@ -117,8 +124,7 @@ const FinishedDrugs: React.FC<props> = (props) => {
         setIsConfirmationModalOpen(false)
     }
 
-    const editDataRow = (rawData : any) => {
-        console.log("Lions", rawData);
+    const editDataRow = (rawData: any) => {
         const { id, itemName, expirationDate, category, measurementUnit, amount, reorderPoint } = rawData ?? {};
         setSelectedFinishedDrugItemId(id);
         setEditModalInitInfo({
@@ -127,7 +133,7 @@ const FinishedDrugs: React.FC<props> = (props) => {
             categoryEdit: category,
             measurementUnitEdit: measurementUnit,
             amountEdit: extractNumber(amount),
-            reorderPointEdit : extractNumber(reorderPoint)
+            reorderPointEdit: extractNumber(reorderPoint)
         })
         setIsEditModalOpen(true);
     }
@@ -256,17 +262,17 @@ const FinishedDrugs: React.FC<props> = (props) => {
             width: '15%',
             ...getColumnSearchProps('reorderPoint'),
         },
-        {
+        ...(getAttributesFromToken(['role']).role === "Admin" ? [{
             title: 'Action',
             key: 'action',
             width: '10%',
-            render: (_, record) => (
+            render: (_: any, record: any) => (
                 <Space size="middle">
                     <EditOutlined className="edit-pen-btn" onClick={() => { editDataRow(record) }} />
-                    <DeleteOutlined className="delete-bin-btn" onClick={()=> { deleteDataRaw(record)}}/>
+                    <DeleteOutlined className="delete-bin-btn" onClick={() => { deleteDataRaw(record) }} />
                 </Space>
             ),
-        },
+        }] : [])
     ];
 
     return (
@@ -278,21 +284,26 @@ const FinishedDrugs: React.FC<props> = (props) => {
                     </h2>
                     <hr />
                 </div>
-                <div>
-                    <Button color='3D99F5' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
-                        <PlusOutlined /> ADD
-                    </Button>
-                    <Button color='3D99F5' onClick={() => {navigate('/finisheddrugs/storekeeper',{ state: { from: Component.COMPONENT_NAME } })}} className="store-keeper-btn">
-                        <UserOutlined /> Store Keeper
-                    </Button>
-                </div>
-                <hr />
+                {getAttributesFromToken(['role']).role === "Admin" &&
+                    <>
+                        <div>
+                            <Button color='green' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
+                                <PlusOutlined /> ADD
+                            </Button>
+                            <Button color='green' onClick={() => { navigate('/finisheddrugs/storekeeper', { state: { from: Component.COMPONENT_NAME } }) }} className="store-keeper-btn">
+                                <UserOutlined /> Store Keeper
+                            </Button>
+                        </div>
+                        <hr />
+                    </>
+                }
+
                 <Skeleton active loading={isLoading}>
                     <Table<DataType> columns={columns} dataSource={TableDataHandler(data)} />
                 </Skeleton>
                 <>
                     <Modal
-                        title="ADD NEW RAW DRUG ITEM"
+                        title="ADD NEW Finished DRUG ITEM"
                         open={isModalOpen}
                         onCancel={() => { setIsModalOpen(false) }}
                         footer={null}
@@ -349,17 +360,19 @@ const FinishedDrugs: React.FC<props> = (props) => {
                                     <br />
                                     <br />
                                     <$Input
-                                        label="Amount : "
+                                        label={`Amount : ( ${values?.measurementUnit} )`}
                                         type="number"
                                         name="amount"
                                         placeholder="Enter Amount of the item..."
+                                        isOnlyPositiveValues={true}
                                     />
                                     <br />
                                     <$Input
-                                        label="Reorder Point : "
+                                        label={`Reorder Point : ( ${values?.measurementUnit} )`}
                                         type="number"
                                         name="reorderPoint"
                                         placeholder="Enter Reorder Point of the item..."
+                                        isOnlyPositiveValues={true}
                                     />
                                     <hr />
                                     <Button type="primary" htmlType="submit"  >Submit</Button>
@@ -454,11 +467,32 @@ const FinishedDrugs: React.FC<props> = (props) => {
                 </>
                 <>
                     <Modal title="DELETE CONFIRMATION!" open={isConfirmationModalOpen} onOk={confirmDeleteProcess} onCancel={abortDeleteProcess}>
-                        <hr/>
+                        <hr />
                         <p>Are you sure to delete the selected record?</p>
-                        <hr/>
+                        <hr />
                     </Modal>
                 </>
+
+                <Modal
+                    open={isDuplicateWarningModelOpen}
+                    footer={null}
+                    closable={false}
+                >
+                    <Result
+                        status="warning"
+                        title={
+                            <>
+                                Finished drug name already exists.<br />
+                                Please use a unique name.
+                            </>
+                        }
+                        extra={
+                            <Button type="primary" key="console" onClick={() => { setIsDuplicateWarningModelOpen(false) }}>
+                                Ok
+                            </Button>
+                        }
+                    />
+                </Modal>
 
             </div >
         </>
@@ -482,7 +516,7 @@ const mapDispatchToProps = {
     getAllFinishedDrugItems: FinishedDrugsActions.allFinishedDrugItems.get,
     addNewFinishedDrug: FinishedDrugsActions.addFinishedDrugItem.add,
     editFinishedDrug: FinishedDrugsActions.editFinishedDrugItem.edit,
-    deleteFinishedDrug : FinishedDrugsActions.deleteFinishedDrug.delete
+    deleteFinishedDrug: FinishedDrugsActions.deleteFinishedDrug.delete
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

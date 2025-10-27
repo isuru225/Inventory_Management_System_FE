@@ -3,19 +3,21 @@ import { NavLink, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { CBadge } from '@coreui/react'
+import { getAttributesFromToken } from '../GlobalFunctions/Functions.tsx'
 
 export const AppSidebarNav = ({ items }) => {
-  const location = useLocation()
+  const location = useLocation();
+
   const navLink = (name, icon, badge, indent = false) => {
     return (
       <>
         {icon
           ? icon
           : indent && (
-              <span className="nav-icon">
-                <span className="nav-icon-bullet"></span>
-              </span>
-            )}
+            <span className="nav-icon">
+              <span className="nav-icon-bullet"></span>
+            </span>
+          )}
         {name && name}
         {badge && (
           <CBadge color={badge.color} className="ms-auto">
@@ -33,8 +35,8 @@ export const AppSidebarNav = ({ items }) => {
       <Component
         {...(rest.to &&
           !rest.items && {
-            component: NavLink,
-          })}
+          component: NavLink,
+        })}
         key={index}
         {...rest}
       >
@@ -61,10 +63,25 @@ export const AppSidebarNav = ({ items }) => {
     )
   }
 
+  const dashboardNavItemHandler = () => {
+    const { role } = getAttributesFromToken(['role'])
+    const navItemArray = items?.map((item, index) => {
+      if (role !== "User" || item?.name !== "Admin") {
+        if (item?.items) {
+          return navGroup(item, index);
+        } else {
+          return navItem(item, index)
+        }
+      }
+    })
+
+    return navItemArray;
+  }
+
   return (
     <React.Fragment>
       {items &&
-        items.map((item, index) => (item.items ? navGroup(item, index) : navItem(item, index)))}
+        dashboardNavItemHandler()}
     </React.Fragment>
   )
 }

@@ -4,7 +4,7 @@ import { DashboardInitState } from "./States/InitState.ts";
 
 
 export const DashboardReducer = (state = DashboardInitState, action: any) => {
-    console.log("pannda", action);
+    
     switch (action.type) {
         case Dashboard.GET_PROJECT_TASKS:
             return {

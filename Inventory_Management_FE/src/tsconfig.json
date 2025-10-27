@@ -18,8 +18,9 @@
     "jsx": "react", // specify how JSX code is compiled
     "useUnknownInCatchVariables": false, // disallows the use of `unknown` in catch variables
     "allowImportingTsExtensions":true,
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["node"]
   },
-  "include": ["./**/*.ts", "./**/*.tsx", "reducers/MovieRecords","src", "components/StoreKeeper/Interfaces", "components/StoreKeeper/Constants"], // include all TypeScript files in src
+  "include": ["./**/*.ts", "./**/*.tsx", "reducers/MovieRecords","src", "components/StoreKeeper/Interfaces", "components/StoreKeeper/Constants", "sagas/ForgotPassword"], // include all TypeScript files in src
   "exclude": ["node_modules"] // exclude node_modules from compilation
 }

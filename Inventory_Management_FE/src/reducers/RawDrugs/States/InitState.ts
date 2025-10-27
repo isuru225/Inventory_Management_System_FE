@@ -13,6 +13,7 @@ export const RawDrugsInitState = {
     isLoading : false,
     AddRawDrug : {
         data : {},
+        errorCode : 0,
         isLoading : false
     },
     EditRawDrug : {

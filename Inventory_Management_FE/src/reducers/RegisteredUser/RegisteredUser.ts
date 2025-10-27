@@ -4,7 +4,7 @@ import { RegisteredUserInitState } from "./States/InitState.ts";
 
 
 export const RegisteredUserReducer = (state = RegisteredUserInitState, action: any) => {
-    console.log("pannda", action);
+    
     switch (action.type) {
         case RegisteredUser.GET_REGISTERED_USER:
             return {

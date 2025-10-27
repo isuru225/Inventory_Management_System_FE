@@ -1,11 +1,11 @@
-import { cinemaCafeHttpColection } from "../../APIService/index.ts";
+import { AyurVaultHttpColection } from "../../APIService/index.ts";
 
 export default {
     getAllFinishedDrugs : (params: any): Promise<any> => {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.get('getfinisheddrugs');
+                const { data, status } =  await AyurVaultHttpColection.get('getfinisheddrugs');
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -17,7 +17,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.post('addfinisheddrug',params);
+                const { data, status } =  await AyurVaultHttpColection.post('addfinisheddrug',params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -31,7 +31,7 @@ export default {
             try {
                 const { id } = params ?? {};
                 
-                const { data, status } =  await cinemaCafeHttpColection.put('updatefinisheddrug', id, params);
+                const { data, status } =  await AyurVaultHttpColection.put('updatefinisheddrug', id, params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -43,7 +43,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.post('addfinisheddrugtransaction',params);
+                const { data, status } =  await AyurVaultHttpColection.post('addfinisheddrugtransaction',params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -55,7 +55,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.delete('deletefinisheddrug',params);
+                const { data, status } =  await AyurVaultHttpColection.delete('deletefinisheddrug',params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);

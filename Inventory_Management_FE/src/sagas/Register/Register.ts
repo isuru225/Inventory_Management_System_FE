@@ -6,13 +6,13 @@ import { RegisterService } from "../../services/Register/index.ts";
 export const RegisterSagas = {
   newUser: {
     get: function* (action: any) {
-      console.log("raven");
+      
       try {
         const { data, status } = yield call(
             RegisterService.registerNewUser, action.payload.data
         );
         if (status == 200) {
-          console.log("light234", data);
+          
           yield put(
             RegisterActions.newUser.success(data)
           )

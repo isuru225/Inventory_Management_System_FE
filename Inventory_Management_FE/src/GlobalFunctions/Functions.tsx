@@ -29,6 +29,50 @@ export const IsTokenExpiredOrMissingChecker = () => {
 
 }
 
-export const DateFormatter = (date : string) : string => {
-    return moment(date).format("YYYY/MM/DD, h:mm A");
+interface ITokenAttributes {
+  [key: string]: any;
+  sub: string | null,
+  name: string | null,
+  jti: string | null,
+  userId: string | null,
+  fullName: string | null,
+  role: string | null,
+  exp: Date | null,
+  iss: URL | null,
+  aud: URL | null
+}
+
+export const getAttributesFromToken = (requestedAttributes: Array<string>): ITokenAttributes => {
+  const tokenAttribute: ITokenAttributes =
+  {
+    sub: null,
+    name: null,
+    jti: null,
+    userId: null,
+    fullName: null,
+    role: null,
+    exp: null,
+    iss: null,
+    aud: null
+  }
+  if (!IsTokenExpiredOrMissingChecker()) {
+    const encodedValue = localStorage.getItem('token');
+    if (encodedValue !== null) {
+      const decodedPayload = JWTDecoder(encodedValue);
+      requestedAttributes?.forEach((attribute: string)=>{
+        tokenAttribute[attribute] = decodedPayload[attribute];
+      })
+      return tokenAttribute;
+
+    } else {
+      return tokenAttribute;
+    }
+
+  } else {
+    return tokenAttribute;
+  }
+}
+
+export const DateFormatter = (date: string): string => {
+  return moment(date).format("YYYY/MM/DD, h:mm A");
 }

@@ -1,0 +1,1 @@
+export { default as ForgotPasswordService } from "./ForgotPassword.ts"

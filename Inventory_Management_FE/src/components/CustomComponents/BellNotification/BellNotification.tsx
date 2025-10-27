@@ -4,52 +4,50 @@ import { cilBell } from "@coreui/icons";
 import { connect, ConnectedProps } from "react-redux";
 import { NotificationActions } from "../../../actions/Notification/index.ts";
 import { notificationMessageHandler } from "./Functions/Functions.ts";
+import { itemType, itemTypeName, notificationType } from "./Constants/Constants.ts";
+
+
 
 interface Notification {
-  id: number;
-  message: string;
-  time: string;
-  isNew: boolean;
-  itemType: string
-}
 
-interface NotificationObject {
-  itemType: string,
-  itemList: Array<string>
-}
+  id: string,
+  itemType: number,
+  notificationType: number,
+  createdAt: Date,
+  itemName: string,
+  isRead: boolean
 
+}
+ 
 type props = propsFromRedux;
-
-// const initialNotifications: Notification[] = [
-//   { id: 1, message: "New inspection assigned: QW0001 - Pepsi Asia", time: "Now", isNew: true, itemType: 'raw_drug'},
-//   { id: 2, message: "New inspection assigned: AR5567 - Pepsi Europe", time: "1h ago", isNew: true, itemType: 'raw_drug' },
-//   { id: 3, message: "Inspection import has been successfully created", time: "4h ago", isNew: true, itemType: 'raw_drug' },
-//   { id: 4, message: "Terms of use was updated tempus", time: "05 May 2019", isNew: false, itemType: 'raw_drug' }
-// ];
 
 const BellNotification: React.FC<props> = (props) => {
 
-  const { getNotifications, data } = props ?? {};
+  const { getNotifications, data, markMessages, markAllMessage } = props ?? {};
 
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]); // Moved to state
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [notification, setNotification] = useState<Array<NotificationObject>>([]);
+  //const [notification, setNotification] = useState<Array<NotificationObject>>([]);
   const [isNotificationCountVisible, setIsNotificationCountVisible] = useState<boolean>(true);
 
   const markAllAsRead = () => {
-    localStorage.setItem('markallnotifyasread',JSON.stringify(false));
-    setIsNotificationCountVisible(false)
-    // setNotifications((prevNotifications) =>
-    //   prevNotifications.map((notification) => ({ ...notification, isNew: false }))
-    // );
+    //localStorage.setItem('markallnotifyasread', JSON.stringify(false));
+    markAllMessage({});
+    setIsNotificationCountVisible(false);
+    
   };
 
   useEffect(() => {
-    console.log("fast", data);
     //setNotifications(notificationMessageHandler(data))
-    setNotification(data)
+    setNotifications(data);
   }, [data])
+
+  useEffect(()=>{
+    if(markMessages?.data){
+      setNotifications(markMessages?.data)
+    }
+  },[markMessages?.data])
 
   // Close dropdown if clicked outside
   useEffect(() => {
@@ -73,42 +71,114 @@ const BellNotification: React.FC<props> = (props) => {
 
   }, []);
 
+  const itemTypeHandler = (itemTypeIndex: number) => {
+    switch (itemTypeIndex) {
+      case itemType.RAW_DRUG:
+        return itemTypeName.RAW_DRUG
+      case itemType.FINISHED_DRUG:
+        return itemTypeName.FINISHED_DRUG
+      default:
+        return itemTypeName.NONE;
+    }
+  }
+
+  const notificationCountHandler = (): number => {
+    let count = 0;
+    notifications?.forEach(notification => {
+      if (!notification?.isRead) {
+        count++;
+      }
+    });
+
+    return count;
+  }
+
+  const notificationTimeHandler = (createdAt: Date): string => {
+    const currentDateTime: Date = new Date();
+    const createdDateTime: Date = new Date(createdAt)
+    const diffMs = currentDateTime.getTime() - createdDateTime.getTime();
+
+    // convert to seconds, minutes, hours, days
+    const diffSeconds = Math.floor(diffMs / 1000);
+    const diffMinutes = Math.floor(diffSeconds / 60);
+    const diffHours = Math.floor(diffMinutes / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    // remainder calculations
+    const hours = diffHours % 24;
+    const minutes = diffMinutes % 60;
+    const seconds = diffSeconds % 60;
+
+    if (diffDays <= 0 && hours <= 0 && minutes <= 0) {
+      return "Just Now"
+    } else if (diffDays <= 0 && hours <= 0) {
+      return `${minutes} min Ago`
+    } else if (diffDays <= 0) {
+      return `${hours} hours Ago`
+    } else {
+      return `${diffDays} days Ago`
+    }
+
+  }
+
   return (
     <div className="notification-dropdown" ref={dropdownRef}>
       <div className="bell-icon" onClick={() => setIsOpen(!isOpen)}>
         <CIcon icon={cilBell} size="lg" />
-        {notification?.some(group => group.itemList?.length > 0) &&
+        {notificationCountHandler() > 0 && <span className="notification-badge">
+          {notificationCountHandler()}
+        </span>}
+        {/* {notifications?.some(group => group.itemList?.length > 0) &&
           JSON.parse(localStorage.getItem('markallnotifyasread') || 'false') && <span className="notification-badge">
-            {notification?.reduce((total, group) => {
+            {notifications?.reduce((total, group) => {
               const count = Array.isArray(group.itemList) ? group.itemList.length : 0;
               return total + count;
             }, 0)}
           </span>
-        }
+        } */}
       </div>
 
       {isOpen && (
         <div className="bell-dropdown-menu">
           <div className="bell-dropdown-header">
             <span className="header-title">Notifications</span>
-            <div className="dnd-switch">
+            {/* <div className="dnd-switch">
               <label>Do Not Disturb</label>
               <input type="checkbox" />
-            </div>
+            </div> */}
           </div>
 
+
           <div className="notifications-container">
-            {notification?.map((group, groupIndex) => (
-              <div key={groupIndex} className="notification-group">
-                <h6 className="group-title">{group.itemType}</h6>
+            {notifications?.map((item, itemIndex) => (
+              <div key={itemIndex} className="notification-group">
+                <h6 className="group-title">{itemTypeHandler(item.itemType)}</h6>
                 <ul className="notifications-list">
-                  {group.itemList?.map((itemName, index) => (
-                    <li key={index} className="notification-card">
-                      <span className="message">{`current inventory level of ${itemName} is less than reorder point`}</span>
-                      <span className="time">Just now</span>
-                    </li>
-                  ))}
+                  <li
+                    key={0}
+                    className={`notification-card ${item.isRead ? "read" : "unread"}`}
+                  >
+                    <span className="message">
+                      {item?.notificationType == notificationType.REOREDER
+                        ? `${item.itemName} is less than reorder point.`
+                        : `${item.itemName} is going to be expired in 7 days.`}
+                    </span>
+
+                    {/* Vertical Separator */}
+                    <span className="separator" />
+
+                    {/* Time */}
+                    <span className="time">
+                      {notificationTimeHandler(item.createdAt)}
+                    </span>
+
+                    {/* Read/Unread Status */}
+                    <span className="status">
+                      {item.isRead ? "Read" : "Unread"}
+                    </span>
+                  </li>
                 </ul>
+
               </div>
             ))}
           </div>
@@ -125,17 +195,19 @@ const BellNotification: React.FC<props> = (props) => {
 
 const mapStateToProps = (state: any) => {
   const { NotificationReducer } = state;
-  const { data, isLoading } = NotificationReducer;
+  const { data, isLoading, markMessages } = NotificationReducer;
   return {
     data,
-    isLoading
+    isLoading,
+    markMessages
   }
 }
 
 
 
 const mapDispatchToProps = {
-  getNotifications: NotificationActions.notifications.get
+  getNotifications: NotificationActions.notifications.get,
+  markAllMessage: NotificationActions.messages.mark
 }
 
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { cinemaCafeHttpColection } from "../../APIService/index.ts";
+import { AyurVaultHttpColection } from "../../APIService/index.ts";
 
 export default {
     getSelectedMovie: (params: any): Promise<any> => {
@@ -54,7 +54,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                console.log("Jam",params);
+                
                 const { data, status } = await axios.post(
                     'http://localhost:5014/bookinginfo',params, {
                     headers: {
@@ -74,7 +74,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                console.log("Jam",params);
+                
                 const { data, status } = await axios.post(
                     'http://localhost:5014/bookinginfo',params, {
                     headers: {
@@ -94,7 +94,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                console.log("Jam",params);
+                
                 const { data, status } = await axios.get(
                     'http://localhost:5014/api/Seat/reservedseats', {
                     params : params 
@@ -115,7 +115,7 @@ export default {
     addTokenClaims: (params: any): Promise<any> => {
         return new Promise<any>(async (resolve, reject) => {
             const claims = params
-            console.log("massa",claims);
+            
             try {
                 const { data, status } = await axios.post(
                     `http://localhost:5014/api/Token/addclaims`, claims,
@@ -138,8 +138,8 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                console.log("Jam",params);
-                const { data, status } = await cinemaCafeHttpColection.getbyparams('Seat/permreservseats', params);
+                
+                const { data, status } = await AyurVaultHttpColection.getbyparams('Seat/permreservseats', params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);

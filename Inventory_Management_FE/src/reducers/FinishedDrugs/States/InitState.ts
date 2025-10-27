@@ -13,6 +13,7 @@ export const FinishedDrugsInitState = {
     isLoading : false,
     AddFinishedDrug : {
         data : {},
+        errorCode : 0,
         isLoading : false
     },
     EditFinishedDrug : {

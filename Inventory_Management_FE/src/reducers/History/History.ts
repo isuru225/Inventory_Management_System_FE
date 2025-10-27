@@ -3,7 +3,7 @@ import { HistoryInitState } from "./States/InitState.ts";
 
 
 export const HistoryReducer = (state = HistoryInitState, action: any) => {
-    console.log("pannda", action);
+    
     switch (action.type) {
         case History.GET_ALL_HISTORY_RECORDS:
             return {

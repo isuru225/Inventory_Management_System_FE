@@ -18,11 +18,10 @@ const Registration: React.FC<props> = (props) => {
     const isMounted = useRef(false);
 
     const submit = (values: any , actions : any) => {
-        console.log("jackle", values);
         if (values) {
             registerNewUser(values);
         }
-        actions.resetForm();
+        //actions.resetForm();
     }
 
     const [api, contextHolder] = notification.useNotification();
@@ -43,8 +42,6 @@ const Registration: React.FC<props> = (props) => {
             isMounted.current = true;
             return;
         }
-
-        console.log("kkkkkkkkkkkkkkkk", data);
         if (data?.success) {
             api.open({
                 message: successNotification.MESSAGE,

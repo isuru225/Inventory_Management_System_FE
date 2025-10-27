@@ -6,13 +6,13 @@ import { HistoryService } from "../../services/History/index.ts";
 export const HistoySagas = {
     historyRecords: {
         get: function* (action: any) {
-            console.log("raven");
+            
             try {
                 const { data, status } = yield call(
                     HistoryService.getAllHistoryRecords, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         HistoryActions.allHistoryRecords.success(data)
                     )
@@ -27,13 +27,13 @@ export const HistoySagas = {
     ,
     historyRecord: {
         delete: function* (action: any) {
-            console.log("raven");
+            
             try {
                 const { data, status } = yield call(
                     HistoryService.deleteAHistoryRecord, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         HistoryActions.historyRecord.success(data)
                     )

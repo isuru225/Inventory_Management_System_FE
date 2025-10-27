@@ -46,4 +46,29 @@ export const LoginActions = {
         }
       })
     }
+    ,
+    // password : {
+    //   forgot : (data: any) => ({
+    //     type : FORGOT_PASSWORD,
+    //     payload : {
+    //       data,
+    //       isLoading : true
+    //     }
+    //   })
+    //   ,
+    //   success: (data: any) => ({
+    //     type: FORGOT_PASSWORD_SUCCESS,
+    //     payload: {
+    //       data,
+    //       isLoading: false,
+    //     },
+    //   }),
+    //   fail: (error: any) => ({
+    //     type: FORGOT_PASSWORD_FAIL,
+    //     payload: {
+    //       error,
+    //       isLoading: false,
+    //     },
+    //   })
+    // }
 }

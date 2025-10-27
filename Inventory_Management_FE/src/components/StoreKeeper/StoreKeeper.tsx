@@ -1,14 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
+import { SearchOutlined, EditOutlined, LeftCircleOutlined } from '@ant-design/icons';
 import type { InputRef, TableColumnsType, TableColumnType } from 'antd';
-import { Button, Input, Modal, Space, Table, Skeleton, Radio, Col, Row } from 'antd';
+import { Button, Input, Modal, Space, Table, Skeleton, Col, Row } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
+// @ts-ignore
 import Highlighter from 'react-highlight-words';
 import { connect, ConnectedProps } from 'react-redux';
 import { RawDrugsActions } from '../../actions/RawDrugs/index.ts';
 import { Formik, Form } from "formik"
 import { $Input, $TextArea, $Radio } from "../CustomComponents/index.ts";
-import { General, InventoryFormInitInfo, AdjustmentType, SelectedItemInfo, Component, Headings } from './Constants/Constants.ts';
+import { InventoryFormInitInfo, AdjustmentType, SelectedItemInfo, Component, Headings } from './Constants/Constants.ts';
 import { StoreKeeperValidationSchema } from './Validation/StoreKeeperValidationSchema.ts';
 import { BalanceAmountCalculator, TableDataHandler } from './Functions/Functions.tsx';
 import { IInventoryFormInitInfo, ISelectedItemInfo } from './Interfaces/Interfaces.ts';
@@ -17,6 +18,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { StoreKeeperActions } from '../../actions/StoreKeeper/StoreKeeper.ts';
 import stroreKeeperOne from "../../assets/images/StoreKeeper/storekeeper01.png"
 import { FinishedDrugsActions } from '../../actions/FinishedDrugs/index.ts';
+import { NotificationActions } from '../../actions/Notification/index.ts';
 
 type props = propsFromRedux;
 
@@ -41,41 +43,56 @@ const StoreKeeper: React.FC<props> = (props) => {
     const [invertoryUpdateFormInitInfo, setInvertoryUpdateFormInitInfo] = useState<IInventoryFormInitInfo>(InventoryFormInitInfo);
     const [selectedItemId, setSelectedItemId] = useState<ISelectedItemInfo>(SelectedItemInfo);
 
-    const { 
-        data, 
-        rawDrugRetrievingLoader, 
-        updateRawDrugInventory, 
-        updateFinishedDrugInventory, 
-        getAllRawDrugItems, 
+    const {
+        data,
+        rawDrugRetrievingLoader,
+        updateRawDrugInventory,
+        updateFinishedDrugInventory,
+        getAllRawDrugItems,
         getAllFinishedDrugItems,
         finishedDrugsData,
-        finishedDrugRetrievingLoader 
+        finishedDrugRetrievingLoader,
+        updatingLoader,
+        updateResponse,
+        getNotifications
     } = props ?? {};
 
     const navigate = useNavigate();
     const location = useLocation();
-    // useEffect(()=>{
-    //     if(EditRawDrug?.data.rawDrugId != General.EMPTY_VALUE){
 
-    //     }
-
-    // },[EditRawDrug])
 
     //get all available raw drug items
     useEffect(() => {
         if (IsTokenExpiredOrMissingChecker()) {
             navigate('/login');
         } else {
-            console.log("IGN",location.state?.from);
-            if(location.state?.from == Component.COMPONENT_NAME_RAW_DRUG){
-                getAllRawDrugItems({});            
-            }else if(location.state?.from == Component.COMPONENT_NAME_FINISHED_DRUG){
+            
+            if (location.state?.from == Component.COMPONENT_NAME_RAW_DRUG) {
+                getAllRawDrugItems({});
+            } else if (location.state?.from == Component.COMPONENT_NAME_FINISHED_DRUG) {
                 getAllFinishedDrugItems({});
-            }else if(location.state?.from == Component.COMPONENT_NAME_GENERAL_STORE){
-                
+            } else if (location.state?.from == Component.COMPONENT_NAME_GENERAL_STORE) {
+
             }
         }
     }, [])
+
+    //set the updated value
+    useEffect(() => {
+        
+        if (updateResponse?.isSuccessful) {
+            if (location.state?.from == Component.COMPONENT_NAME_RAW_DRUG) {
+                getAllRawDrugItems({});
+            } else if (location.state?.from == Component.COMPONENT_NAME_FINISHED_DRUG) {
+                getAllFinishedDrugItems({});
+            } else if (location.state?.from == Component.COMPONENT_NAME_GENERAL_STORE) {
+
+            }
+
+            //get the notifications
+            getNotifications({});
+        }
+    }, [updateResponse])
 
 
     const handleSearch = (
@@ -94,8 +111,8 @@ const StoreKeeper: React.FC<props> = (props) => {
     };
 
     const submitInventoryUpdate = (values: any, actions: any) => {
-        console.log("froggggg");
-        console.log("Tiger", values);
+        
+        
         const { amount, amountAdjusted, adjustmentType, reason, itemName } = values ?? {};
         const result = BalanceAmountCalculator(amount, amountAdjusted, adjustmentType);
         const author = JWTDecoder(localStorage.getItem('token')).fullName;
@@ -112,12 +129,12 @@ const StoreKeeper: React.FC<props> = (props) => {
             };
 
             //selection
-            if(location.state?.from == Component.COMPONENT_NAME_RAW_DRUG){
-                updateRawDrugInventory({ ...updatedInventory, id: selectedItemId?.id });            
-            }else if(location.state?.from == Component.COMPONENT_NAME_FINISHED_DRUG){
-                updateFinishedDrugInventory({...updatedInventory, id: selectedItemId?.id});
-            }else if(location.state?.from == Component.COMPONENT_NAME_GENERAL_STORE){
-                
+            if (location.state?.from == Component.COMPONENT_NAME_RAW_DRUG) {
+                updateRawDrugInventory({ ...updatedInventory, id: selectedItemId?.id });
+            } else if (location.state?.from == Component.COMPONENT_NAME_FINISHED_DRUG) {
+                updateFinishedDrugInventory({ ...updatedInventory, id: selectedItemId?.id });
+            } else if (location.state?.from == Component.COMPONENT_NAME_GENERAL_STORE) {
+
             }
 
             //updateRawDrugInventory({ ...updatedInventory, id: selectedRawDrugItemId?.id })
@@ -132,7 +149,7 @@ const StoreKeeper: React.FC<props> = (props) => {
     }
 
     const editDataRow = (rawData: DataType) => {
-        console.log("Lions", rawData);
+        
         const { id, itemName, amount, amountWithUnit, measurementUnit } = rawData ?? {};
         setSelectedItemId({
             id,
@@ -253,22 +270,37 @@ const StoreKeeper: React.FC<props> = (props) => {
     ];
 
     const drugDataHandler = () => {
-        if(location.state?.from == Component.COMPONENT_NAME_RAW_DRUG){
-            return TableDataHandler(data);            
-        }else if(location.state?.from == Component.COMPONENT_NAME_FINISHED_DRUG){
+        if (location.state?.from == Component.COMPONENT_NAME_RAW_DRUG) {
+            return TableDataHandler(data);
+        } else if (location.state?.from == Component.COMPONENT_NAME_FINISHED_DRUG) {
             return TableDataHandler(finishedDrugsData);
-        }else if(location.state?.from == Component.COMPONENT_NAME_GENERAL_STORE){
-            
+        } else if (location.state?.from == Component.COMPONENT_NAME_GENERAL_STORE) {
+
         }
     }
 
     const headingHandler = () => {
-        if(location.state?.from == Component.COMPONENT_NAME_RAW_DRUG){
-            return Headings.RAW_DRUG;            
-        }else if(location.state?.from == Component.COMPONENT_NAME_FINISHED_DRUG){
-            return Headings.FINISHED_DRUG;
-        }else if(location.state?.from == Component.COMPONENT_NAME_GENERAL_STORE){
-            return Headings.GENERAL_STORE
+        if (location.state?.from == Component.COMPONENT_NAME_RAW_DRUG) {
+            return (
+                <h2>
+                    <LeftCircleOutlined className="left-circle-icon" onClick={() => { navigate("/rawdrugs") }} />
+                    {" " + Headings.RAW_DRUG}
+                </h2>
+            );
+        } else if (location.state?.from == Component.COMPONENT_NAME_FINISHED_DRUG) {
+            return (
+                <h2>
+                    <LeftCircleOutlined className="left-circle-icon" onClick={() => { navigate("/finisheddrugs") }} />
+                    {" " + Headings.FINISHED_DRUG}
+                </h2>
+            );
+        } else if (location.state?.from == Component.COMPONENT_NAME_GENERAL_STORE) {
+            return (
+                <h2>
+                    <LeftCircleOutlined className="left-circle-icon" onClick={() => { navigate("/generalstore") }} />
+                    {" " + Headings.GENERAL_STORE}
+                </h2>
+            );
         }
     }
 
@@ -276,14 +308,12 @@ const StoreKeeper: React.FC<props> = (props) => {
         <>
             <div>
                 <div>
-                    <h2>
-                        {headingHandler()}
-                    </h2>
+                    {headingHandler()}
                 </div>
                 <hr />
                 <Row>
                     <Col span={12} >
-                        <Skeleton active loading={rawDrugRetrievingLoader}>
+                        <Skeleton active loading={rawDrugRetrievingLoader || updatingLoader || finishedDrugRetrievingLoader}>
                             <Table<DataType> columns={columns} dataSource={drugDataHandler()} />
                         </Skeleton>
                         {/** This modal is used for editing processes**/}
@@ -329,7 +359,7 @@ const StoreKeeper: React.FC<props> = (props) => {
                                             <br />
                                             <br />
                                             <$Input
-                                                label="Adjustment Amount : "
+                                                label={`Adjustment Amount : ( ${selectedItemId?.measurementUnit} )`}
                                                 type="number"
                                                 name="amountAdjusted"
                                                 isOnlyPositiveValues={true}
@@ -353,7 +383,7 @@ const StoreKeeper: React.FC<props> = (props) => {
                         </>
                     </Col>
                     <Col span={12} >
-                        <img src={stroreKeeperOne} alt="storeKeeper" style={{ width: "620px", height: "440px"}}/>
+                        <img src={stroreKeeperOne} alt="storeKeeper" style={{ width: "620px", height: "440px" }} />
                     </Col>
                 </Row>
 
@@ -366,23 +396,25 @@ const StoreKeeper: React.FC<props> = (props) => {
 const mapStateToProps = (state: any) => {
     const { StoreKeeperReducer, RawDrugsReducer, FinishedDrugsReducer } = state;
     const { data, isLoading: rawDrugRetrievingLoader } = RawDrugsReducer;
-    const { data : finishedDrugsData , isLoading : finishedDrugRetrievingLoader } = FinishedDrugsReducer;
-    const { data: updateResponse, isLoading } = StoreKeeperReducer;
+    const { data: finishedDrugsData, isLoading: finishedDrugRetrievingLoader } = FinishedDrugsReducer;
+    const { data: updateResponse, isLoading: updatingLoader } = StoreKeeperReducer;
     return {
         updateResponse,
         rawDrugRetrievingLoader,
         data,
         finishedDrugsData,
-        finishedDrugRetrievingLoader
+        finishedDrugRetrievingLoader,
+        updatingLoader
     }
 }
 
 const mapDispatchToProps = {
     updateRawDrugInventory: StoreKeeperActions.rawDrugInventory.update,
-    updateFinishedDrugInventory : StoreKeeperActions.finishedDrugInventory.update,
-    updateGeneralStoreInventory : StoreKeeperActions.generalStoreInventory.update,
+    updateFinishedDrugInventory: StoreKeeperActions.finishedDrugInventory.update,
+    updateGeneralStoreInventory: StoreKeeperActions.generalStoreInventory.update,
     getAllRawDrugItems: RawDrugsActions.allRawDrugItems.get,
-    getAllFinishedDrugItems : FinishedDrugsActions.allFinishedDrugItems.get
+    getAllFinishedDrugItems: FinishedDrugsActions.allFinishedDrugItems.get,
+    getNotifications: NotificationActions.notifications.get
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

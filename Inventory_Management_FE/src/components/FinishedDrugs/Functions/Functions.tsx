@@ -18,7 +18,7 @@ export const MeasurementOptionsHandler = (measurementOptions : Array<string>) =>
 }
 
 export const TableDataHandler = (data : Array<IFinishedDrug>) => {
-    console.log("Shark",data);
+    
     const formattedData = data?.map((finishedDrug : IFinishedDrug , index : number)=>{
         const dateOnly = moment(finishedDrug.expirationDate).format("YYYY-MM-DD");
         return {
@@ -28,7 +28,7 @@ export const TableDataHandler = (data : Array<IFinishedDrug>) => {
             key : index.toString(), expirationDate : dateOnly
         }
     });
-    console.log("TigerShark",formattedData);
+    
     return formattedData;
 }
 

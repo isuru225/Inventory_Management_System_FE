@@ -4,7 +4,7 @@ import { RegisterInitState } from "./States/InitState.ts";
 
 
 export const RegisterReducer = (state = RegisterInitState, action: any) => {
-    console.log("pannda", action);
+    
     switch (action.type) {
         case Register.REGISTER_NEW_USER:
             return {

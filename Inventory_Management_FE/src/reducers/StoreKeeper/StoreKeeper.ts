@@ -3,7 +3,7 @@ import { StoreKeeperInitState } from "./States/InitState.ts";
 
 
 export const StoreKeeperReducer = (state = StoreKeeperInitState, action: any) => {
-    console.log("pannda", action);
+    
     switch (action.type) {
         case StoreKeeper.UPDATE_INVENTORY_RAW_DRUGS:
             return {

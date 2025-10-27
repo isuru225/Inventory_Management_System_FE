@@ -5,7 +5,7 @@ import { AppFooter } from '../components/LayoutComponents/index.ts'
 
 const LoginLayout = ({ children  } : any ) => {
   const location = useLocation()
-  const isAllowed = !(location.pathname === '/login' || location.pathname ==='/register')
+  const isAllowed = !(location.pathname === '/login' || location.pathname ==='/register' || location.pathname === '/login/resetpassword' || location.pathname === '/login/forgotpassword')
 
   return (
     <div className="wrapper d-flex flex-column min-vh-100">

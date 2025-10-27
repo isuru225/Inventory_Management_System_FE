@@ -29,18 +29,20 @@ const Login: React.FC<props> = (props) => {
     const { accessToken, refreshToken, expiresOn } = token ?? {};
     const navigate = useNavigate();
 
-    console.log("nebula", isLoading);
+    
+
+    
 
     const submit = (value: ILogin, actions: any) => {
-        console.log("log", value);
+        
         logUserCredentials(value);
         actions.resetForm();
     }
-    console.log("DMC", errorCode);
-    console.log("waves", token);
-    console.log("spartan", isLoginSuccessfull);
+    
+    
+    
     useEffect(() => {
-        console.log("spartan22", isLoginSuccessfull);
+        
         if (isLoginSuccessfull == true) {
             //when the user is registered , user will be navigated to the Home page
 
@@ -49,12 +51,8 @@ const Login: React.FC<props> = (props) => {
         }
     }, [isLoginSuccessfull])
 
-    const forgetPassword = () => {
-
-    }
-
-    const register = () => {
-        navigate('/register');
+    const forgotPasswordHandler = () => {
+        navigate('forgotpassword')
     }
 
     return (
@@ -79,15 +77,21 @@ const Login: React.FC<props> = (props) => {
                                                     <$Input label="User Name"
                                                         type="text"
                                                         name="userName"
-                                                        placeholder="Enter your name..." />
+                                                        placeholder="Enter your name..."
+                                                        prefix=""
+                                                        suffix=""
+                                                    />
                                                     <br />
                                                     <LockOutlined />
                                                     <$Input label="Password"
                                                         type="password"
                                                         name="password"
-                                                        placeholder="Enter password name..." />
+                                                        placeholder="Enter password name..."
+                                                        prefix=""
+                                                        suffix=""
+                                                    />
                                                     <br />
-                                                    {(errorCode == 101 || errorCode == 102) && <small className="error-msg">*User name or password is incorrect. Check again.</small>}
+                                                    {(errorCode == 100 || errorCode == 101) && <small className="error-msg">*User name or password is incorrect. Check again.</small>}
                                                     <br />
                                                     <br />
                                                     <CContainer>
@@ -96,7 +100,7 @@ const Login: React.FC<props> = (props) => {
                                                                 <Button type="primary" loading={isLoading} htmlType='submit'>Login</Button>
                                                             </CCol>
                                                             <CCol>
-                                                                <Button type="link" loading={isLoading} onClick={forgetPassword}>Forget Password?</Button>
+                                                                <Button type="link" loading={isLoading} onClick={forgotPasswordHandler}>Forget Password?</Button>
                                                             </CCol>
                                                         </CRow>
                                                     </CContainer>

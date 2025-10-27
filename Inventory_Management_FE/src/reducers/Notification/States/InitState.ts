@@ -2,5 +2,9 @@ import { NotificationInterface } from "../Interfaces/NotificationsInterface";
 
 export const NotificationInitState : NotificationInterface= {
     data : [],
-    isLoading : false
+    isLoading : false,
+    markMessages : {
+        data : [],
+        isLoading : false
+    }
 }

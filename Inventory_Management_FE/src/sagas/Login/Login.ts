@@ -4,35 +4,58 @@ import { LoginService } from "../../services/Login/index.ts";
 import { LoginActions } from "../../actions/Login/Login.ts";
 
 export const LoginSagas = {
-  userCredentials : {
-    log : function* (action: any) {
-      
+  userCredentials: {
+    log: function* (action: any) {
+
       try {
         const { data, status } = yield call(
-          LoginService.logUserCredentials , action.payload.data
+          LoginService.logUserCredentials, action.payload.data
         );
         if (status == 200) {
-          console.log("light234",data);
           yield put(
             LoginActions.userCredentials.success(data)
           )
         }
 
       } catch (error) {
-        console.log("apple",error);
-        console.log("fish",error.response.data?.errorCode);
-        console.log("fish222",typeof(error.response.data?.errorCode))
+        
         yield put(
-            LoginActions.userCredentials.fail(error.response.data?.errorCode)
+          LoginActions.userCredentials.fail(error.response.data?.errorCode)
         );
       }
     },
   }
+  ,
+  // password: {
+  //   forgot: function* (action: any) {
+
+  //     try {
+  //       const { data, status } = yield call(
+  //         LoginService.forgotPassword, action.payload.data
+  //       );
+  //       if (status == 200) {
+  //         yield put(
+  //           LoginActions.password.success(data)
+  //         )
+  //       }
+
+  //     } catch (error) {
+  //       yield put(
+  //         LoginActions.password.fail(error.response.data?.errorCode)
+  //       );
+  //     }
+  //   }
+  // }
 }
 
 export default [
-    takeLatest(
-      Login.LOG_USER_CREDNTIALS,
-      LoginSagas.userCredentials.log
-    )
-  ]
+  takeLatest(
+    Login.LOG_USER_CREDNTIALS,
+    LoginSagas.userCredentials.log
+  )
+  // ,
+  // takeLatest(
+  //   Login.FORGOT_PASSWORD,
+  //   LoginSagas.password.forgot
+  // )
+]

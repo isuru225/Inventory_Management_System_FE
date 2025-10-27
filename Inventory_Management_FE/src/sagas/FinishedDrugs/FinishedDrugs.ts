@@ -6,13 +6,13 @@ import { FinishedDrugsService } from "../../services/FinishedDrugs/index.ts";
 export const FinishedDrugsSagas = {
     finishedDrugItems: {
         get: function* (action: any) {
-            console.log("raven");
+            
             try {
                 const { data, status } = yield call(
                     FinishedDrugsService.getAllFinishedDrugs, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         FinishedDrugsActions.allFinishedDrugItems.success(data)
                     )
@@ -25,13 +25,13 @@ export const FinishedDrugsSagas = {
             }
         },
         add: function* (action: any) {
-            console.log("raven");
+            
             try {
                 const { data, status } = yield call(
                     FinishedDrugsService.addNewFinishedDrug, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         FinishedDrugsActions.addFinishedDrugItem.success(data)
                     )
@@ -50,7 +50,7 @@ export const FinishedDrugsSagas = {
                     FinishedDrugsService.editFinishedDrug, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         FinishedDrugsActions.editFinishedDrugItem.success(data)
                     )
@@ -69,7 +69,7 @@ export const FinishedDrugsSagas = {
                     FinishedDrugsService.addTransactionRecord, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         FinishedDrugsActions.updateTransationHistory.success(data)
                     )
@@ -88,7 +88,7 @@ export const FinishedDrugsSagas = {
                     FinishedDrugsService.deleteFinishedDrug, action.payload.data
                 );
                 if (status == 200) {
-                    console.log("light234", data);
+                    
                     yield put(
                         FinishedDrugsActions.deleteFinishedDrug.success(data)
                     )

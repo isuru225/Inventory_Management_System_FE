@@ -8,5 +8,5 @@ export interface IHistoryRecord {
     adjustmentType : string,
     storeKeeper: string,
     time: string,
-    Reason: string
+    reason: string
 }

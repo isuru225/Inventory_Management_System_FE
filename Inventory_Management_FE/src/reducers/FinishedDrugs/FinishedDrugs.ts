@@ -4,7 +4,7 @@ import { FinishedDrugsInitState } from "./States/InitState.ts";
 
 
 export const FinishedDrugsReducer = (state = FinishedDrugsInitState, action: any) => {
-    console.log("pannda", action);
+    
     switch (action.type) {
         case FinishedDrugs.GET_FINISHED_DRUG_ITEM:
             return {
@@ -34,6 +34,7 @@ export const FinishedDrugsReducer = (state = FinishedDrugsInitState, action: any
             return {
                 ...state,
                 AddFinishedDrug: {
+                    errorCode : 0,
                     data: action.payload.data,
                     isLoading: action.payload.isLoading
                 }
@@ -43,6 +44,7 @@ export const FinishedDrugsReducer = (state = FinishedDrugsInitState, action: any
                 ...state,
                 AddFinishedDrug: {
                     ...state.AddFinishedDrug,
+                    errorCode : action.payload.error,
                     isLoading: action.payload.isLoading
                 }
             }

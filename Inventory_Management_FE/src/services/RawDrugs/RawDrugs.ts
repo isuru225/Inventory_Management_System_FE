@@ -1,11 +1,11 @@
-import { cinemaCafeHttpColection } from "../../APIService/index.ts";
+import { AyurVaultHttpColection } from "../../APIService/index.ts";
 
 export default {
     getAllRawDrugs : (params: any): Promise<any> => {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.get('getrawdrugs');
+                const { data, status } =  await AyurVaultHttpColection.get('getrawdrugs');
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -17,7 +17,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.post('addrawdrug',params);
+                const { data, status } =  await AyurVaultHttpColection.post('addrawdrug',params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -31,7 +31,7 @@ export default {
             try {
                 const { id } = params ?? {};
                 
-                const { data, status } =  await cinemaCafeHttpColection.put('updaterawdrug', id, params);
+                const { data, status } =  await AyurVaultHttpColection.put('updaterawdrug', id, params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -43,7 +43,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.post('addtransaction',params);
+                const { data, status } =  await AyurVaultHttpColection.post('addtransaction',params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
@@ -55,7 +55,7 @@ export default {
 
         return new Promise<any>(async (resolve, reject) => {
             try {
-                const { data, status } =  await cinemaCafeHttpColection.delete('deleterawdrug',params);
+                const { data, status } =  await AyurVaultHttpColection.delete('deleterawdrug',params);
                 resolve({ data, status });
             } catch (error) {
                 reject(error);
