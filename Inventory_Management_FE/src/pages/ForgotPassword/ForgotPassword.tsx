@@ -12,13 +12,13 @@ import { forgotPasswordActions } from '../../actions/ForgotPassword/ForgotPasswo
 type props = propsFromRedux;
 type forgotPasswordRequest = {
     email: string,
-    clientURI: string
+    clientURI: string | undefined
 }
 
 const ForgotPassword: React.FC<props> = (props) => {
 
     const { forgotPassword, isLoading, data } = props;
-    const clientURI = "http://localhost:3000/#/login";
+    const clientURI = process.env.REACT_APP_RESET_PASSWORD_CLIENT_URI;
     const [isSentResetLinkSuccessfully, setIsResetLinkSuccessfully] = useState(true);
     const isInitialRender = useRef(true);
 
