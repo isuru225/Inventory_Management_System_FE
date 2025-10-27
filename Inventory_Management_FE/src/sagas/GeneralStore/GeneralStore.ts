@@ -18,7 +18,7 @@ export const GeneralStoreSagas = {
                     )
                 }
 
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     GeneralStoreActions.allGeneralStoreItems.fail(error.response.data?.errorCode)
                 );
@@ -37,7 +37,7 @@ export const GeneralStoreSagas = {
                     )
                 }
 
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     GeneralStoreActions.addGeneralStoreItem.fail(error.response.data?.errorCode)
                 );
@@ -55,7 +55,7 @@ export const GeneralStoreSagas = {
                         GeneralStoreActions.editGeneralStoreItem.success(data)
                     )
                 }
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     GeneralStoreActions.editGeneralStoreItem.fail(error.response.data?.errorCode)
                 );
@@ -74,7 +74,7 @@ export const GeneralStoreSagas = {
                         GeneralStoreActions.updateTransationHistory.success(data)
                     )
                 }
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     GeneralStoreActions.updateTransationHistory.fail(error.response.data?.errorCode)
                 );
@@ -93,7 +93,7 @@ export const GeneralStoreSagas = {
                         GeneralStoreActions.deleteGeneralStoreItem.success(data)
                     )
                 }
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     GeneralStoreActions.deleteGeneralStoreItem.fail(error.response.data?.errorCode)
                 );

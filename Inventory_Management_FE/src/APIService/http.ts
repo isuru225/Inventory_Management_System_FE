@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const baseUrl = process.env.BACKEND_APP_BASE_URL;
+const baseUrl = process.env.REACT_APP_BACKEND_APP_BASE_URL;
+console.log("jinthu",baseUrl)
 
 const axiosInstance = {
     baseURL: baseUrl,
@@ -40,6 +41,7 @@ const getToken = () => `Bearer ${localStorage.getItem('token')}`
     }
     ,
     post :  async (uniqueURL: string, data : any) => {
+        console.log("kaputa",axiosInstance.baseURL,uniqueURL)
         return await axios.post(`${axiosInstance.baseURL}${uniqueURL}`, data,
             {
                 headers: {

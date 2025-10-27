@@ -18,7 +18,7 @@ export const ForgotPasswordSagas = {
           )
         }
 
-      } catch (error) {
+      } catch (error: any) {
         
         yield put(
             forgotPasswordActions.password.fail(error.response.data)

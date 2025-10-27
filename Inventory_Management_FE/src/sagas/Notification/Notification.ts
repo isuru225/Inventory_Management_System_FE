@@ -17,7 +17,7 @@ export const NotificationSagas = {
           )
         }
 
-      } catch (error) {
+      } catch (error: any) {
         yield put(
           NotificationActions.notifications.fail(error.response.data?.errorCode)
         );
@@ -34,7 +34,7 @@ export const NotificationSagas = {
           )
         }
 
-      } catch (error) {
+      } catch (error: any) {
         yield put(
           NotificationActions.messages.fail(error.response.data?.errorCode)
         );

@@ -17,7 +17,7 @@ export const LoginSagas = {
           )
         }
 
-      } catch (error) {
+      } catch (error : any) {
         
         yield put(
           LoginActions.userCredentials.fail(error.response.data?.errorCode)

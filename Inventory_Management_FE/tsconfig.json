@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "esnext",                      // Modern JS output
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,                          // <-- allows .js files
+    "checkJs": false,                         // optional: set true if you want type-checking in JS files
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "useUnknownInCatchVariables": false,
+    "allowImportingTsExtensions": true,      // <-- fixes your .ts import issue
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["node"]
+  },
+  "include": [
+    "src",
+    "reducers/MovieRecords",
+    "components/StoreKeeper/Interfaces",
+    "components/StoreKeeper/Constants",
+    "sagas/ForgotPassword"
+  ],
+  "exclude": ["node_modules"]
+}

@@ -17,7 +17,7 @@ export const StoreKeeperSagas = {
                         StoreKeeperActions.rawDrugInventory.success(data)
                     )
                 }
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     StoreKeeperActions.rawDrugInventory.fail(error.response.data?.errorCode)
                 );
@@ -38,7 +38,7 @@ export const StoreKeeperSagas = {
                         StoreKeeperActions.finishedDrugInventory.success(data)
                     )
                 }
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     StoreKeeperActions.finishedDrugInventory.fail(error.response.data?.errorCode)
                 );
@@ -59,7 +59,7 @@ export const StoreKeeperSagas = {
                         StoreKeeperActions.generalStoreInventory.success(data)
                     )
                 }
-            } catch (error) {
+            } catch (error: any) {
                 yield put(
                     StoreKeeperActions.generalStoreInventory.fail(error.response.data?.errorCode)
                 );

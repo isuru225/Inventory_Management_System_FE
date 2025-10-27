@@ -18,7 +18,7 @@ export const RegisterSagas = {
           )
         }
 
-      } catch (error) {
+      } catch (error: any) {
         yield put(
             RegisterActions.newUser.fail(error.response.data?.errorCode)
         );

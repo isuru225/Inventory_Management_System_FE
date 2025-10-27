@@ -7,7 +7,7 @@ export default {
             try {
                 const { data, status } =  await AyurVaultHttpColection.get('getgeneralstoreitems');
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });
@@ -19,7 +19,7 @@ export default {
             try {
                 const { data, status } =  await AyurVaultHttpColection.post('addgeneralstoreitem',params);
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });
@@ -33,7 +33,7 @@ export default {
                 
                 const { data, status } =  await AyurVaultHttpColection.put('updategeneralstoreitem', id, params);
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });
@@ -45,7 +45,7 @@ export default {
             try {
                 const { data, status } =  await AyurVaultHttpColection.post('addgeneralstoreitemtransaction',params);
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });
@@ -57,7 +57,7 @@ export default {
             try {
                 const { data, status } =  await AyurVaultHttpColection.delete('deletegeneralstoreitem',params);
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });

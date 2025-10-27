@@ -7,7 +7,7 @@ export default {
             try {
                 const { data, status } =  await AyurVaultHttpColection.get('getnotifications');
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });
@@ -19,7 +19,7 @@ export default {
             try {
                 const { data, status } =  await AyurVaultHttpColection.patch('updatenotificationsasmarked',params);
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });

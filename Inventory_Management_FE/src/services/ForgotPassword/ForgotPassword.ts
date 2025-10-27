@@ -7,7 +7,7 @@ export default {
             try {
                 const { data, status } =  await AyurVaultHttpColection.post('login/forgotpassword', params);
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });

@@ -8,7 +8,7 @@ export default {
                 const { id, ...rest } = params ?? {};
                 const { data, status } =  await AyurVaultHttpColection.put('updaterawdruginventory',id,rest);
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });
@@ -21,7 +21,7 @@ export default {
                 const { id, ...rest } = params ?? {};
                 const { data, status } =  await AyurVaultHttpColection.put('updatefinisheddruginventory',id,rest);
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });
@@ -34,7 +34,7 @@ export default {
                 const { id, ...rest } = params ?? {};
                 const { data, status } =  await AyurVaultHttpColection.put('updategeneralinventory',id,rest);
                 resolve({ data, status });
-            } catch (error) {
+            } catch (error: any) {
                 reject(error);
             }
         });
