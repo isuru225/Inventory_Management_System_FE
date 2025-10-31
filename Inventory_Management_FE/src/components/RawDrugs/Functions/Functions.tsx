@@ -1,6 +1,6 @@
 import React from "react"
 import moment from 'moment';
-import { IEditUserInfos, IRawDrug } from "../Interfaces/Interfaces.ts";
+import { IEditUserInfos, IRawDrug, IRawDrugsItemInitInfo } from "../Interfaces/Interfaces.ts";
 import { JWTDecoder } from "../../../GlobalFunctions/Functions.tsx";
 import { useNavigate } from 'react-router-dom';
 import { EditUserInfos } from "../Constants/Constants.ts";
@@ -55,5 +55,13 @@ export const GetEditorInfos = () : IEditUserInfos =>  {
             userId : EditUserInfos.EMPTY_USER_ID,
             fullName : EditUserInfos.EMPTY_FULL_NAME
         }
+    }
+}
+
+export const tableRowColorHandler = (record : any) => {
+    if(record?.amount < record?.reorderPoint){
+        return "table-row-warn"
+    }else{
+        return "table-row-normal"
     }
 }

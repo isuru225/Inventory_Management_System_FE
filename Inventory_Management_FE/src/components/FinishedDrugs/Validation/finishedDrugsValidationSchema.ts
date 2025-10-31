@@ -6,11 +6,11 @@ export const finishedDrugsValidationSchema = yup.object().shape({
     category: yup.string().required("Category is required."),
     measurementUnit: yup.string().required("Measurement unit is required."),
     amount: yup.number()
-        .min(1, 'Amount must be at least 1')
+        .min(0, 'Amount must be at least 0')
         .required('Amount is required'),
     reorderPoint: yup
         .number()
-        .min(1, 'Reorder point must be at least 1')
+        .min(0, 'Reorder point must be at least 0')
         .required('Reorder point is required')
         .test(
             'is-less-than-amount',
@@ -26,5 +26,9 @@ export const EditFinishedDrugValidationSchema = yup.object().shape({
     expirationDateEdit: yup.string().required('Expiration date is required'),
     categoryEdit: yup.string().required('Category is required'),
     measurementUnitEdit: yup.string().required('Measurement unit is required'),
-    amountEdit: yup.number().required('Amount is required').min(1, 'Amount must be at least one')
+    amountEdit: yup.number().required('Amount is required').min(0, 'Amount must be at least 0'),
+    reorderPointEdit : yup
+        .number()
+        .min(0, 'Reorder point must be at least 0')
+        .required('Reorder point is required')
 });

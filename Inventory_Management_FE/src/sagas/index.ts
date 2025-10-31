@@ -10,6 +10,7 @@ import { RegisteredUserSagas } from "./RegisteredUser/index.ts"
 import { FinishedDrugSagas } from "./FinishedDrugs/index.ts"
 import { PasswordResetSagas } from "./PasswordReset/index.ts"
 import { ForgotPasswordSagas } from "./ForgotPassword/index.ts"
+import { UserProfileSagas } from "./UserProfile/index.ts"
 
 export default [ 
     ...LoginSagas,
@@ -23,6 +24,7 @@ export default [
     ...RegisteredUserSagas,
     ...FinishedDrugSagas,
     ...PasswordResetSagas,
-    ...ForgotPasswordSagas
+    ...ForgotPasswordSagas,
+    ...UserProfileSagas
 ]
 

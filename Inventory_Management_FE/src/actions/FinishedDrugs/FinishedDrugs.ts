@@ -16,7 +16,8 @@ const
     ADD_FINISHED_DRUG_RECORD_TO_TRANSACTION_HISTORY_SUCCESS_FAIL,
     DELETE_FINISHED_DRUG_ITEM,
     DELETE_FINISHED_DRUG_ITEM_SUCCESSFUL,
-    DELETE_FINISHED_DRUG_ITEM_FAIL
+    DELETE_FINISHED_DRUG_ITEM_FAIL,
+    FINISHED_DRUG_ERROR_CODE_RESET
 
   } = FinishedDrugs
 
@@ -95,7 +96,7 @@ export const FinishedDrugsActions = {
     })
   }
   ,
-  updateTransationHistory : {
+  updateTransationHistory: {
     edit: (data: any) => ({
       type: ADD_FINISHED_DRUG_RECORD_TO_TRANSACTION_HISTORY,
       payload: {
@@ -119,7 +120,7 @@ export const FinishedDrugsActions = {
     })
   }
   ,
-  deleteFinishedDrug : {
+  deleteFinishedDrug: {
     delete: (data: any) => ({
       type: DELETE_FINISHED_DRUG_ITEM,
       payload: {
@@ -140,6 +141,15 @@ export const FinishedDrugsActions = {
         error,
         isLoading: false,
       },
+    })
+  }
+  ,
+  resetFinishedDrugErrorCode: {
+    reset: (resetCodeValue: any) => ({
+      type: FINISHED_DRUG_ERROR_CODE_RESET,
+      payload: {
+        resetCodeValue
+      }
     })
   }
 }

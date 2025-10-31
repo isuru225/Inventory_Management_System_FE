@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, EditOutlined, LeftCircleOutlined } from '@ant-design/icons';
 import type { InputRef, TableColumnsType, TableColumnType } from 'antd';
-import { Button, Input, Modal, Space, Table, Skeleton, Col, Row } from 'antd';
+import { Button, Input, Modal, Space, Table, Skeleton, Col, Row, ConfigProvider } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 // @ts-ignore
 import Highlighter from 'react-highlight-words';
@@ -42,6 +42,7 @@ const StoreKeeper: React.FC<props> = (props) => {
     const [isInventoryUpdateFormOpen, setisInventoryUpdateFormOpen] = useState(false);
     const [invertoryUpdateFormInitInfo, setInvertoryUpdateFormInitInfo] = useState<IInventoryFormInitInfo>(InventoryFormInitInfo);
     const [selectedItemId, setSelectedItemId] = useState<ISelectedItemInfo>(SelectedItemInfo);
+    const [loaded, setLoaded] = useState(false);
 
     const {
         data,
@@ -66,7 +67,7 @@ const StoreKeeper: React.FC<props> = (props) => {
         if (IsTokenExpiredOrMissingChecker()) {
             navigate('/login');
         } else {
-            
+
             if (location.state?.from == Component.COMPONENT_NAME_RAW_DRUG) {
                 getAllRawDrugItems({});
             } else if (location.state?.from == Component.COMPONENT_NAME_FINISHED_DRUG) {
@@ -79,7 +80,7 @@ const StoreKeeper: React.FC<props> = (props) => {
 
     //set the updated value
     useEffect(() => {
-        
+
         if (updateResponse?.isSuccessful) {
             if (location.state?.from == Component.COMPONENT_NAME_RAW_DRUG) {
                 getAllRawDrugItems({});
@@ -111,8 +112,8 @@ const StoreKeeper: React.FC<props> = (props) => {
     };
 
     const submitInventoryUpdate = (values: any, actions: any) => {
-        
-        
+
+
         const { amount, amountAdjusted, adjustmentType, reason, itemName } = values ?? {};
         const result = BalanceAmountCalculator(amount, amountAdjusted, adjustmentType);
         const author = JWTDecoder(localStorage.getItem('token')).fullName;
@@ -136,12 +137,9 @@ const StoreKeeper: React.FC<props> = (props) => {
             } else if (location.state?.from == Component.COMPONENT_NAME_GENERAL_STORE) {
 
             }
-
             //updateRawDrugInventory({ ...updatedInventory, id: selectedRawDrugItemId?.id })
             actions.resetForm();
             setisInventoryUpdateFormOpen(false);
-
-        } else {
 
         }
         actions.resetForm();
@@ -149,7 +147,7 @@ const StoreKeeper: React.FC<props> = (props) => {
     }
 
     const editDataRow = (rawData: DataType) => {
-        
+
         const { id, itemName, amount, amountWithUnit, measurementUnit } = rawData ?? {};
         setSelectedItemId({
             id,
@@ -304,6 +302,21 @@ const StoreKeeper: React.FC<props> = (props) => {
         }
     }
 
+    const RadioGroupTheme = {
+        components: {
+            Radio: {
+                colorPrimary: "#4CAF50", // primary color for checked state
+                buttonSolidCheckedBg: "#4CAF50", // solid button background
+                buttonSolidCheckedHoverBg: "#4CAF50", // hover color
+                buttonSolidCheckedActiveBg: "#4CAF50", // active color
+                buttonColor: "#333", // default text color
+                buttonSolidCheckedColor: "#fff", // text color when checked
+                dotSize: 10, // inner dot size
+                radioSize: 18, // outer circle size
+            },
+        },
+    };
+
     return (
         <>
             <div>
@@ -314,7 +327,7 @@ const StoreKeeper: React.FC<props> = (props) => {
                 <Row>
                     <Col span={12} >
                         <Skeleton active loading={rawDrugRetrievingLoader || updatingLoader || finishedDrugRetrievingLoader}>
-                            <Table<DataType> columns={columns} dataSource={drugDataHandler()} />
+                            <Table<DataType> columns={columns} dataSource={drugDataHandler()} className="table" />
                         </Skeleton>
                         {/** This modal is used for editing processes**/}
                         <>
@@ -348,19 +361,23 @@ const StoreKeeper: React.FC<props> = (props) => {
                                     }) => (
 
                                         <Form>
-                                            <$Radio
-                                                label="Adjustment Type : "
-                                                options={AdjustmentType}
-                                                optionType='button'
-                                                defaultValue='1'
-                                                name="adjustmentType"
-                                                buttonStyle="solid"
-                                            />
+                                            <ConfigProvider theme={RadioGroupTheme}>
+                                                <$Radio
+                                                    label="Adjustment Type : "
+                                                    options={AdjustmentType}
+                                                    optionType='button'
+                                                    defaultValue='1'
+                                                    name="adjustmentType"
+                                                    buttonStyle="solid"
+                                                    className='custom-radio'
+                                                />
+                                            </ConfigProvider>
                                             <br />
                                             <br />
                                             <$Input
                                                 label={`Adjustment Amount : ( ${selectedItemId?.measurementUnit} )`}
                                                 type="number"
+                                                step="any"
                                                 name="amountAdjusted"
                                                 isOnlyPositiveValues={true}
                                                 placeholder="Enter inventory adjustment..."
@@ -373,7 +390,7 @@ const StoreKeeper: React.FC<props> = (props) => {
                                                 placeholder="Add a comment about the inventory update..."
                                             />
                                             <hr />
-                                            <Button type="primary" htmlType="submit"  >Submit</Button>
+                                            <Button type="primary" htmlType="submit" className="form-submit-btn">Submit</Button>
                                             <br />
                                             <br />
                                         </Form>
@@ -383,7 +400,10 @@ const StoreKeeper: React.FC<props> = (props) => {
                         </>
                     </Col>
                     <Col span={12} >
-                        <img src={stroreKeeperOne} alt="storeKeeper" style={{ width: "620px", height: "440px" }} />
+                        <img src={stroreKeeperOne} alt="storeKeeper" loading="lazy"
+                            onLoad={() => setLoaded(true)}
+                            className={`store-keeper-image ${loaded ? "loaded" : ""}`}
+                        />
                     </Col>
                 </Row>
 

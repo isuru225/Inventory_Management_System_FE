@@ -1,5 +1,5 @@
 export interface IHistoryRecord {
-    key: string,
+    id: string,
     itemName: string,
     initialAmount : number,
     currentAmount: number,

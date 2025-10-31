@@ -28,7 +28,8 @@ export enum MeasurementUnits {
 }
 
 export enum General {
-    EMPTY_VALUE = ""
+    EMPTY_VALUE = "",
+    ERROR_RESET_CODE = 0
 }
 
 export enum EditUserInfos {

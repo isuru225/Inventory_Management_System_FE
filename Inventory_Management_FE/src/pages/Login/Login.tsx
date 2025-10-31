@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import { Button, Watermark } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'antd';
 import {
-    CButton,
     CCard,
     CCardBody,
     CCardGroup,
@@ -10,7 +9,6 @@ import {
     CContainer,
     CRow,
 } from '@coreui/react'
-import { Skeleton } from 'antd';
 import { Form, Formik } from 'formik';
 import { $Input } from '../../components/CustomComponents/index.ts';
 import { ILogin, loginInitValues } from './Constants/constants.ts';
@@ -18,15 +16,15 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { loginValidationSchema } from './Validations/loginValidationSchema.ts';
 import { connect, ConnectedProps } from 'react-redux';
 import { LoginActions } from '../../actions/Login/Login.ts';
-import { CSpinner } from '@coreui/react'
 import herbImg from "../../assets/images/Login/herb.jpg"
+import { errorCodes } from '../../components/GlobalConstants/Constants.ts';
 
 type props = propsFromRedux;
 
 const Login: React.FC<props> = (props) => {
 
     const { isLoginSuccessfull, token, errorCode, logUserCredentials, isLoading } = props;
-    const { accessToken, refreshToken, expiresOn } = token ?? {};
+    const { accessToken } = token ?? {};
     const navigate = useNavigate();
 
     
@@ -36,6 +34,7 @@ const Login: React.FC<props> = (props) => {
         logUserCredentials(value);
         actions.resetForm();
     }
+    
     
     
     
@@ -89,16 +88,16 @@ const Login: React.FC<props> = (props) => {
                                                         suffix=""
                                                     />
                                                     <br />
-                                                    {(errorCode == 100 || errorCode == 101) && <small className="error-msg">*User name or password is incorrect. Check again.</small>}
+                                                    {(errorCode == errorCodes.INVALID_EMAIL || errorCode == errorCodes.INVALID_PASSWORD || errorCode == errorCodes.INVALID_REQUEST_DATA) && <small className="error-msg">*User name or password is incorrect. Check again.</small>}
                                                     <br />
                                                     <br />
                                                     <CContainer>
                                                         <CRow>
                                                             <CCol>
-                                                                <Button type="primary" loading={isLoading} htmlType='submit'>Login</Button>
+                                                                <Button type="primary" loading={isLoading} htmlType='submit' className='login-btn'>Login</Button>
                                                             </CCol>
                                                             <CCol>
-                                                                <Button type="link" loading={isLoading} onClick={forgotPasswordHandler}>Forget Password?</Button>
+                                                                <Button type="link" loading={isLoading} onClick={forgotPasswordHandler} className='forget-password-link'>Forget Password?</Button>
                                                             </CCol>
                                                         </CRow>
                                                     </CContainer>

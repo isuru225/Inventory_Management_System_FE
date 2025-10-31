@@ -20,7 +20,8 @@ import {
   cilBellExclamation,
   cilUser,
   cilX,
-  cilWarning
+  cilWarning,
+  cilPowerStandby
 } from '@coreui/icons';
 
 import CIcon from '@coreui/icons-react';
@@ -58,7 +59,7 @@ const AppHeaderDropdown = ({ logoutHandler }) => {
   }
 
   const userProfileHandler = () => {
-    navigate('/user-profile');
+    navigate('/userprofile');
   }
 
   const onCancel = () => {
@@ -119,7 +120,8 @@ const AppHeaderDropdown = ({ logoutHandler }) => {
         </CButton>
         
         {/* Primary action: Log Out. Use 'danger' to visually signal a final action. */}
-        <CButton color="danger" onClick={logOut}>
+        <CButton color="danger" onClick={logOut} style={{color:"white"}}>
+          <CIcon icon={cilAccountLogout} className="me-2" />
           Log Out
         </CButton>
       </CModalFooter>

@@ -34,7 +34,7 @@ export const RawDrugsReducer = (state = RawDrugsInitState, action: any) => {
             return {
                 ...state,
                 AddRawDrug: {
-                    errorCode : 0,
+                    errorCode: 0,
                     data: action.payload.data,
                     isLoading: action.payload.isLoading
                 }
@@ -44,7 +44,7 @@ export const RawDrugsReducer = (state = RawDrugsInitState, action: any) => {
                 ...state,
                 AddRawDrug: {
                     ...state.AddRawDrug,
-                    errorCode : action.payload.error,
+                    errorCode: action.payload.error,
                     isLoading: action.payload.isLoading
                 }
             }
@@ -118,6 +118,14 @@ export const RawDrugsReducer = (state = RawDrugsInitState, action: any) => {
                 DeleteRawDrug: {
                     ...state.DeleteRawDrug,
                     isLoading: action.payload.isLoading
+                }
+            }
+        case RawDrugs.RAW_DRUG_ERROR_CODE_RESET:
+            return {
+                ...state,
+                AddRawDrug: {
+                    ...state.AddRawDrug,
+                    errorCode: action.payload.resetCodeValue,
                 }
             }
         default:

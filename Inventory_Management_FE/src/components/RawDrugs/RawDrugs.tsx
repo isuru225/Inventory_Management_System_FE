@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
-import type { InputRef, TableColumnsType, TableColumnType } from 'antd';
-import { Button, Input, Modal, Space, Table, Skeleton, Result } from 'antd';
+import type { InputRef, TableColumnsType, TableColumnType, CheckboxProps } from 'antd';
+import { Button, Input, Modal, Space, Table, Skeleton, Result, Checkbox, ConfigProvider } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 // @ts-ignore
 import Highlighter from 'react-highlight-words';
@@ -12,7 +12,7 @@ import { $Input, $Select, $DatePicker } from "../CustomComponents/index.ts";
 import { Component, General, measurementUnitsArray, rawDrugsItemInitInfo, rawDrugsItemInitInfoForEditModal } from './Constants/Constants.ts';
 import { RawDrugsValidationSchema, EditDrugValidationSchema } from './Validation/RawDrugsValidationSchema.ts';
 import moment from "moment";
-import { extractNumber, MeasurementOptionsHandler, TableDataHandler } from './Functions/Functions.tsx';
+import { extractNumber, MeasurementOptionsHandler, TableDataHandler, tableRowColorHandler } from './Functions/Functions.tsx';
 import { IRawDrugInfoForEditModal } from './Interfaces/Interfaces.ts';
 import { AnyObject } from 'antd/es/_util/type';
 import { IsTokenExpiredOrMissingChecker, getAttributesFromToken } from "../../GlobalFunctions/Functions.tsx"
@@ -43,8 +43,9 @@ const RawDrugs: React.FC<props> = (props) => {
     const [selectedRawDrugItemId, setSelectedRawDrugItemId] = useState<string>(General.EMPTY_VALUE);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
     const [isDuplicateWarningModelOpen, setIsDuplicateWarningModelOpen] = useState<boolean>(false);
+    const [isWarnRowColorVisible, setIsWarnRowColorVisible] = useState<boolean>(false);
 
-    const { getAllRawDrugItems, addNewRawDrug, data, isLoading, AddRawDrug, editRawDrug, EditRawDrug, deleteRawDrug, DeleteRawDrug } = props ?? {};
+    const { getAllRawDrugItems, addNewRawDrug, data, isLoading, AddRawDrug, editRawDrug, EditRawDrug, deleteRawDrug, DeleteRawDrug, resetRawDrugErrorCode } = props ?? {};
 
     const navigate = useNavigate();
 
@@ -97,6 +98,10 @@ const RawDrugs: React.FC<props> = (props) => {
         setIsModalOpen(false);
         //addMovieRecords(values);
     }
+
+    const onChange: CheckboxProps['onChange'] = (e) => {
+        setIsWarnRowColorVisible(e.target.checked);
+    };
 
     const submitEditInfo = (values: any, actions: AnyObject) => {
         const { itemNameEdit, categoryEdit, amountEdit, expirationDateEdit, measurementUnitEdit, reorderPointEdit } = values ?? {};
@@ -282,6 +287,17 @@ const RawDrugs: React.FC<props> = (props) => {
 
     ];
 
+    const checkBoxTheme = {
+        components: {
+            Checkbox: {
+                colorPrimary: "#00b96b",
+                colorTextDisabled: "rgba(0,0,0,0.25)",
+                colorPrimaryDisabled: "rgba(0,0,0,0.15)",
+                colorPrimaryHover:"#409843"
+            },
+        },
+    }
+
     return (
         <>
             <div>
@@ -294,18 +310,30 @@ const RawDrugs: React.FC<props> = (props) => {
                 {getAttributesFromToken(['role']).role === "Admin" &&
                     <>
                         <div>
-                            <Button color='green' onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
+                            <Button onClick={() => { setIsModalOpen(true) }} className="rawdrug-add-btn">
                                 <PlusOutlined /> ADD
                             </Button>
-                            <Button color='green' onClick={() => { navigate('/rawdrugs/storekeeper', { state: { from: Component.COMPONENT_NAME } }) }} className="store-keeper-btn">
+                            <Button onClick={() => { navigate('/rawdrugs/storekeeper', { state: { from: Component.COMPONENT_NAME } }) }} className="store-keeper-btn">
                                 <UserOutlined /> Store Keeper
                             </Button>
+                        </div>
+                        <hr />
+                        <div>
+                            <ConfigProvider theme={checkBoxTheme}>
+                                <Checkbox onChange={onChange} className="hightlight-checkbox">
+                                    Highlight records with low stock value.
+                                </Checkbox>
+                            </ConfigProvider>
                         </div>
                         <hr />
                     </>
                 }
                 <Skeleton active loading={isLoading}>
-                    <Table<DataType> columns={columns} dataSource={TableDataHandler(data)} />
+                    <Table<DataType>
+                        columns={columns}
+                        dataSource={TableDataHandler(data)}
+                        className="table"
+                        rowClassName={isWarnRowColorVisible ? tableRowColorHandler : ""} />
                 </Skeleton>
                 <>
                     <Modal
@@ -368,6 +396,7 @@ const RawDrugs: React.FC<props> = (props) => {
                                     <$Input
                                         label={`Amount : ( ${values?.measurementUnit} )`}
                                         type="number"
+                                        step="any"
                                         name="amount"
                                         placeholder="Enter Amount of the item..."
                                         isOnlyPositiveValues={true}
@@ -376,12 +405,13 @@ const RawDrugs: React.FC<props> = (props) => {
                                     <$Input
                                         label={`Reorder Point : ( ${values?.measurementUnit} )`}
                                         type="number"
+                                        step="any"
                                         name="reorderPoint"
                                         placeholder="Enter Reorder Point of the item..."
                                         isOnlyPositiveValues={true}
                                     />
                                     <hr />
-                                    <Button type="primary" htmlType="submit"  >Submit</Button>
+                                    <Button type="primary" htmlType="submit" className="form-submit-btn">Submit</Button>
                                     <br />
                                     <br />
                                 </Form>
@@ -450,19 +480,23 @@ const RawDrugs: React.FC<props> = (props) => {
                                     <br />
                                     <br />
                                     <$Input
-                                        label="Amount : "
+                                        label={`Amount : ( ${values?.measurementUnitEdit} )`}
                                         type="number"
+                                        step="any"
                                         name="amountEdit"
                                         placeholder="Enter Amount of the item..."
+                                        isOnlyPositiveValues={true}
                                     />
                                     <$Input
-                                        label="Reorder Point : "
+                                        label={`Reorder Point : ( ${values?.measurementUnitEdit} )`}
                                         type="number"
+                                        step="any"
                                         name="reorderPointEdit"
                                         placeholder="Enter Reorder Point of the item..."
+                                        isOnlyPositiveValues={true}
                                     />
                                     <hr />
-                                    <Button type="primary" htmlType="submit"  >Submit</Button>
+                                    <Button type="primary" htmlType="submit" className="form-submit-btn">Submit</Button>
                                     <br />
                                     <br />
                                 </Form>
@@ -500,7 +534,10 @@ const RawDrugs: React.FC<props> = (props) => {
                             </>
                         }
                         extra={
-                            <Button type="primary" key="console" onClick={() => { setIsDuplicateWarningModelOpen(false) }}>
+                            <Button type="primary" key="console" onClick={() => {
+                                setIsDuplicateWarningModelOpen(false)
+                                resetRawDrugErrorCode(0);
+                            }}>
                                 Ok
                             </Button>
                         }
@@ -528,7 +565,8 @@ const mapDispatchToProps = {
     getAllRawDrugItems: RawDrugsActions.allRawDrugItems.get,
     addNewRawDrug: RawDrugsActions.addNewDrugItem.add,
     editRawDrug: RawDrugsActions.editRawDrugItem.edit,
-    deleteRawDrug: RawDrugsActions.deleteRawDrug.delete
+    deleteRawDrug: RawDrugsActions.deleteRawDrug.delete,
+    resetRawDrugErrorCode: RawDrugsActions.resetRawDrugErrorCode.reset
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

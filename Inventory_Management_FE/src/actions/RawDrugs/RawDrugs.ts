@@ -16,7 +16,8 @@ const
     ADD_RECORD_TO_TRANSACTION_HISTORY_SUCCESS_FAIL,
     DELETE_RAW_DRUG_ITEM,
     DELETE_RAW_DRUG_ITEM_SUCCESSFUL,
-    DELETE_RAW_DRUG_ITEM_FAIL
+    DELETE_RAW_DRUG_ITEM_FAIL,
+    RAW_DRUG_ERROR_CODE_RESET
 
   } = RawDrugs
 
@@ -140,6 +141,15 @@ export const RawDrugsActions = {
         error,
         isLoading: false,
       },
+    })
+  }
+  ,
+  resetRawDrugErrorCode: {
+    reset: (resetCodeValue: any) => ({
+      type: RAW_DRUG_ERROR_CODE_RESET,
+      payload: {
+        resetCodeValue
+      }
     })
   }
 }

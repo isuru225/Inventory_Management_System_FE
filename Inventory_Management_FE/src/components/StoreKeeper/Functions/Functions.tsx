@@ -5,22 +5,24 @@ import { JWTDecoder } from "../../../GlobalFunctions/Functions.tsx";
 import { useNavigate } from 'react-router-dom';
 import { AdjustmentTypes, EditUserInfos } from "../Constants/Constants.ts"
 
-export const TableDataHandler = (data : Array<IRawDrug>) => {
-    
-    const formattedData = data?.map((rawDrug : IRawDrug , index : number)=>{
+export const TableDataHandler = (data: Array<IRawDrug>) => {
+
+    const formattedData = data?.map((rawDrug: IRawDrug, index: number) => {
         const dateOnly = moment(rawDrug.expirationDate).format("YYYY-MM-DD");
-        return {...rawDrug, amountWithUnit : `${rawDrug.amount} ${rawDrug.measurementUnit}`,key : index.toString(), expirationDate : dateOnly}
+        return { ...rawDrug, amountWithUnit: `${rawDrug.amount} ${rawDrug.measurementUnit}`, key: index.toString(), expirationDate: dateOnly }
     });
-    
+
     return formattedData;
 }
 
-export const BalanceAmountCalculator = (currentAmount : number , adjustmentAmount : number, adjustmentType : string) : Number => {
-    if(currentAmount>=adjustmentAmount){
-        if(adjustmentType == AdjustmentTypes.INCREMENT){
-            return currentAmount + adjustmentAmount;
-        }else if(adjustmentType == AdjustmentTypes.DECREMENT){      
+export const BalanceAmountCalculator = (currentAmount: number, adjustmentAmount: number, adjustmentType: string): Number => {
+    if (adjustmentType == AdjustmentTypes.INCREMENT) {
+        return currentAmount + adjustmentAmount;
+    } else if (adjustmentType == AdjustmentTypes.DECREMENT) {
+        if (currentAmount >= adjustmentAmount) {
             return currentAmount - adjustmentAmount;
+        }else{
+            return -1;
         }
     }
     return -1;

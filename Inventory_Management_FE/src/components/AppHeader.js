@@ -95,7 +95,7 @@ const AppHeader = () => {
         <CHeaderNav className="ms-auto">
           {userName && <CNavItem>
             <CNavLink>
-              {`Hi ${userName}, Welcome to Task Nest.`}
+              {`Hi ${userName}, Welcome to Ayur Vault.`}
             </CNavLink>
           </CNavItem>}
           {!userName && <CNavItem>

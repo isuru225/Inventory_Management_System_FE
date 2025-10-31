@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
-import type { InputRef, TableColumnsType, TableColumnType, message, Popconfirm } from 'antd';
-import { Button, Input, Modal, Space, Table, Skeleton, Result } from 'antd';
+import type { InputRef, TableColumnsType, TableColumnType, CheckboxProps } from 'antd';
+import { Button, Input, Modal, Space, Table, Skeleton, Result, Checkbox, ConfigProvider } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 // @ts-ignore
 import Highlighter from 'react-highlight-words';
@@ -12,7 +12,7 @@ import { $Input, $Select, $TextArea, $DatePicker } from "../CustomComponents/ind
 import { General, measurementUnitsArray, finishedDrugsItemInitInfo, finishedDrugsItemInitInfoForEditModal, Component } from './Constants/Constants.ts';
 import { finishedDrugsValidationSchema, EditFinishedDrugValidationSchema } from './Validation/finishedDrugsValidationSchema.ts';
 import moment from "moment";
-import { extractNumber, MeasurementOptionsHandler, TableDataHandler } from './Functions/Functions.tsx';
+import { extractNumber, MeasurementOptionsHandler, TableDataHandler, tableRowColorHandler } from './Functions/Functions.tsx';
 import { IFinishedDrugInfoForEditModal, IFinishedDrugsItemInitInfo } from './Interfaces/interfaces.ts';
 import { AnyObject } from 'antd/es/_util/type';
 import { getAttributesFromToken, IsTokenExpiredOrMissingChecker } from "../../GlobalFunctions/Functions.tsx"
@@ -43,8 +43,9 @@ const FinishedDrugs: React.FC<props> = (props) => {
     const [selectedFinishedDrugItemId, setSelectedFinishedDrugItemId] = useState<string>(General.EMPTY_VALUE);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
     const [isDuplicateWarningModelOpen, setIsDuplicateWarningModelOpen] = useState<boolean>(false);
+    const [isWarnRowColorVisible, setIsWarnRowColorVisible] = useState<boolean>(false);
 
-    const { getAllFinishedDrugItems, addNewFinishedDrug, data, isLoading, AddFinishedDrug, editFinishedDrug, EditFinishedDrug, deleteFinishedDrug, DeleteFinishedDrug } = props ?? {};
+    const { getAllFinishedDrugItems, addNewFinishedDrug, data, isLoading, AddFinishedDrug, editFinishedDrug, EditFinishedDrug, deleteFinishedDrug, DeleteFinishedDrug, resetFinishedDrugErrorCode } = props ?? {};
 
     const navigate = useNavigate();
 
@@ -97,6 +98,10 @@ const FinishedDrugs: React.FC<props> = (props) => {
         setIsModalOpen(false);
         //addMovieRecords(values);
     }
+
+    const onChange: CheckboxProps['onChange'] = (e) => {
+        setIsWarnRowColorVisible(e.target.checked);
+    };
 
     const submitEditInfo = (values: any, actions: AnyObject) => {
         const { itemNameEdit, categoryEdit, amountEdit, expirationDateEdit, measurementUnitEdit, reorderPointEdit } = values ?? {};
@@ -275,6 +280,17 @@ const FinishedDrugs: React.FC<props> = (props) => {
         }] : [])
     ];
 
+    const checkBoxTheme = {
+        components: {
+            Checkbox: {
+                colorPrimary: "#00b96b",
+                colorTextDisabled: "rgba(0,0,0,0.25)",
+                colorPrimaryDisabled: "rgba(0,0,0,0.15)",
+                colorPrimaryHover: "#409843"
+            },
+        },
+    }
+
     return (
         <>
             <div>
@@ -295,15 +311,27 @@ const FinishedDrugs: React.FC<props> = (props) => {
                             </Button>
                         </div>
                         <hr />
+                        <div>
+                            <ConfigProvider theme={checkBoxTheme}>
+                                <Checkbox onChange={onChange} >
+                                    Highlight records with low stock value.
+                                </Checkbox>
+                            </ConfigProvider>
+                        </div>
+                        <hr />
                     </>
                 }
 
                 <Skeleton active loading={isLoading}>
-                    <Table<DataType> columns={columns} dataSource={TableDataHandler(data)} />
+                    <Table<DataType>
+                        columns={columns}
+                        dataSource={TableDataHandler(data)}
+                        rowClassName={isWarnRowColorVisible ? tableRowColorHandler : ""}
+                        className="table" />
                 </Skeleton>
                 <>
                     <Modal
-                        title="ADD NEW Finished DRUG ITEM"
+                        title="ADD NEW FINISHED DRUG ITEM"
                         open={isModalOpen}
                         onCancel={() => { setIsModalOpen(false) }}
                         footer={null}
@@ -362,6 +390,7 @@ const FinishedDrugs: React.FC<props> = (props) => {
                                     <$Input
                                         label={`Amount : ( ${values?.measurementUnit} )`}
                                         type="number"
+                                        step="any"
                                         name="amount"
                                         placeholder="Enter Amount of the item..."
                                         isOnlyPositiveValues={true}
@@ -370,12 +399,13 @@ const FinishedDrugs: React.FC<props> = (props) => {
                                     <$Input
                                         label={`Reorder Point : ( ${values?.measurementUnit} )`}
                                         type="number"
+                                        step="any"
                                         name="reorderPoint"
                                         placeholder="Enter Reorder Point of the item..."
                                         isOnlyPositiveValues={true}
                                     />
                                     <hr />
-                                    <Button type="primary" htmlType="submit"  >Submit</Button>
+                                    <Button type="primary" htmlType="submit" className="form-submit-btn">Submit</Button>
                                     <br />
                                     <br />
                                 </Form>
@@ -444,19 +474,21 @@ const FinishedDrugs: React.FC<props> = (props) => {
                                     <br />
                                     <br />
                                     <$Input
-                                        label="Amount : "
+                                        label={`Amount : ( ${values?.measurementUnitEdit} )`}
                                         type="number"
+                                        step="any"
                                         name="amountEdit"
                                         placeholder="Enter Amount of the item..."
                                     />
                                     <$Input
-                                        label="Reorder Point : "
+                                        label={`Reorder Point : ( ${values?.measurementUnitEdit} )`}
                                         type="number"
+                                        step="any"
                                         name="reorderPointEdit"
                                         placeholder="Enter Reorder Point of the item..."
                                     />
                                     <hr />
-                                    <Button type="primary" htmlType="submit"  >Submit</Button>
+                                    <Button type="primary" htmlType="submit" className="form-submit-btn">Submit</Button>
                                     <br />
                                     <br />
                                 </Form>
@@ -466,7 +498,15 @@ const FinishedDrugs: React.FC<props> = (props) => {
 
                 </>
                 <>
-                    <Modal title="DELETE CONFIRMATION!" open={isConfirmationModalOpen} onOk={confirmDeleteProcess} onCancel={abortDeleteProcess}>
+                    <Modal
+                        title="DELETE CONFIRMATION!"
+                        open={isConfirmationModalOpen}
+                        onOk={confirmDeleteProcess}
+                        onCancel={abortDeleteProcess}
+                        okText="Delete"
+                        okButtonProps={{
+                            style: { backgroundColor: "#DC3545", borderColor: "#DC3545" }, // Green
+                        }}>
                         <hr />
                         <p>Are you sure to delete the selected record?</p>
                         <hr />
@@ -487,7 +527,10 @@ const FinishedDrugs: React.FC<props> = (props) => {
                             </>
                         }
                         extra={
-                            <Button type="primary" key="console" onClick={() => { setIsDuplicateWarningModelOpen(false) }}>
+                            <Button type="primary" key="console" onClick={() => {
+                                setIsDuplicateWarningModelOpen(false)
+                                resetFinishedDrugErrorCode(General.ERROR_RESET_CODE);
+                            }}>
                                 Ok
                             </Button>
                         }
@@ -516,7 +559,8 @@ const mapDispatchToProps = {
     getAllFinishedDrugItems: FinishedDrugsActions.allFinishedDrugItems.get,
     addNewFinishedDrug: FinishedDrugsActions.addFinishedDrugItem.add,
     editFinishedDrug: FinishedDrugsActions.editFinishedDrugItem.edit,
-    deleteFinishedDrug: FinishedDrugsActions.deleteFinishedDrug.delete
+    deleteFinishedDrug: FinishedDrugsActions.deleteFinishedDrug.delete,
+    resetFinishedDrugErrorCode: FinishedDrugsActions.resetFinishedDrugErrorCode.reset
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

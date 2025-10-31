@@ -9,6 +9,8 @@ type props = {
     defaultValue : string,
     optionType : any,
     buttonStyle : any,
+    className? : string,
+    style? : any
 }
 
 const CustomRadio = ({ label, ...rest }: props) => {
