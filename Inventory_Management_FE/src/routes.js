@@ -58,6 +58,7 @@ const Registration = React.lazy(()=> import('./components/Admin/Admin.tsx'))
 const FinishedDrugs = React.lazy(()=> import('./components/FinishedDrugs/FinishdDrugs.tsx'))
 const ResetPassword = React.lazy(()=> import('./pages/ResetPassword/ResetPassword.tsx'))
 const ForgotPassword = React.lazy(()=> import('./pages/ForgotPassword/ForgotPassword.tsx'))
+const UserProfile = React.lazy(()=> import('./components/UserProfile/UserProfile.tsx'))
 
 
 const routes = [
@@ -69,7 +70,8 @@ const routes = [
    { path: '/admin', name: 'Registration', element : Registration},
    { path: '/finisheddrugs', name: 'FinishedDrugs', element : FinishedDrugs},
    { path: '/login/resetpassword', name: 'ResetPassword', element : ResetPassword},
-   { path: '/login/forgotpassword', name: 'ForgotPassword', element : ForgotPassword}
+   { path: '/login/forgotpassword', name: 'ForgotPassword', element : ForgotPassword},
+   { path: '/userprofile', name: 'UserProfile', element : UserProfile}
 ]
 
 export default routes

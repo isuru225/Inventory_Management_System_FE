@@ -18,12 +18,12 @@ import { successNotification, failedNotification } from './Constants/Constants.t
 type props = propsFromRedux;
 type DataIndex = keyof IRegisteredUserData;
 
-const RegisteredUsers : React.FC<props> = (props) => {
+const RegisteredUsers: React.FC<props> = (props) => {
 
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef<InputRef>(null);
-    const [ isConfirmationModalOpen,setIsConfirmationModalOpen ] = useState<boolean>(false);
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
     const [selectedUserId, setSelectedUserId] = useState<string>("");
 
     const { data, isLoading, getRegisteredUsers, deleteRegisteredUser, deleteOperation, statusAfterRegistration } = props ?? {};
@@ -38,7 +38,7 @@ const RegisteredUsers : React.FC<props> = (props) => {
         } else {
             getRegisteredUsers({});
         }
-    }, [statusAfterRegistration?.data , deleteOperation?.data])
+    }, [statusAfterRegistration?.data, deleteOperation?.data])
 
     //delete a selected history record
     const handleDeleteHistoryRecord = (record: any) => {
@@ -48,9 +48,9 @@ const RegisteredUsers : React.FC<props> = (props) => {
     }
 
     const confirmDeleteProcess = () => {
-        if(selectedUserId != "" || selectedUserId != undefined){
+        if (selectedUserId != "" || selectedUserId != undefined) {
             deleteRegisteredUser({
-                id : selectedUserId
+                id: selectedUserId
             })
             setIsConfirmationModalOpen(false);
         }
@@ -63,29 +63,29 @@ const RegisteredUsers : React.FC<props> = (props) => {
     const [api, contextHolder] = notification.useNotification();
 
     useEffect(() => {
-    
-            if (!isMounted.current) {
-                isMounted.current = true;
-                return;
-            }
-            if (deleteOperation?.data.success) {
-                api.open({
-                    message: successNotification.MESSAGE,
-                    description: successNotification.DESCRIPTION,
-                    showProgress: true,
-                    pauseOnHover: true
-                });
-                
-            }else if(!deleteOperation?.data.success){
-                api.open({
-                    message: failedNotification.MESSAGE,
-                    description: failedNotification.DESCRIPTION,
-                    showProgress: true,
-                    pauseOnHover: true
-                });
-            }
-    
-        }, [deleteOperation?.data])
+
+        if (!isMounted.current) {
+            isMounted.current = true;
+            return;
+        }
+        if (deleteOperation?.data.success) {
+            api.open({
+                message: successNotification.MESSAGE,
+                description: successNotification.DESCRIPTION,
+                showProgress: true,
+                pauseOnHover: true
+            });
+
+        } else if (!deleteOperation?.data.success) {
+            api.open({
+                message: failedNotification.MESSAGE,
+                description: failedNotification.DESCRIPTION,
+                showProgress: true,
+                pauseOnHover: true
+            });
+        }
+
+    }, [deleteOperation?.data])
 
 
 
@@ -237,10 +237,18 @@ const RegisteredUsers : React.FC<props> = (props) => {
                 </div>
                 <hr />
                 {contextHolder}
-                <Skeleton active loading={isLoading || deleteOperation?.isLoading || statusAfterRegistration?.isLoading }>
+                <Skeleton active loading={isLoading || deleteOperation?.isLoading || statusAfterRegistration?.isLoading}>
                     <Table<IRegisteredUserData> columns={columns} dataSource={registeredUserInfoHandler(data)} className="history-table" />
                 </Skeleton>
-                <Modal title="DELETE CONFIRMATION!" open={isConfirmationModalOpen} onOk={confirmDeleteProcess} onCancel={abortDeleteProcess}>
+                <Modal
+                    title="DELETE CONFIRMATION!"
+                    open={isConfirmationModalOpen}
+                    onOk={confirmDeleteProcess}
+                    onCancel={abortDeleteProcess}
+                    okText="Delete"
+                    okButtonProps={{
+                        style: { backgroundColor: "#DC3545", borderColor: "#DC3545" }, // Green
+                    }}>
                     <hr />
                     <p>Are you sure to delete the selected record?</p>
                     <hr />
@@ -253,8 +261,8 @@ const RegisteredUsers : React.FC<props> = (props) => {
 }
 
 const mapStateToProps = (state: any) => {
-    const { RegisteredUserReducer, RegisterReducer : statusAfterRegistration } = state;
-    const { data, isLoading , deleteOperation } = RegisteredUserReducer;
+    const { RegisteredUserReducer, RegisterReducer: statusAfterRegistration } = state;
+    const { data, isLoading, deleteOperation } = RegisteredUserReducer;
     return {
         data,
         isLoading,
@@ -265,7 +273,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
     getRegisteredUsers: RegisteredUserActions.registeredUser.get,
-    deleteRegisteredUser : RegisteredUserActions.registeredUserRemoving.delete
+    deleteRegisteredUser: RegisteredUserActions.registeredUserRemoving.delete
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

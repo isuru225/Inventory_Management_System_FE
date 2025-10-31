@@ -120,6 +120,14 @@ export const FinishedDrugsReducer = (state = FinishedDrugsInitState, action: any
                     isLoading: action.payload.isLoading
                 }
             }
+        case FinishedDrugs.FINISHED_DRUG_ERROR_CODE_RESET:
+            return {
+                ...state,
+                AddFinishedDrug:{
+                    ...state.AddFinishedDrug,
+                    errorCode : action.payload.resetCodeValue,
+                }
+            }
         default:
             return state;
     }

@@ -57,3 +57,11 @@ export const GetEditorInfos = () : IEditUserInfos =>  {
         }
     }
 }
+
+export const tableRowColorHandler = (record : any) => {
+    if(record?.amount < record?.reorderPoint){
+        return "table-row-warn"
+    }else{
+        return "table-row-normal"
+    }
+}

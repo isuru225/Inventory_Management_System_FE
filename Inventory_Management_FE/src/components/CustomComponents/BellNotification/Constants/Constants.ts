@@ -16,3 +16,8 @@ export enum notificationType
     REOREDER = 0,
     EXPIRATION = 1
 }
+
+export enum notificationDateRange
+{
+    NO_OF_DAYS = 7
+}

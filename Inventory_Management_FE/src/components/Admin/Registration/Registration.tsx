@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Button, Input, Modal, Space, Table, Skeleton, Row, Col, notification } from 'antd';
 import { Formik, Form } from "formik"
 import { $Input, $Select, $DatePicker } from "../../CustomComponents/index.ts";
@@ -16,12 +16,13 @@ const Registration: React.FC<props> = (props) => {
 
     const { registerNewUser, isLoading, data } = props ?? {};
     const isMounted = useRef(false);
+    const [loaded, setLoaded] = useState<boolean>(false);
 
-    const submit = (values: any , actions : any) => {
+    const submit = (values: any, actions: any) => {
         if (values) {
             registerNewUser(values);
         }
-        //actions.resetForm();
+        actions.resetForm();
     }
 
     const [api, contextHolder] = notification.useNotification();
@@ -49,8 +50,8 @@ const Registration: React.FC<props> = (props) => {
                 showProgress: true,
                 pauseOnHover: true
             });
-            
-        }else if(!data?.success){
+
+        } else if (!data?.success) {
             api.open({
                 message: failedNotification.MESSAGE,
                 description: failedNotification.DESCRIPTION,
@@ -139,7 +140,7 @@ const Registration: React.FC<props> = (props) => {
                                     {userRolesHandler()}
                                 </$Select>
                                 <hr />
-                                <Button loading={isLoading} type="primary" htmlType="submit"  >Submit</Button>
+                                <Button loading={isLoading} type="primary" htmlType="submit" className="register-user-btn">Register</Button>
                                 <br />
                                 <br />
                             </Form>
@@ -148,7 +149,9 @@ const Registration: React.FC<props> = (props) => {
                 </Col>
                 <Col span={12} >
                     <div>
-                        <img src={doctor} alt="doc" />
+                        <img src={doctor} alt="doc" loading="lazy"
+                            onLoad={() => setLoaded(true)}
+                            className={`admin-image ${loaded ? "loaded" : ""}`} />
                     </div>
                 </Col>
             </Row>

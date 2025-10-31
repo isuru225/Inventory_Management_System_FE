@@ -25,6 +25,10 @@ export enum General {
     EMPTY_VALUE = ""
 }
 
+export enum ERROR_MESSAGE {
+    NO_RECORDS = "No records are selected!Please set date range to select records."
+}
+
 export const AdjustmentType = [
     {label : 'Increase' , value : '1'},
     {label : 'Decrease' , value : '0'}

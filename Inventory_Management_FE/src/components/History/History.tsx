@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, DeleteOutlined } from '@ant-design/icons';
-import type { InputRef, TableColumnsType, TableColumnType } from 'antd';
-import { Button, Input, Modal, Space, Table, Skeleton, Tooltip } from 'antd';
+import type { InputRef, TableColumnsType, TableColumnType, RadioChangeEvent, DatePickerProps, GetProps } from 'antd';
+import { Button, Input, Modal, Space, Table, Skeleton, Tooltip, Radio, Flex, DatePicker, ConfigProvider } from 'antd';
+import type { CheckboxGroupProps } from 'antd/es/checkbox';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 // @ts-ignore
 import Highlighter from 'react-highlight-words';
@@ -9,11 +10,13 @@ import { connect, ConnectedProps } from 'react-redux';
 import { getAttributesFromToken, IsTokenExpiredOrMissingChecker } from "../../GlobalFunctions/Functions.tsx"
 import { useNavigate } from 'react-router-dom';
 import { HistoryActions } from '../../actions/History/History.ts';
-import { historyRecoredFormatter } from './Functions/Functions.tsx';
-import { General } from './Constants/Constants.ts';
+import { historyRecoredFormatter, recordsSorterByDate, exportToCSV, csvFileNameHandler } from './Functions/Functions.tsx';
+import { ERROR_MESSAGE, General } from './Constants/Constants.ts';
+import { IHistoryRecord } from './Interfaces/Interfaces.ts';
 
 
 type props = propsFromRedux;
+type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 
 export interface DataType {
     key: string;
@@ -37,12 +40,33 @@ const History: React.FC<props> = (props) => {
     const searchInput = useRef<InputRef>(null);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
     const [selectedRawDrugItemId, setSelectedRawDrugItemId] = useState<string>(General.EMPTY_VALUE);
+    const [pageSize, setPageSize] = useState(8);
+    const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
+    const [exportType, setExportType] = useState<number>(0);
+    const [totalSelectedRecords, setTotalSelectedRecords] = useState<number>(0);
+    const [sortedRecords, setSortedRecords] = useState<Array<IHistoryRecord>>([]);
+    const [selectedDateRange, setSelectedDateRange] = useState<Array<string>>([]);
+    const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
 
     const { data, isLoading, getAllHistoryRecords, deleteHistoryRecord, deleteHistoryRecordStatus } = props ?? {};
 
     const navigate = useNavigate();
+    const { RangePicker } = DatePicker;
 
     
+
+    useEffect(() => {
+        // Calculate based on screen height
+        const height = window.innerHeight;
+        if (height < 700) setPageSize(5);
+        else if (height < 900) setPageSize(10);
+        else setPageSize(15);
+    }, []);
+
+    const options: CheckboxGroupProps<string>['options'] = [
+        { label: 'Select all records', value: '0' },
+        { label: 'Select records by date', value: '1' },
+    ];
 
     //get all available raw drug items
     useEffect(() => {
@@ -53,13 +77,38 @@ const History: React.FC<props> = (props) => {
         }
     }, [deleteHistoryRecordStatus?.data])
 
+    useEffect(() => {
+        if (exportType == 0) {
+            setTotalSelectedRecords(data?.length);
+            setSortedRecords(data);
+            const startDate = data[0]?.time.split("T")[0];;
+            const endDate = data[data?.length - 1]?.time.split("T")[0];
+
+            setSelectedDateRange([startDate, endDate])
+        }
+        if (exportType == 1) {
+            setTotalSelectedRecords(0);
+            setSortedRecords([]);
+        }
+
+    }, [exportType, data])
+
     //delete a selected history record
     const handleDeleteHistoryRecord = (record: any) => {
-        
+
         const { id } = record ?? {};
         setSelectedRawDrugItemId(id);
         setIsConfirmationModalOpen(true);
     }
+
+    const exportingRecordSelector = (e: RadioChangeEvent) => {
+        setExportType(e.target.value)
+    }
+
+    const dateRangeHandler = (value: DatePickerProps['value'] | RangePickerProps['value']) => {
+        
+    }
+
 
     const confirmDeleteProcess = () => {
         if (selectedRawDrugItemId != "" || selectedRawDrugItemId != undefined) {
@@ -233,13 +282,28 @@ const History: React.FC<props> = (props) => {
             title: 'Action',
             key: 'action',
             width: '10%',
-            render: (_ : any, record : any) => (
+            render: (_: any, record: any) => (
                 <Space size="middle">
                     <DeleteOutlined className="delete-bin-btn" onClick={() => { handleDeleteHistoryRecord(record) }} />
                 </Space>
             ),
-        }] : [])  
+        }] : [])
     ];
+
+    const RadioGroupTheme = {
+        components: {
+            Radio: {
+                colorPrimary: "#4CAF50", // primary color for checked state
+                buttonSolidCheckedBg: "#4CAF50", // solid button background
+                buttonSolidCheckedHoverBg: "#4CAF50", // hover color
+                buttonSolidCheckedActiveBg: "#4CAF50", // active color
+                buttonColor: "#333", // default text color
+                buttonSolidCheckedColor: "#fff", // text color when checked
+                dotSize: 10, // inner dot size
+                radioSize: 18, // outer circle size
+            },
+        },
+    };
 
     return (
         <>
@@ -251,7 +315,30 @@ const History: React.FC<props> = (props) => {
                 </div>
                 <hr />
                 <Skeleton active loading={isLoading || deleteHistoryRecordStatus?.isLoading}>
-                    <Table<DataType> columns={columns} dataSource={historyRecoredFormatter(data)} className="history-table" />
+                    <Table<DataType>
+                        columns={columns}
+                        dataSource={historyRecoredFormatter(data)}
+                        className="history-table"
+                        footer={() => (
+                            <div
+                                style={{
+                                    textAlign: "right",
+                                    paddingRight: "16px",
+                                }}
+                            >
+                                <Button
+                                    onClick={() => { setIsExportModalOpen(true) }}
+                                    className="export-btn"
+                                >
+                                    Export
+                                </Button>
+                            </div>
+                        )}
+                        pagination={{
+                            pageSize,
+                            showSizeChanger: true,
+                            pageSizeOptions: [5, 8, 15, 20],
+                        }} />
                 </Skeleton>
                 <Modal title="DELETE CONFIRMATION!"
                     open={isConfirmationModalOpen}
@@ -265,8 +352,72 @@ const History: React.FC<props> = (props) => {
                     <p>Are you sure to delete the selected record?</p>
                     <hr />
                 </Modal>
-
             </div >
+            <Modal title="Export transaction to CSV format"
+                open={isExportModalOpen}
+                onOk={confirmDeleteProcess}
+                onCancel={() => { setIsExportModalOpen(false) }}
+                okText="Export"
+                footer={[
+                    // 👇 Custom footer buttons
+                    <Button key="delete_export" style={{ backgroundColor: "#DC3545", borderColor: "#DC3545", color: "white" }}>
+                        Delete and Export
+                    </Button>,
+                    <Button key="export" type="primary" onClick={() => {
+                        if (sortedRecords.length > 0) {
+                            setIsErrorVisible(false);
+                            exportToCSV(csvFileNameHandler(selectedDateRange), sortedRecords);
+                        } else {
+                            setIsErrorVisible(true);
+                        }
+                    }} style={{ backgroundColor: "#4CAF50", borderColor: "#4CAF50", color: "white" }}>
+                        Export
+                    </Button>,
+                ]}>
+                <hr />
+                <div>
+                    <p>Set a selection type: </p>
+                    <Flex vertical gap="middle">
+                        <ConfigProvider theme={RadioGroupTheme}>
+                            <Radio.Group block options={options} defaultValue="0" onChange={exportingRecordSelector} />
+                        </ConfigProvider>
+                    </Flex>
+                </div>
+                <hr />
+                {exportType == 0 && <div>
+                    <p>
+                        {`Total transaction records: ${totalSelectedRecords}`}
+                    </p>
+                </div>}
+                {exportType == 1 && <div>
+                    <p>Please select a date range:</p>
+                    <RangePicker onChange={(value, dateString) => {
+                        
+                        
+                        const sortedRecords = recordsSorterByDate(data, dateString);
+                        setSortedRecords(sortedRecords);
+                        setTotalSelectedRecords(sortedRecords?.length);
+                        setSelectedDateRange([...dateString]);
+                    }}
+                    />
+                    <hr />
+                    <p>
+                        {`Total transaction records: ${totalSelectedRecords}`}
+                    </p>
+
+                </div>
+                }
+                <hr />
+                <>{isErrorVisible && <div className="error-msg">{ERROR_MESSAGE.NO_RECORDS}</div>}
+                </>
+
+            </Modal>
+            {/* <>
+                <h1>
+                    Exporting Data
+                </h1>
+                <ExportCSV />
+            </> */}
         </>
     );
 

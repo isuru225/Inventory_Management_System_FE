@@ -91,7 +91,7 @@ const ForgotPassword: React.FC<props> = (props) => {
                                     htmlType="submit"
                                     loading={isLoading}
                                     block
-                                    className="reset-btn"
+                                    className="reset-btn-link"
                                 >
                                     Send Reset Link
                                 </Button>

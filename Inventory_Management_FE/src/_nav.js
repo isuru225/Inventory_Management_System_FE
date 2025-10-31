@@ -16,11 +16,7 @@ const _nav = [
     name: 'Home',
     to: '/home',
     href : "#/home",
-    icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
-    badge: {
-      color: 'info',
-      text: 'NEW',
-    },
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />
   },
   {
     component: CNavTitle,
@@ -58,8 +54,8 @@ const _nav = [
     href : "#/admin",
     icon: <CIcon icon={cilUserPlus}  customClassName="nav-icon" />,
     badge: {
-      color: 'info',
-      text: 'NEW',
+      color: 'success',
+      text: 'Restricted',
     },
   }
 ]

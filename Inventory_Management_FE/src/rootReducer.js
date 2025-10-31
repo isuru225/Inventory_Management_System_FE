@@ -12,7 +12,8 @@ RegisterReducer,
 RegisteredUserReducer,
 FinishedDrugsReducer,
 PasswordResetReducer,
-ForgotPasswordReducer
+ForgotPasswordReducer,
+UserProfileReducer
 } from "./reducers/index.ts"
 
 export default combineReducers({
@@ -27,5 +28,6 @@ export default combineReducers({
     RegisteredUserReducer,
     FinishedDrugsReducer,
     PasswordResetReducer,
-    ForgotPasswordReducer
+    ForgotPasswordReducer,
+    UserProfileReducer
 })

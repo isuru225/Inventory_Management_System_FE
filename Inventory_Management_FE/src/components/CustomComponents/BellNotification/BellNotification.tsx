@@ -3,7 +3,7 @@ import CIcon from "@coreui/icons-react";
 import { cilBell } from "@coreui/icons";
 import { connect, ConnectedProps } from "react-redux";
 import { NotificationActions } from "../../../actions/Notification/index.ts";
-import { notificationMessageHandler } from "./Functions/Functions.ts";
+import { notificationMessageOrderHandler, notificationMarkedUnmarkedStateHandler } from "./Functions/Functions.ts";
 import { itemType, itemTypeName, notificationType } from "./Constants/Constants.ts";
 
 
@@ -32,15 +32,18 @@ const BellNotification: React.FC<props> = (props) => {
   const [isNotificationCountVisible, setIsNotificationCountVisible] = useState<boolean>(true);
 
   const markAllAsRead = () => {
-    //localStorage.setItem('markallnotifyasread', JSON.stringify(false));
-    markAllMessage({});
+    const markedNotifications = notifications?.map((item : Notification)=>{
+      return item?.id
+    })
+    localStorage.setItem('markedNotifications', JSON.stringify(markedNotifications));
+    //markAllMessage({});
     setIsNotificationCountVisible(false);
     
   };
 
   useEffect(() => {
     //setNotifications(notificationMessageHandler(data))
-    setNotifications(data);
+    setNotifications(notificationMessageOrderHandler(data));
   }, [data])
 
   useEffect(()=>{
@@ -85,7 +88,7 @@ const BellNotification: React.FC<props> = (props) => {
   const notificationCountHandler = (): number => {
     let count = 0;
     notifications?.forEach(notification => {
-      if (!notification?.isRead) {
+      if (notificationMarkedUnmarkedStateHandler(notification?.id) === "unread") {
         count++;
       }
     });
@@ -152,11 +155,12 @@ const BellNotification: React.FC<props> = (props) => {
           <div className="notifications-container">
             {notifications?.map((item, itemIndex) => (
               <div key={itemIndex} className="notification-group">
+                <>{}</>
                 <h6 className="group-title">{itemTypeHandler(item.itemType)}</h6>
                 <ul className="notifications-list">
                   <li
                     key={0}
-                    className={`notification-card ${item.isRead ? "read" : "unread"}`}
+                    className={`notification-card ${notificationMarkedUnmarkedStateHandler(item?.id)}`}
                   >
                     <span className="message">
                       {item?.notificationType == notificationType.REOREDER
@@ -173,8 +177,12 @@ const BellNotification: React.FC<props> = (props) => {
                     </span>
 
                     {/* Read/Unread Status */}
-                    <span className="status">
+                    {/* <span className="status">
                       {item.isRead ? "Read" : "Unread"}
+                    </span> */}
+                    {/* Read/Unread Status */}
+                    <span className="status">
+                      {notificationMarkedUnmarkedStateHandler(item?.id)}
                     </span>
                   </li>
                 </ul>
