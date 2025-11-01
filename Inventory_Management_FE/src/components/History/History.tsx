@@ -227,6 +227,7 @@ const History: React.FC<props> = (props) => {
             key: 'itemName',
             width: '15%',
             ...getColumnSearchProps('itemName'),
+            ellipsis: true
         },
         {
             title: 'Initial Amount',
@@ -251,6 +252,7 @@ const History: React.FC<props> = (props) => {
             dataIndex: 'storeKeeper',
             key: 'storeKeeper',
             width: '15%',
+            ellipsis: true
         },
         {
             title: 'Time',
@@ -277,6 +279,7 @@ const History: React.FC<props> = (props) => {
                     </div>
                 </Tooltip>
             ),
+            ellipsis: true
         },
         ...(getAttributesFromToken(['role']).role === "Admin" ? [{
             title: 'Action',

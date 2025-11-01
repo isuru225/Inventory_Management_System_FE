@@ -6,7 +6,8 @@ type props = {
     label: string,
     name: string,
     placeholder: string,
-    children : Array<any>
+    children : Array<any>,
+    disabled?: boolean,
 }
 
 const CustomSelect = ({ label, ...rest }: props) => {

@@ -190,18 +190,21 @@ const RegisteredUsers: React.FC<props> = (props) => {
             key: 'firstName',
             width: '15%',
             ...getColumnSearchProps('firstName'),
+            ellipsis: true
         },
         {
             title: 'Last Name',
             dataIndex: 'lastName',
             key: 'lastName',
             width: '15%',
+            ellipsis: true
         },
         {
             title: 'Emali',
             dataIndex: 'email',
             key: 'email',
             width: '15%',
+            ellipsis: true
         },
         {
             title: 'Mobile Number',

@@ -240,6 +240,7 @@ const RawDrugs: React.FC<props> = (props) => {
             key: 'itemName',
             width: '30%',
             ...getColumnSearchProps('itemName'),
+            ellipsis: true
         },
         {
             title: 'Expiration Date',
@@ -451,6 +452,7 @@ const RawDrugs: React.FC<props> = (props) => {
                                         type="text"
                                         name="itemNameEdit"
                                         placeholder="Enter drug item name..."
+                                        disabled
                                     />
                                     <br />
                                     <$DatePicker
@@ -474,6 +476,7 @@ const RawDrugs: React.FC<props> = (props) => {
                                     <$Select label="Measurement Unit : "
                                         name="measurementUnitEdit"
                                         placeholder="Enter Measurement Units..."
+                                        disabled
                                     >
                                         {MeasurementOptionsHandler(measurementUnitsArray)}
                                     </$Select>
@@ -486,6 +489,7 @@ const RawDrugs: React.FC<props> = (props) => {
                                         name="amountEdit"
                                         placeholder="Enter Amount of the item..."
                                         isOnlyPositiveValues={true}
+                                        disabled
                                     />
                                     <$Input
                                         label={`Reorder Point : ( ${values?.measurementUnitEdit} )`}
@@ -494,6 +498,7 @@ const RawDrugs: React.FC<props> = (props) => {
                                         name="reorderPointEdit"
                                         placeholder="Enter Reorder Point of the item..."
                                         isOnlyPositiveValues={true}
+                                        disabled
                                     />
                                     <hr />
                                     <Button type="primary" htmlType="submit" className="form-submit-btn">Submit</Button>
