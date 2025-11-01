@@ -59,7 +59,7 @@ export const GetEditorInfos = () : IEditUserInfos =>  {
 }
 
 export const tableRowColorHandler = (record : any) => {
-    if(record?.amount < record?.reorderPoint){
+    if(parseFloat(record?.amount) < parseFloat(record?.reorderPoint)){
         return "table-row-warn"
     }else{
         return "table-row-normal"

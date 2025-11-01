@@ -248,6 +248,7 @@ const StoreKeeper: React.FC<props> = (props) => {
             key: 'itemName',
             width: '50%',
             ...getColumnSearchProps('itemName'),
+            ellipsis: true
         },
         {
             title: 'Current Amount (Balance)',
